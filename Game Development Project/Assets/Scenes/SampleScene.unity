@@ -343,6 +343,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: P_Stairs_1
       objectReference: {fileID: 0}
+    - target: {fileID: 7070095659220283450, guid: 4e2c6399c006f6440a348a900df4edde, type: 3}
+      propertyPath: m_Convex
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4e2c6399c006f6440a348a900df4edde, type: 3}
 --- !u!1 &666520101
@@ -414,6 +418,8 @@ MonoBehaviour:
   jumpHeight: 1
   gravityValue: -9.81
   rotationSpeed: 10
+  slopeForce: 40
+  slopeForceRayLength: 10
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -1319,7 +1325,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 20, y: 20}
+  m_SizeDelta: {x: 10, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2018356560
 MonoBehaviour:

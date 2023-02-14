@@ -12,8 +12,12 @@ public class PlayerController : MonoBehaviour
     [Header("Player Traits")]
     [SerializeField] private float speed = 6f;
     [SerializeField] private float jumpHeight = 1f;
+    [SerializeField] private bool isJumping = false;
     [SerializeField] private float gravityValue = -9.81f;
     [SerializeField] private float rotationSpeed = 10f;
+    [SerializeField] private float fallMultiplier = 2.5f;
+    [SerializeField] private float slopeForce;
+    [SerializeField] private float slopeForceRayLength;
 
     private Transform cam;
     private PlayerControls playerControls;
@@ -67,6 +71,18 @@ public class PlayerController : MonoBehaviour
         float targetAngle = Mathf.Atan2(movement.x, movement.y) * Mathf.Rad2Deg + cam.eulerAngles.y;
         Quaternion rotation = Quaternion.Euler(0f, targetAngle, 0f);
         transform.rotation = Quaternion.Lerp(transform.rotation, rotation, Time.fixedDeltaTime * rotationSpeed);
+
+        if (movement != Vector2.zero && OnSlope()) // if player is moving and on a slope
+        {
+            controller.Move(Vector3.down * controller.height / 2 * slopeForce * Time.fixedDeltaTime);
+            Debug.Log("I'm on a slope!");
+        }
+
+        // jump effect
+        if (playerVelocity.y < 0f) // if player is falling
+        {
+            playerVelocity += Vector3.up * gravityValue * (fallMultiplier - 1) * Time.fixedDeltaTime; // for a 'non-floaty' jump
+        }
     }
 
     public void GroundCheck()
@@ -75,7 +91,23 @@ public class PlayerController : MonoBehaviour
         if (groundedPlayer && playerVelocity.y < 0)
         {
             playerVelocity.y = 0f;
+            isJumping = false;
         }
+    }
+
+    public bool OnSlope()
+    {
+        if (isJumping) { return false; }
+
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, Vector3.down, out hit, controller.height / 2 * slopeForceRayLength))
+        {
+            if (hit.normal != Vector3.up)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void JumpInput()
@@ -83,6 +115,7 @@ public class PlayerController : MonoBehaviour
         // changes the height position of the player..
         if (PlayerJump() && groundedPlayer)
         {
+            isJumping = true;
             playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
         }
     }

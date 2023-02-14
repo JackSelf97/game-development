@@ -24,7 +24,7 @@ MonoBehaviour:
   m_MinSize: {x: 400, y: 200}
   m_MaxSize: {x: 32384, y: 16192}
   vertical: 0
-  controlID: 5802
+  controlID: 6095
 --- !u!114 &2
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -141,7 +141,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 200}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 1
-  controlID: 5803
+  controlID: 6096
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -167,7 +167,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 8096}
   vertical: 0
-  controlID: 5804
+  controlID: 6097
 --- !u!114 &5
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -722,7 +722,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 5743
+  controlID: 6039
 --- !u!114 &14
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -791,13 +791,13 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Cuboom/CB Sci-Fi Pack/Prefabs/Props
+    - Assets
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Cuboom/CB Sci-Fi Pack/Prefabs/Props
+  - Assets
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\Jack\OneDrive\Documents\Games\game-development\Game
     Development Project
@@ -805,8 +805,8 @@ MonoBehaviour:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 60}
-    m_SelectedIDs: f68c0000
-    m_LastClickedID: 36086
+    m_SelectedIDs: 54600000
+    m_LastClickedID: 24660
     m_ExpandedIDs: 0000000054600000586000005a6000005c6000005e6000006060000062600000f88c00000e8e00005e8e000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -860,9 +860,9 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 
-    m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 1
+    m_SelectedInstanceIDs: b05e0000
+    m_LastClickedInstanceID: 24240
+    m_HadKeyboardFocusLastEvent: 0
     m_ExpandedInstanceIDs: c6230000ae5e0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -1050,7 +1050,7 @@ MonoBehaviour:
     m_CachedPref: 160
     m_ControlHash: -371814159
     m_PrefName: Preview_InspectorPreview
-  m_LastInspectedObjectInstanceID: -1
+  m_LastInspectedObjectInstanceID: 24240
   m_LastVerticalScrollValue: 0
   m_GlobalObjectId: 
   m_InspectorMode: 0
