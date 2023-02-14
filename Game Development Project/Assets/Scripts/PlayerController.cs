@@ -8,19 +8,35 @@ public class PlayerController : MonoBehaviour
     private CharacterController controller;
     private Vector3 playerVelocity;
     private bool groundedPlayer;
-    [SerializeField] private float playerSpeed = 6f;
+
+    [Header("Player Traits")]
+    [SerializeField] private float speed = 6f;
     [SerializeField] private float jumpHeight = 1f;
     [SerializeField] private float gravityValue = -9.81f;
     [SerializeField] private float rotationSpeed = 10f;
 
-    private InputManager inputManager;
-    private Transform camTransform;
+    private Transform cam;
+    private PlayerControls playerControls;
+
+    private void Awake()
+    {
+        playerControls = new PlayerControls();
+    }
+
+    private void OnEnable()
+    {
+        playerControls.Enable();
+    }
+
+    private void OnDisable()
+    {
+        playerControls.Disable();
+    }
 
     private void Start()
     {
         controller = GetComponent<CharacterController>();
-        inputManager = InputManager.Instance;
-        camTransform = Camera.main.transform;
+        cam = Camera.main.transform;
         Cursor.lockState = CursorLockMode.Locked;
     }
 
@@ -38,17 +54,17 @@ public class PlayerController : MonoBehaviour
 
     public void ControllerMovement()
     {
-        Vector2 movement = inputManager.GetPlayerMovement();
+        Vector2 movement = GetPlayerMovement();
         Vector3 move = new Vector3(movement.x, 0f, movement.y);
-        move = camTransform.forward.normalized * move.z + camTransform.right.normalized * move.x;
+        move = cam.forward.normalized * move.z + cam.right.normalized * move.x;
         move.y = 0f;
-        controller.Move(move.normalized * Time.fixedDeltaTime * playerSpeed);
+        controller.Move(move.normalized * Time.fixedDeltaTime * speed);
 
         playerVelocity.y += gravityValue * Time.fixedDeltaTime;
         controller.Move(playerVelocity * Time.fixedDeltaTime);
 
         // player rotation
-        float targetAngle = Mathf.Atan2(movement.x, movement.y) * Mathf.Rad2Deg + camTransform.eulerAngles.y;
+        float targetAngle = Mathf.Atan2(movement.x, movement.y) * Mathf.Rad2Deg + cam.eulerAngles.y;
         Quaternion rotation = Quaternion.Euler(0f, targetAngle, 0f);
         transform.rotation = Quaternion.Lerp(transform.rotation, rotation, Time.fixedDeltaTime * rotationSpeed);
     }
@@ -65,7 +81,7 @@ public class PlayerController : MonoBehaviour
     public void JumpInput()
     {
         // changes the height position of the player..
-        if (inputManager.PlayerJumped() && groundedPlayer)
+        if (PlayerJump() && groundedPlayer)
         {
             playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
         }
@@ -76,13 +92,34 @@ public class PlayerController : MonoBehaviour
         RaycastHit hit;
         const float rayLength = 3;
 
-        Debug.DrawRay(camTransform.position, camTransform.forward.normalized * rayLength, Color.green);
-        if (Physics.Raycast(camTransform.position, camTransform.forward.normalized, out hit, rayLength))
+        Debug.DrawRay(cam.position, cam.forward.normalized * rayLength, Color.green);
+        if (Physics.Raycast(cam.position, cam.forward.normalized, out hit, rayLength))
         {
-            if (hit.collider.CompareTag("Junk"))
-            {
+            if (PlayerShoot())
                 Debug.Log("This is junk.");
-            }
         }
     }
+
+    #region Player Inputs
+
+    public Vector2 GetPlayerMovement()
+    {
+        return playerControls.Player.Move.ReadValue<Vector2>();
+    }
+    public Vector2 GetMouseDelta()
+    {
+        return playerControls.Player.Look.ReadValue<Vector2>();
+    }
+
+    public bool PlayerJump()
+    {
+        return playerControls.Player.Jump.triggered;
+    }
+
+    public bool PlayerShoot()
+    {
+        return playerControls.Player.Shoot.triggered;
+    }
+
+    #endregion
 }
