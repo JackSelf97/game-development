@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem.HID;
@@ -10,7 +11,7 @@ public class SuckCannon : MonoBehaviour
     [SerializeField] private PlayerController playerController;
     [SerializeField] private bool isSucking = false;
 
-    public GameObject currHitObj = null; // make array
+    public List<GameObject> currHitObject = new List<GameObject>(); // make array
     private Vector3 origin;
     private Vector3 direction;
     public float sphereRadius;
@@ -36,20 +37,36 @@ public class SuckCannon : MonoBehaviour
             RaycastHit hit;
             if (Physics.SphereCast(origin, sphereRadius, direction, out hit, maxDistance, layerMask, QueryTriggerInteraction.UseGlobal))
             {
-                currHitObj = hit.transform.gameObject;
-                currHitDistance = hit.distance;
+                GameObject hitObject = hit.transform.gameObject;
+                if (!currHitObject.Contains(hitObject))
+                {
+                    currHitObject.Add(hitObject);
+                    hitObject.SetActive(false);
+                    currHitDistance = hit.distance;
+                }
             }
             else
             {
                 currHitDistance = maxDistance;
-                currHitObj = null;
             }
+        }
+
+        if (playerController.PlayerShoot())
+        {
+            Debug.Log("ELOOOOOOOOOO");
+            if (currHitObject.Count <= 0) { return; }
+
+            
+            currHitObject[0].SetActive(true);
+            currHitObject[0].transform.position = cam.position;
+            currHitObject.RemoveAt(0);
+
         }
     }
 
     public void Suck()
     {
-        if (playerController.PlayerShoot())
+        if (playerController.PlayerSuck())
         {
             isSucking = !isSucking;
         }
@@ -57,8 +74,11 @@ public class SuckCannon : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.yellow;
-        Debug.DrawLine(origin, origin + direction * currHitDistance);
-        Gizmos.DrawWireSphere(origin + direction * currHitDistance, sphereRadius);
+        if (isSucking)
+        {
+            Gizmos.color = Color.magenta;
+            Debug.DrawLine(origin, origin + direction * currHitDistance, Color.magenta);
+            Gizmos.DrawWireSphere(origin + direction * currHitDistance, sphereRadius);
+        }
     }
 }

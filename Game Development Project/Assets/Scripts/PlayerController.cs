@@ -181,6 +181,11 @@ public class PlayerController : MonoBehaviour
         return playerControls.Player.Jump.triggered;
     }
 
+    public bool PlayerSuck()
+    {
+        return playerControls.Player.Suck.triggered;
+    }
+
     public bool PlayerShoot()
     {
         return playerControls.Player.Shoot.triggered;

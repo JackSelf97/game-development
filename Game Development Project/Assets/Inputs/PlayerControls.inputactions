@@ -33,12 +33,21 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Shoot",
+                    "name": "Suck",
                     "type": "Button",
                     "id": "642418a4-68c8-4212-b1d4-acc2892e527b",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "Press(behavior=2)",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Shoot",
+                    "type": "Button",
+                    "id": "3e310bb9-3232-4b5e-b4a2-aa4d0dc388d4",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press",
                     "initialStateCheck": false
                 }
             ],
@@ -123,6 +132,17 @@
                 {
                     "name": "",
                     "id": "2d578747-3645-4eb5-a73f-36bac63c1af1",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Suck",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4ee2789f-582a-4bd0-8fbd-087c13093ce0",
                     "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
