@@ -18,9 +18,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float fallMultiplier = 2.5f;
     [SerializeField] private float slopeForce;
     [SerializeField] private float slopeForceRayLength;
+    [SerializeField] private float pushPower = 2.0f;
 
-    private Transform cam;
+    public Transform cam;
     private PlayerControls playerControls;
+    private SuckCannon SuckCannon;
 
     private void Awake()
     {
@@ -40,6 +42,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         controller = GetComponent<CharacterController>();
+        SuckCannon = GetComponent<SuckCannon>();
         cam = Camera.main.transform;
         Cursor.lockState = CursorLockMode.Locked;
     }
@@ -128,10 +131,39 @@ public class PlayerController : MonoBehaviour
         Debug.DrawRay(cam.position, cam.forward.normalized * rayLength, Color.green);
         if (Physics.Raycast(cam.position, cam.forward.normalized, out hit, rayLength))
         {
-            if (PlayerShoot())
-                Debug.Log("This is junk.");
+            //if (PlayerShoot())
+            //    Debug.Log("This is junk.");
         }
     }
+
+    // this script pushes all rigidbodies that the character touches
+    void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        Rigidbody body = hit.collider.attachedRigidbody;
+
+        // no rigidbody
+        if (body == null || body.isKinematic)
+        {
+            return;
+        }
+
+        // We dont want to push objects below us
+        if (hit.moveDirection.y < -0.3)
+        {
+            return;
+        }
+
+        // Calculate push direction from move direction,
+        // we only push objects to the sides never up and down
+        Vector3 pushDir = new Vector3(hit.moveDirection.x, 0, hit.moveDirection.z);
+
+        // If you know how fast your character is trying to move,
+        // then you can also multiply the push velocity by that.
+
+        // Apply the push
+        body.velocity = pushDir * pushPower;
+    }
+
 
     #region Player Inputs
 
