@@ -1,14 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem.HID;
 
 public class SuckCannon : MonoBehaviour
 {
-    public Transform cam;
-    [SerializeField] private PlayerController playerController;
     [SerializeField] private bool isSucking = false;
 
     public List<GameObject> currHitObject = new List<GameObject>(); // make array
@@ -18,19 +12,26 @@ public class SuckCannon : MonoBehaviour
     public float maxDistance;
     public LayerMask layerMask;
     private float currHitDistance;
+
+    [Header("Upgrades")]
     public float force = 50f;
     public GameObject firePos;
+
+    public Transform cam = null;
+    public PlayerController playerController = null;
 
     // Start is called before the first frame update
     void Start()
     {
-        playerController = GetComponent<PlayerController>();
         cam = Camera.main.transform;
+        playerController = GetComponent<PlayerController>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (!playerController.suckCannonEquipped) { return; } // if player doesn't have 'Suck Cannon' equipped then return
+
         Suck();
         if (isSucking)
         {
@@ -52,18 +53,29 @@ public class SuckCannon : MonoBehaviour
                 currHitDistance = maxDistance;
             }
         }
-
         if (playerController.PlayerShoot())
         {
-            Debug.Log("No ammo.");
-            if (currHitObject.Count <= 0) { return; }
+            if (currHitObject.Count <= 0)
+            {
+                Debug.Log("No ammo.");
 
+                // force push
+                RaycastHit hit;
+                if (Physics.Raycast(cam.position, cam.forward, out hit, 5, layerMask))
+                {
+                    Debug.Log("Push!");
+                    Debug.Log(hit.transform.gameObject);
+                    hit.transform.GetComponent<Rigidbody>().AddForce(firePos.transform.forward * force, ForceMode.Impulse);
+                }
+                return;
+            }
+
+            // suck
             int lastElement = currHitObject.Count - 1;
             currHitObject[lastElement].SetActive(true);
             currHitObject[lastElement].transform.position = firePos.transform.position;
             currHitObject[lastElement].GetComponent<Rigidbody>().AddForce(firePos.transform.forward * force, ForceMode.Impulse);
             currHitObject.RemoveAt(lastElement);
-
         }
     }
 

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
@@ -22,7 +20,8 @@ public class PlayerController : MonoBehaviour
 
     public Transform cam;
     private PlayerControls playerControls;
-    private SuckCannon SuckCannon;
+    public GameObject suckCannon, gravityGun;
+    public bool suckCannonEquipped = false;
 
     private void Awake()
     {
@@ -42,7 +41,6 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         controller = GetComponent<CharacterController>();
-        SuckCannon = GetComponent<SuckCannon>();
         cam = Camera.main.transform;
         Cursor.lockState = CursorLockMode.Locked;
     }
@@ -52,6 +50,7 @@ public class PlayerController : MonoBehaviour
         GroundCheck();
         JumpInput();
         PlayerInteraction();
+        SwitchGun();
     }
 
     void FixedUpdate()
@@ -85,6 +84,25 @@ public class PlayerController : MonoBehaviour
         if (playerVelocity.y < 0f) // if player is falling
         {
             playerVelocity += Vector3.up * gravityValue * (fallMultiplier - 1) * Time.fixedDeltaTime; // for a 'non-floaty' jump
+        }
+    }
+
+    public void SwitchGun()
+    {
+        if (PlayerSwitchGun() > 0 || PlayerSwitchGun() < 0)
+        {
+            suckCannonEquipped = !suckCannonEquipped;
+        }
+        if (suckCannonEquipped)
+        {
+            suckCannon.SetActive(true);
+            gravityGun.SetActive(false);
+            return;
+        }
+        if (!suckCannonEquipped)
+        {
+            suckCannon.SetActive(false);
+            gravityGun.SetActive(true);
         }
     }
 
@@ -174,6 +192,11 @@ public class PlayerController : MonoBehaviour
     public Vector2 GetMouseDelta()
     {
         return playerControls.Player.Look.ReadValue<Vector2>();
+    }
+
+    public float PlayerSwitchGun()
+    {
+        return playerControls.Player.SwitchGun.ReadValue<float>();
     }
 
     public bool PlayerJump()
