@@ -18,6 +18,8 @@ public class SuckCannon : MonoBehaviour
     public float maxDistance;
     public LayerMask layerMask;
     private float currHitDistance;
+    public float force = 50f;
+    public GameObject firePos;
 
     // Start is called before the first frame update
     void Start()
@@ -53,13 +55,14 @@ public class SuckCannon : MonoBehaviour
 
         if (playerController.PlayerShoot())
         {
-            Debug.Log("ELOOOOOOOOOO");
+            Debug.Log("No ammo.");
             if (currHitObject.Count <= 0) { return; }
 
-            
-            currHitObject[0].SetActive(true);
-            currHitObject[0].transform.position = cam.position;
-            currHitObject.RemoveAt(0);
+            int lastElement = currHitObject.Count - 1;
+            currHitObject[lastElement].SetActive(true);
+            currHitObject[lastElement].transform.position = firePos.transform.position;
+            currHitObject[lastElement].GetComponent<Rigidbody>().AddForce(firePos.transform.forward * force, ForceMode.Impulse);
+            currHitObject.RemoveAt(lastElement);
 
         }
     }
