@@ -3,22 +3,21 @@ using UnityEngine;
 
 public class SuckCannon : MonoBehaviour
 {
-    [SerializeField] private bool isSucking = false;
+    private Transform cam = null;
+    private PlayerController playerController = null;
 
-    public List<GameObject> currHitObject = new List<GameObject>(); // make array
+    [SerializeField] private bool isSucking = false;
+    public List<GameObject> currHitObject = new List<GameObject>(); 
     private Vector3 origin;
     private Vector3 direction;
-    public float sphereRadius;
-    public float maxDistance;
+    public float sphereRadius = 0.5f;
+    public float maxDistance = 5f;
     public LayerMask layerMask;
     private float currHitDistance;
 
     [Header("Upgrades")]
     public float force = 50f;
     public GameObject firePos;
-
-    public Transform cam = null;
-    public PlayerController playerController = null;
 
     // Start is called before the first frame update
     void Start()

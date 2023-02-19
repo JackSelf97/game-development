@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class GravityGun : MonoBehaviour
 {
-    public Transform cam = null;
-    public PlayerController playerController = null;
+    private Transform cam = null;
+    private PlayerController playerController = null;
     private bool bombFired = false;
     [SerializeField] private GameObject gravityBomb = null, firePos = null;
 
@@ -18,7 +18,6 @@ public class GravityGun : MonoBehaviour
     void Update()
     {
         if (playerController.suckCannonEquipped) { return; } // if player has 'Suck Cannon' equipped then return
-
         if (playerController.PlayerShoot())
         {
             bombFired = true;

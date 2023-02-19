@@ -4,22 +4,21 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     private CharacterController controller;
+    private PlayerControls playerControls;
     private Vector3 playerVelocity;
     private bool groundedPlayer;
+    private bool isJumping = false;
+    private float gravityValue = -9.81f;
+    public Transform cam;
 
     [Header("Player Traits")]
     [SerializeField] private float speed = 6f;
     [SerializeField] private float jumpHeight = 1f;
-    [SerializeField] private bool isJumping = false;
-    [SerializeField] private float gravityValue = -9.81f;
     [SerializeField] private float rotationSpeed = 10f;
     [SerializeField] private float fallMultiplier = 2.5f;
     [SerializeField] private float slopeForce;
     [SerializeField] private float slopeForceRayLength;
     [SerializeField] private float pushPower = 2.0f;
-
-    public Transform cam;
-    private PlayerControls playerControls;
     public GameObject suckCannon, gravityGun;
     public bool suckCannonEquipped = false;
 
