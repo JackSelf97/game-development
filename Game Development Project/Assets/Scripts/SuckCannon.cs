@@ -4,29 +4,32 @@ using UnityEngine.UI;
 
 public class SuckCannon : MonoBehaviour
 {
-    private Transform cam = null;
+    // Variables
     private PlayerController playerController = null;
     private Vector3 origin;
     private Vector3 direction;
     private float currHitDistance;
+    private const int zero = 0, one = 1;
 
     // Cannon Properties
     [SerializeField] private bool isSucking = false;
     [SerializeField] Image crosshairFire = null, crosshairSuck = null;
-    public List<GameObject> currHitObject = new List<GameObject>(); 
-    public float sphereRadius = 0.5f;
-    public float maxDistance = 5f;
+    public List<GameObject> currHitObject = new List<GameObject>();
+    private float sphereRadius = 0.5f;
+    private float maxDistance = 5f;
     public LayerMask junkLayer = 6;
     public GameObject firePos;
+    public int currAmmo, minAmmo = 0;
 
     [Header("Upgrades")]
     public float force = 50f;
+    public int maxAmmo = 10;
 
     // Start is called before the first frame update
     void Start()
     {
-        cam = Camera.main.transform;
         playerController = GetComponent<PlayerController>();
+        SuckState();
     }
 
     // Update is called once per frame
@@ -35,10 +38,10 @@ public class SuckCannon : MonoBehaviour
         if (!playerController.suckCannonEquipped) { return; } // if player doesn't have 'Suck Cannon' equipped then return
 
         SuckState();
-        origin = cam.position;
-        direction = cam.forward;
+        origin = playerController.cam.position;
+        direction = playerController.cam.forward;
 
-        if (isSucking)
+        if (isSucking && currAmmo < maxAmmo)
         {
             RaycastHit hit;
             if (Physics.SphereCast(origin, sphereRadius, direction, out hit, maxDistance, junkLayer, QueryTriggerInteraction.UseGlobal))
@@ -50,6 +53,7 @@ public class SuckCannon : MonoBehaviour
                     currHitObject.Add(hitObject);
                     hitObject.SetActive(false);
                     currHitDistance = hit.distance;
+                    UpdateAmmo(one);
                 }
             }
             else
@@ -61,7 +65,7 @@ public class SuckCannon : MonoBehaviour
         {
             if (playerController.PlayerShoot())
             {
-                if (currHitObject.Count <= 0)
+                if (currHitObject.Count <= zero)
                 {
                     Debug.Log("No ammo");
 
@@ -76,11 +80,12 @@ public class SuckCannon : MonoBehaviour
                 }
 
                 // fire items
-                int lastElement = currHitObject.Count - 1;
+                int lastElement = currHitObject.Count - one;
                 currHitObject[lastElement].SetActive(true);
                 currHitObject[lastElement].transform.position = firePos.transform.position;
                 currHitObject[lastElement].GetComponent<Rigidbody>().AddForce(firePos.transform.forward * force, ForceMode.Impulse);
                 currHitObject.RemoveAt(lastElement);
+                UpdateAmmo(-one);
             }
         }
     }
@@ -95,12 +100,20 @@ public class SuckCannon : MonoBehaviour
         {
             crosshairFire.enabled = false;
             crosshairSuck.enabled = true;
+            playerController.currCrosshair = crosshairSuck;
         }
         else
         {
             crosshairSuck.enabled = false;
             crosshairFire.enabled = true;
+            playerController.currCrosshair = crosshairFire;
         }
+    }
+
+    public void UpdateAmmo(int value = 0)
+    {
+        currAmmo += value;
+        playerController.ammoText.text = currAmmo.ToString() + "/" + maxAmmo.ToString();
     }
 
     private void OnDrawGizmosSelected()

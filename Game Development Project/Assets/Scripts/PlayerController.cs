@@ -1,25 +1,34 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
 {
+    // Variables
     private CharacterController controller;
     private PlayerControls playerControls;
     private Vector3 playerVelocity;
     private bool groundedPlayer;
     private bool isJumping = false;
     private float gravityValue = -9.81f;
+    public LayerMask interactableLayer = 7;
     public Transform cam;
+    public Image currCrosshair;
+    public GameObject junk;
 
     [Header("Player Traits")]
-    [SerializeField] private float speed = 6f;
-    [SerializeField] private float jumpHeight = 1f;
-    [SerializeField] private float rotationSpeed = 10f;
-    [SerializeField] private float fallMultiplier = 2.5f;
-    [SerializeField] private float slopeForce;
-    [SerializeField] private float slopeForceRayLength;
-    [SerializeField] private float pushPower = 2.0f;
-    public GameObject suckCannon, gravityGun;
+    private float speed = 6f;
+    private float jumpHeight = 1f;
+    private float rotationSpeed = 10f;
+    private float fallMultiplier = 2.5f;
+    private float slopeForce;
+    private float slopeForceRayLength;
+    private float pushPower = 2.0f;
+
+    // Guns
+    public GameObject gravityGun = null;
+    public GameObject suckCannon = null;
+    public Text ammoText = null;
     public bool suckCannonEquipped = false;
 
     private void Awake()
@@ -42,6 +51,7 @@ public class PlayerController : MonoBehaviour
         controller = GetComponent<CharacterController>();
         cam = Camera.main.transform;
         Cursor.lockState = CursorLockMode.Locked;
+        ammoText = transform.GetChild(2).transform.GetChild(3).GetComponent<Text>(); // could change
     }
 
     void Update()
@@ -146,10 +156,37 @@ public class PlayerController : MonoBehaviour
         const float rayLength = 3;
 
         Debug.DrawRay(cam.position, cam.forward.normalized * rayLength, Color.green);
-        if (Physics.Raycast(cam.position, cam.forward.normalized, out hit, rayLength))
+        if (Physics.Raycast(cam.position, cam.forward.normalized, out hit, rayLength, interactableLayer))
         {
-            //if (PlayerShoot())
-            //    Debug.Log("This is junk.");
+            currCrosshair.color = Color.yellow;
+            if (PlayerInteract() && hit.transform.CompareTag("Container"))
+            {
+                Debug.Log("Trying to access container");
+                JunkContainer container = hit.transform.GetComponent<JunkContainer>();
+                SuckCannon suckCannonScript = GetComponent<SuckCannon>();
+                if (suckCannonScript.currAmmo < suckCannonScript.maxAmmo && container.currAmmo > 0) // if the SC ammo is less than its total capacity && the container has ammo
+                {
+                    int transferAmmo = suckCannonScript.maxAmmo - suckCannonScript.currAmmo; // get as much ammo as I need to refill the clip
+                    Debug.Log($"Getting ammo...{transferAmmo}");
+
+                    suckCannonScript.currAmmo += transferAmmo; // transfer that amount to the SC [int]
+                    container.currAmmo -= transferAmmo;
+
+                    for (int i = 0; i < transferAmmo; i++)
+                    {
+                        Debug.Log("Adding ammo...");
+                        suckCannonScript.currHitObject.Add(junk); // transfer that amount to the SC [GameObject]
+                    }
+
+                    suckCannonScript.UpdateAmmo(); // update the UI
+                    container.UpdateContainerAmmo();
+
+                }
+            }
+        }
+        else
+        {
+            currCrosshair.color = Color.white;
         }
     }
 
@@ -211,6 +248,11 @@ public class PlayerController : MonoBehaviour
     public bool PlayerShoot()
     {
         return playerControls.Player.Shoot.triggered;
+    }
+
+    public bool PlayerInteract()
+    {
+        return playerControls.Player.Interact.triggered;
     }
 
     #endregion

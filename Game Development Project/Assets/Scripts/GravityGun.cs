@@ -2,15 +2,16 @@ using UnityEngine;
 
 public class GravityGun : MonoBehaviour
 {
-    private Transform cam = null;
     private PlayerController playerController = null;
     private bool bombFired = false;
     [SerializeField] private GameObject gravityBomb = null, firePos = null;
 
+    [Header("Upgrades")]
+    public float travelSpeed = 1;
+
     // Start is called before the first frame update
     void Start()
     {
-        cam = Camera.main.transform;
         playerController = GetComponent<PlayerController>();
     }
 
