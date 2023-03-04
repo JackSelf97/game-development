@@ -1,3 +1,4 @@
+using Cinemachine;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -32,6 +33,9 @@ public class PlayerController : MonoBehaviour
     public GameObject suckCannon = null;
     public Text ammoText = null;
     public bool suckCannonEquipped = false;
+
+    // cinemachine
+    [SerializeField] private CinemachineVirtualCamera camNPC = null;
 
     private void Awake()
     {
@@ -204,6 +208,10 @@ public class PlayerController : MonoBehaviour
                 NPC.TriggerDialogue();
                 inConversation = true;
                 lockInput = true;
+
+                // Update NPC camera
+                camNPC.Follow = hit.transform.GetChild(0).transform;
+                camNPC.LookAt = hit.transform.GetChild(0).transform;
             }
         }
         else
