@@ -8,6 +8,7 @@ public class DialogueManager : MonoBehaviour
 {
     public Text nameText = null, dialogueText = null;
     public Animator animator;
+    [SerializeField] private PlayerController playerController = null;
     private Queue<string> sentences = null;
 
     // Start is called before the first frame update
@@ -37,6 +38,8 @@ public class DialogueManager : MonoBehaviour
         if (sentences.Count == 0)
         {
             EndDialogue();
+            playerController.inConversation = false;
+            playerController.lockInput = false;
             return;
         }
 
@@ -52,7 +55,7 @@ public class DialogueManager : MonoBehaviour
         {
             // add letter to dialogue.text one by one
             dialogueText.text += letter;
-            yield return null; // wait a single frame
+            yield return new WaitForSeconds(0.01f); // wait before adding a letter
         }
     }
 

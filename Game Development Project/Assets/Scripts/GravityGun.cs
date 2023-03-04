@@ -16,7 +16,7 @@ public class GravityGun : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (playerController.suckCannonEquipped) { return; } // if player has 'Suck Cannon' equipped then return
+        if (playerController.suckCannonEquipped || playerController.lockInput) { return; } // if player has 'Suck Cannon' equipped then return
         if (playerController.PlayerShoot())
         {
             bombFired = true;

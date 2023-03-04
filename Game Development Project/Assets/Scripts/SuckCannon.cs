@@ -35,7 +35,7 @@ public class SuckCannon : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!playerController.suckCannonEquipped) { return; } // if player doesn't have 'Suck Cannon' equipped then return
+        if (!playerController.suckCannonEquipped || playerController.lockInput) { return; } // if player doesn't have 'Suck Cannon' equipped then return
 
         SuckState();
         origin = playerController.cam.position;

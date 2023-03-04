@@ -13,6 +13,8 @@ public class PlayerController : MonoBehaviour
     public LayerMask interactableLayer = 7;
     public Transform cam = null;
     public Image currCrosshair = null;
+    public bool lockInput = false;
+    public bool inConversation = false;
     [SerializeField] private bool groundedPlayer = false;
     [SerializeField] private GameObject instantiatedJunk = null;
 
@@ -51,12 +53,14 @@ public class PlayerController : MonoBehaviour
         controller = GetComponent<CharacterController>();
         cam = Camera.main.transform;
         Cursor.lockState = CursorLockMode.Locked;
+        lockInput = false;
         ammoText = transform.GetChild(2).transform.GetChild(3).GetComponent<Text>(); // could change
     }
 
     void Update()
     {
         GroundCheck();
+        ConversationCheck();
         JumpInput();
         PlayerInteraction();
         SwitchGun();
@@ -69,30 +73,33 @@ public class PlayerController : MonoBehaviour
 
     public void ControllerMovement()
     {
-        Vector2 movement = GetPlayerMovement();
-        Vector3 move = new Vector3(movement.x, 0f, movement.y);
-        move = cam.forward.normalized * move.z + cam.right.normalized * move.x;
-        move.y = 0f;
-        controller.Move(move.normalized * Time.fixedDeltaTime * speed);
-
-        playerVelocity.y += gravityValue * Time.fixedDeltaTime;
-        controller.Move(playerVelocity * Time.fixedDeltaTime);
-
-        // player rotation
-        float targetAngle = Mathf.Atan2(movement.x, movement.y) * Mathf.Rad2Deg + cam.eulerAngles.y;
-        Quaternion rotation = Quaternion.Euler(0f, targetAngle, 0f);
-        transform.rotation = Quaternion.Lerp(transform.rotation, rotation, Time.fixedDeltaTime * rotationSpeed);
-
-        if (movement != Vector2.zero && OnSlope()) // if player is moving and on a slope
+        if (!lockInput)
         {
-            controller.Move(Vector3.down * controller.height / 2 * slopeForce * Time.fixedDeltaTime);
-            Debug.Log("I'm on a slope!");
-        }
+            Vector2 movement = GetPlayerMovement();
+            Vector3 move = new Vector3(movement.x, 0f, movement.y);
+            move = cam.forward.normalized * move.z + cam.right.normalized * move.x;
+            move.y = 0f;
+            controller.Move(move.normalized * Time.fixedDeltaTime * speed);
 
-        // jump effect
-        if (playerVelocity.y < 0f) // if player is falling
-        {
-            playerVelocity += Vector3.up * gravityValue * (fallMultiplier - 1) * Time.fixedDeltaTime; // for a 'non-floaty' jump
+            playerVelocity.y += gravityValue * Time.fixedDeltaTime;
+            controller.Move(playerVelocity * Time.fixedDeltaTime);
+
+            // player rotation
+            float targetAngle = Mathf.Atan2(movement.x, movement.y) * Mathf.Rad2Deg + cam.eulerAngles.y;
+            Quaternion rotation = Quaternion.Euler(0f, targetAngle, 0f);
+            transform.rotation = Quaternion.Lerp(transform.rotation, rotation, Time.fixedDeltaTime * rotationSpeed);
+
+            if (movement != Vector2.zero && OnSlope()) // if player is moving and on a slope
+            {
+                controller.Move(Vector3.down * controller.height / 2 * slopeForce * Time.fixedDeltaTime);
+                Debug.Log("I'm on a slope!");
+            }
+
+            // jump effect
+            if (playerVelocity.y < 0f) // if player is falling
+            {
+                playerVelocity += Vector3.up * gravityValue * (fallMultiplier - 1) * Time.fixedDeltaTime; // for a 'non-floaty' jump
+            }
         }
     }
 
@@ -195,11 +202,29 @@ public class PlayerController : MonoBehaviour
             {
                 var NPC = hit.transform.GetComponent<NPC>();
                 NPC.TriggerDialogue();
+                inConversation = true;
+                lockInput = true;
             }
         }
         else
         {
             currCrosshair.color = Color.white;
+        }
+    }
+
+    public void ConversationCheck()
+    {
+        if (inConversation)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            cam.transform.GetChild(0).gameObject.SetActive(false);
+            cam.transform.GetChild(1).gameObject.SetActive(false);
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            cam.transform.GetChild(0).gameObject.SetActive(true);
+            cam.transform.GetChild(1).gameObject.SetActive(true);
         }
     }
 
