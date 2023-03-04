@@ -4,10 +4,8 @@ public class GravityGun : MonoBehaviour
 {
     private PlayerController playerController = null;
     private bool bombFired = false;
+    private float travelSpeed = 3;
     [SerializeField] private GameObject gravityBomb = null, firePos = null;
-
-    [Header("Upgrades")]
-    public float travelSpeed = 1;
 
     // Start is called before the first frame update
     void Start()
@@ -34,7 +32,7 @@ public class GravityGun : MonoBehaviour
     private void SpawnBomb()
     {
         var bomb = Instantiate(gravityBomb, firePos.transform.position, Quaternion.identity);
-        bomb.GetComponent<Rigidbody>().AddForce(firePos.transform.forward * 2, ForceMode.Impulse);
+        bomb.GetComponent<Rigidbody>().AddForce(firePos.transform.forward * travelSpeed, ForceMode.Impulse);
         bombFired = false;
     }
 }
