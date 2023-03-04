@@ -190,6 +190,12 @@ public class PlayerController : MonoBehaviour
             }
 
             #endregion
+
+            if (PlayerInteract() && hit.transform.CompareTag("NPC"))
+            {
+                var NPC = hit.transform.GetComponent<NPC>();
+                NPC.TriggerDialogue();
+            }
         }
         else
         {
