@@ -5,7 +5,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
 {
-    [Header("Variables")]
+    // Player Variables
     private CharacterController controller = null;
     private PlayerControls playerControls = null;
     private Vector3 playerVelocity = Vector3.zero;
@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private bool groundedPlayer = false;
     [SerializeField] private GameObject instantiatedJunk = null;
 
-    // player traits
+    // Player Traits
     private float speed = 6f;
     private float jumpHeight = 1f;
     private float rotationSpeed = 10f;
@@ -28,13 +28,13 @@ public class PlayerController : MonoBehaviour
     private float slopeForceRayLength = 5;
     private float pushPower = 2.0f;
 
-    // guns
+    // Gun Variables
     public GameObject gravityGun = null;
     public GameObject suckCannon = null;
     public Text ammoText = null;
     public bool suckCannonEquipped = false;
 
-    // cinemachine
+    // Cinemachine
     [SerializeField] private CinemachineVirtualCamera camNPC = null;
 
     private void Awake()
@@ -227,12 +227,16 @@ public class PlayerController : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
             cam.transform.GetChild(0).gameObject.SetActive(false);
             cam.transform.GetChild(1).gameObject.SetActive(false);
+            GetComponentInChildren<MeshRenderer>().enabled = false; // don't really need a mesh thinking about it...
+            currCrosshair.enabled = false;
         }
         else
         {
             Cursor.lockState = CursorLockMode.Locked;
             cam.transform.GetChild(0).gameObject.SetActive(true);
             cam.transform.GetChild(1).gameObject.SetActive(true);
+            GetComponentInChildren<MeshRenderer>().enabled = true;
+            currCrosshair.enabled = true;
         }
     }
 

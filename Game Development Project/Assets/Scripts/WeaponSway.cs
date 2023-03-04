@@ -4,7 +4,7 @@ public class WeaponSway : MonoBehaviour
 {
     [SerializeField] private float smooth;
     [SerializeField] private float swayMultiplier;
-    private PlayerController playerController;
+    private PlayerController playerController = null;
 
     private void Start()
     {

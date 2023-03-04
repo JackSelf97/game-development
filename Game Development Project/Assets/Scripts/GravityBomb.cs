@@ -3,11 +3,12 @@ using UnityEngine;
 public class GravityBomb : MonoBehaviour
 {
     [SerializeField] private float travelSpeed = 10;
+    private const int lifeTime = 3;
 
     // Start is called before the first frame update
     void Start()
     {
-        Destroy(gameObject, 3);
+        Destroy(gameObject, lifeTime);
     }
 
     private void OnTriggerStay(Collider other)
@@ -19,5 +20,4 @@ public class GravityBomb : MonoBehaviour
             other.transform.localPosition = Vector3.MoveTowards(other.transform.localPosition, transform.position, travelSpeed * Time.deltaTime);
         }
     }
-
 }

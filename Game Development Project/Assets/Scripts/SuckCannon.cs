@@ -21,7 +21,7 @@ public class SuckCannon : MonoBehaviour
     public GameObject firePos;
     public int currAmmo, minAmmo = 0;
 
-    [Header("Upgrades")]
+    // Upgrades
     public float force = 50f;
     public int maxAmmo = 10;
 
@@ -100,6 +100,21 @@ public class SuckCannon : MonoBehaviour
         }
     }
 
+    #region 'Suck Cannon' Logic
+
+    public void FireJunk(GameObject junkProjectile)
+    {
+        junkProjectile.transform.position = firePos.transform.position;
+        junkProjectile.GetComponent<Rigidbody>().AddForce(firePos.transform.forward * force, ForceMode.Impulse);
+        junkProjectile.GetComponent<Junk>().shot = true;
+    }
+
+    public void UpdateAmmo(int value = 0)
+    {
+        currAmmo += value;
+        playerController.ammoText.text = currAmmo.ToString() + "/" + maxAmmo.ToString();
+    }
+
     public void SuckState()
     {
         if (playerController.PlayerSuck())
@@ -118,21 +133,6 @@ public class SuckCannon : MonoBehaviour
             crosshairFire.enabled = true;
             playerController.currCrosshair = crosshairFire;
         }
-    }
-
-    #region 'Suck Cannon' Logic
-
-    public void FireJunk(GameObject junkProjectile)
-    {
-        junkProjectile.transform.position = firePos.transform.position;
-        junkProjectile.GetComponent<Rigidbody>().AddForce(firePos.transform.forward * force, ForceMode.Impulse);
-        junkProjectile.GetComponent<Junk>().shot = true;
-    }
-
-    public void UpdateAmmo(int value = 0)
-    {
-        currAmmo += value;
-        playerController.ammoText.text = currAmmo.ToString() + "/" + maxAmmo.ToString();
     }
 
     #endregion
