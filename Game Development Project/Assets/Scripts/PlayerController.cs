@@ -4,28 +4,28 @@ using UnityEngine.UI;
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
 {
-    // Variables
-    private CharacterController controller;
-    private PlayerControls playerControls;
-    private Vector3 playerVelocity;
-    private bool groundedPlayer;
+    [Header("Variables")]
+    private CharacterController controller = null;
+    private PlayerControls playerControls = null;
+    private Vector3 playerVelocity = Vector3.zero;
     private bool isJumping = false;
     private float gravityValue = -9.81f;
     public LayerMask interactableLayer = 7;
-    public Transform cam;
-    public Image currCrosshair;
-    public GameObject junk;
+    public Transform cam = null;
+    public Image currCrosshair = null;
+    [SerializeField] private bool groundedPlayer = false;
+    [SerializeField] private GameObject instantiatedJunk = null;
 
-    [Header("Player Traits")]
+    // player traits
     private float speed = 6f;
     private float jumpHeight = 1f;
     private float rotationSpeed = 10f;
     private float fallMultiplier = 2.5f;
-    private float slopeForce;
-    private float slopeForceRayLength;
+    private float slopeForce = 40;
+    private float slopeForceRayLength = 5;
     private float pushPower = 2.0f;
 
-    // Guns
+    // guns
     public GameObject gravityGun = null;
     public GameObject suckCannon = null;
     public Text ammoText = null;
@@ -159,30 +159,37 @@ public class PlayerController : MonoBehaviour
         if (Physics.Raycast(cam.position, cam.forward.normalized, out hit, rayLength, interactableLayer))
         {
             currCrosshair.color = Color.yellow;
+
+            #region Ammo Box (Junk Container)
+
             if (PlayerInteract() && hit.transform.CompareTag("Container"))
             {
-                Debug.Log("Trying to access container");
+                Debug.Log("accessing container");
                 JunkContainer container = hit.transform.GetComponent<JunkContainer>();
                 SuckCannon suckCannonScript = GetComponent<SuckCannon>();
-                if (suckCannonScript.currAmmo < suckCannonScript.maxAmmo && container.currAmmo > 0) // if the SC ammo is less than its total capacity && the container has ammo
+
+                if (suckCannonScript.currAmmo < suckCannonScript.maxAmmo && container.currAmmo > container.minCapacity) // if the SC ammo is less than its total capacity && the container has ammo
                 {
-                    int transferAmmo = suckCannonScript.maxAmmo - suckCannonScript.currAmmo; // get as much ammo as I need to refill the clip
-                    Debug.Log($"Getting ammo...{transferAmmo}");
+                    int reloadAmount = suckCannonScript.maxAmmo - suckCannonScript.currAmmo; // how many junk items are needed to reach its max
+                    reloadAmount = (container.currAmmo - reloadAmount) >= 0 ? reloadAmount : container.currAmmo; // get as much ammo as I need to refill 
+                    Debug.Log($"Getting ammo...{reloadAmount}");
 
-                    suckCannonScript.currAmmo += transferAmmo; // transfer that amount to the SC [int]
-                    container.currAmmo -= transferAmmo;
+                    suckCannonScript.currAmmo += reloadAmount; // add the reloadAmount to the SC [int]
+                    container.currAmmo -= reloadAmount; // minus the reloadAmount from the container [int]
 
-                    for (int i = 0; i < transferAmmo; i++)
+                    for (int i = 0; i < reloadAmount; i++)
                     {
                         Debug.Log("Adding ammo...");
-                        suckCannonScript.currHitObject.Add(junk); // transfer that amount to the SC [GameObject]
+                        suckCannonScript.currHitObject.Add(instantiatedJunk); // add the reloadAmount to the SC [GameObject]
                     }
 
-                    suckCannonScript.UpdateAmmo(); // update the UI
+                    // update SC & Container UI
+                    suckCannonScript.UpdateAmmo();
                     container.UpdateContainerAmmo();
-
                 }
             }
+
+            #endregion
         }
         else
         {

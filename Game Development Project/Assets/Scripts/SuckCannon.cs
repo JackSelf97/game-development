@@ -13,7 +13,7 @@ public class SuckCannon : MonoBehaviour
 
     // Cannon Properties
     [SerializeField] private bool isSucking = false;
-    [SerializeField] Image crosshairFire = null, crosshairSuck = null;
+    [SerializeField] private Image crosshairFire = null, crosshairSuck = null;
     public List<GameObject> currHitObject = new List<GameObject>();
     private float sphereRadius = 0.5f;
     private float maxDistance = 5f;
@@ -79,11 +79,21 @@ public class SuckCannon : MonoBehaviour
                     return;
                 }
 
-                // fire items
+                // fire  items
                 int lastElement = currHitObject.Count - one;
-                currHitObject[lastElement].SetActive(true);
-                currHitObject[lastElement].transform.position = firePos.transform.position;
-                currHitObject[lastElement].GetComponent<Rigidbody>().AddForce(firePos.transform.forward * force, ForceMode.Impulse);
+                Debug.Log($"Firing {currHitObject[lastElement].name}");
+
+                if (currHitObject[lastElement].GetComponent<Junk>().isWorldJunk) // world items
+                {
+                    currHitObject[lastElement].SetActive(true);
+                    FireJunk(currHitObject[lastElement]);
+                }
+                else // instantiated items
+                {
+                    GameObject instantiatedProjectile = Instantiate(currHitObject[lastElement], firePos.transform.position, Quaternion.identity);
+                    FireJunk(instantiatedProjectile);
+                }
+
                 currHitObject.RemoveAt(lastElement);
                 UpdateAmmo(-one);
             }
@@ -110,11 +120,22 @@ public class SuckCannon : MonoBehaviour
         }
     }
 
+    #region 'Suck Cannon' Logic
+
+    public void FireJunk(GameObject junkProjectile)
+    {
+        junkProjectile.transform.position = firePos.transform.position;
+        junkProjectile.GetComponent<Rigidbody>().AddForce(firePos.transform.forward * force, ForceMode.Impulse);
+        junkProjectile.GetComponent<Junk>().shot = true;
+    }
+
     public void UpdateAmmo(int value = 0)
     {
         currAmmo += value;
         playerController.ammoText.text = currAmmo.ToString() + "/" + maxAmmo.ToString();
     }
+
+    #endregion
 
     private void OnDrawGizmosSelected()
     {

@@ -4,8 +4,8 @@ using UnityEngine.UI;
 public class JunkContainer : MonoBehaviour
 {
     public int currAmmo = 0;
-    [SerializeField] private int maxCapacity = 10;
-    [SerializeField] private Text ammoText = null;
+    public int minCapacity = 0, maxCapacity = 10;
+    private Text ammoText = null;
 
     // Start is called before the first frame update
     void Start()
@@ -13,12 +13,6 @@ public class JunkContainer : MonoBehaviour
         currAmmo = maxCapacity;
         ammoText = transform.GetChild(1).transform.GetChild(0).GetComponent<Text>();
         ammoText.text = currAmmo.ToString() + "/" + maxCapacity.ToString();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public void UpdateContainerAmmo(int value = 0)
