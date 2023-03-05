@@ -1,0 +1,292 @@
+fileFormatVersion: 2
+guid: 92127f803722f49478cf865d0a9931a0
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: LowManHead
+    100002: LowManHead_end
+    100004: LowManHips
+    100006: LowManLeftArm
+    100008: LowManLeftFoot
+    100010: LowManLeftForeArm
+    100012: LowManLeftHand
+    100014: LowManLeftHandIndex1
+    100016: LowManLeftHandIndex2
+    100018: LowManLeftHandIndex2_end
+    100020: LowManLeftHandMiddle1
+    100022: LowManLeftHandMiddle2
+    100024: LowManLeftHandMiddle2_end
+    100026: LowManLeftHandPinky1
+    100028: LowManLeftHandPinky2
+    100030: LowManLeftHandPinky2_end
+    100032: LowManLeftHandRing1
+    100034: LowManLeftHandRing2
+    100036: LowManLeftHandRing2_end
+    100038: LowManLeftHandThumb1
+    100040: LowManLeftHandThumb1_end
+    100042: LowManLeftLeg
+    100044: LowManLeftShoulder
+    100046: LowManLeftToeBase
+    100048: LowManLeftToeBase_end
+    100050: LowManLeftUpLeg
+    100052: LowManNeck
+    100054: LowManRightArm
+    100056: LowManRightFoot
+    100058: LowManRightForeArm
+    100060: LowManRightHand
+    100062: LowManRightHandIndex1
+    100064: LowManRightHandIndex2
+    100066: LowManRightHandIndex2_end
+    100068: LowManRightHandMiddle1
+    100070: LowManRightHandMiddle2
+    100072: LowManRightHandMiddle2_end
+    100074: LowManRightHandPinky1
+    100076: LowManRightHandPinky2
+    100078: LowManRightHandPinky2_end
+    100080: LowManRightHandRing1
+    100082: LowManRightHandRing2
+    100084: LowManRightHandRing2_end
+    100086: LowManRightHandThumb1
+    100088: LowManRightHandThumb1_end
+    100090: LowManRightLeg
+    100092: LowManRightShoulder
+    100094: LowManRightToeBase
+    100096: LowManRightToeBase_end
+    100098: LowManRightUpLeg
+    100100: LowManSpine
+    100102: LowManSpine1
+    100104: LowManSpine2
+    100106: //RootNode
+    100108: Shattered Bones
+    100110: Shattered Feet 1
+    100112: Shattered Feet 2
+    100114: Shattered Feet 3
+    100116: Shattered Head 1
+    100118: Shattered Head 2
+    100120: Shattered Head 3
+    100122: Shattered Head 4
+    100124: Shattered Head 5
+    100126: Shattered Legs 1
+    100128: Shattered Legs 2
+    100130: Shattered Legs 3
+    100132: Shattered Legs 4
+    100134: Shattered Legs 5
+    100136: Shattered Torso 1
+    100138: Shattered Torso 2
+    100140: Shattered Torso 3
+    100142: Shattered Torso 4
+    100144: Shattered Torso 5
+    400000: LowManHead
+    400002: LowManHead_end
+    400004: LowManHips
+    400006: LowManLeftArm
+    400008: LowManLeftFoot
+    400010: LowManLeftForeArm
+    400012: LowManLeftHand
+    400014: LowManLeftHandIndex1
+    400016: LowManLeftHandIndex2
+    400018: LowManLeftHandIndex2_end
+    400020: LowManLeftHandMiddle1
+    400022: LowManLeftHandMiddle2
+    400024: LowManLeftHandMiddle2_end
+    400026: LowManLeftHandPinky1
+    400028: LowManLeftHandPinky2
+    400030: LowManLeftHandPinky2_end
+    400032: LowManLeftHandRing1
+    400034: LowManLeftHandRing2
+    400036: LowManLeftHandRing2_end
+    400038: LowManLeftHandThumb1
+    400040: LowManLeftHandThumb1_end
+    400042: LowManLeftLeg
+    400044: LowManLeftShoulder
+    400046: LowManLeftToeBase
+    400048: LowManLeftToeBase_end
+    400050: LowManLeftUpLeg
+    400052: LowManNeck
+    400054: LowManRightArm
+    400056: LowManRightFoot
+    400058: LowManRightForeArm
+    400060: LowManRightHand
+    400062: LowManRightHandIndex1
+    400064: LowManRightHandIndex2
+    400066: LowManRightHandIndex2_end
+    400068: LowManRightHandMiddle1
+    400070: LowManRightHandMiddle2
+    400072: LowManRightHandMiddle2_end
+    400074: LowManRightHandPinky1
+    400076: LowManRightHandPinky2
+    400078: LowManRightHandPinky2_end
+    400080: LowManRightHandRing1
+    400082: LowManRightHandRing2
+    400084: LowManRightHandRing2_end
+    400086: LowManRightHandThumb1
+    400088: LowManRightHandThumb1_end
+    400090: LowManRightLeg
+    400092: LowManRightShoulder
+    400094: LowManRightToeBase
+    400096: LowManRightToeBase_end
+    400098: LowManRightUpLeg
+    400100: LowManSpine
+    400102: LowManSpine1
+    400104: LowManSpine2
+    400106: //RootNode
+    400108: Shattered Bones
+    400110: Shattered Feet 1
+    400112: Shattered Feet 2
+    400114: Shattered Feet 3
+    400116: Shattered Head 1
+    400118: Shattered Head 2
+    400120: Shattered Head 3
+    400122: Shattered Head 4
+    400124: Shattered Head 5
+    400126: Shattered Legs 1
+    400128: Shattered Legs 2
+    400130: Shattered Legs 3
+    400132: Shattered Legs 4
+    400134: Shattered Legs 5
+    400136: Shattered Torso 1
+    400138: Shattered Torso 2
+    400140: Shattered Torso 3
+    400142: Shattered Torso 4
+    400144: Shattered Torso 5
+    2100000: Skin
+    2100002: Glow
+    2100004: Accent
+    4300000: Shattered Head 1
+    4300002: Shattered Feet 1
+    4300004: Shattered Torso 1
+    4300006: Shattered Legs 1
+    4300008: Shattered Torso 2
+    4300010: Shattered Legs 2
+    4300012: Shattered Feet 2
+    4300014: Shattered Head 2
+    4300016: Shattered Torso 3
+    4300018: Shattered Legs 3
+    4300020: Shattered Feet 3
+    4300022: Shattered Torso 4
+    4300024: Shattered Head 3
+    4300026: Shattered Legs 4
+    4300028: Shattered Legs 5
+    4300030: Shattered Torso 5
+    4300032: Shattered Head 4
+    4300034: Shattered Head 5
+    9500000: //RootNode
+    13700000: Shattered Feet 1
+    13700002: Shattered Feet 2
+    13700004: Shattered Feet 3
+    13700006: Shattered Head 1
+    13700008: Shattered Head 2
+    13700010: Shattered Head 3
+    13700012: Shattered Head 4
+    13700014: Shattered Head 5
+    13700016: Shattered Legs 1
+    13700018: Shattered Legs 2
+    13700020: Shattered Legs 3
+    13700022: Shattered Legs 4
+    13700024: Shattered Legs 5
+    13700026: Shattered Torso 1
+    13700028: Shattered Torso 2
+    13700030: Shattered Torso 3
+    13700032: Shattered Torso 4
+    13700034: Shattered Torso 5
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Accent
+    second: {fileID: 2100000, guid: 97f9ade43ed5af0468e3aa36e7597741, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Glow
+    second: {fileID: 2100000, guid: fa13724b459b0d444a67115ef147417d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Skin
+    second: {fileID: 2100000, guid: 385d3e7d4fb8743408dd3b0a5c91ec25, type: 2}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 3
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 0.01
+    hasPreviousCalculatedGlobalScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 3
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
