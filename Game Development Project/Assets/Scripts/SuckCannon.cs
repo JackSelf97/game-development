@@ -49,6 +49,8 @@ public class SuckCannon : MonoBehaviour
                 GameObject hitObject = hit.transform.gameObject;
                 if (!currHitObject.Contains(hitObject))
                 {
+                    if (hitObject.GetComponent<Junk>().shot) { return; } // can't suck items back up if they've been shot
+
                     // suck items
                     currHitObject.Add(hitObject);
                     hitObject.SetActive(false);

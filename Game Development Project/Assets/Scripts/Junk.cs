@@ -50,7 +50,6 @@ public class Junk : MonoBehaviour
     {
         shrink = true;
         gameObject.GetComponent<Collider>().enabled = false;
-        gameObject.layer = default; // change the layer so junk cannot be sucked up again upon shooting
         yield return new WaitForSeconds(1);
         Destroy(gameObject);
     }
