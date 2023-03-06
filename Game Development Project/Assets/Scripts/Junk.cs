@@ -5,10 +5,11 @@ public class Junk : MonoBehaviour
 {
     public bool isWorldJunk = false;
     public bool shot = false;
+    public int weight;
     private bool shrink;
     private float xScale, yScale, zScale;
     [SerializeField] private float lifeTime = 5f;
-
+    
     // Start is called before the first frame update
     void Start()
     {

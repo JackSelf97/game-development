@@ -4,13 +4,22 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
+    public enum EnemyType
+    {
+        Zombie_Runner,
+    }
+    public EnemyType enemyType;
+
     // Ragdoll Physics
     private Animator animator = null;
     private Collider[] colliders = null;
     private Rigidbody[] rigidbodies = null;
-    public CapsuleCollider mainCollider = null;
+    public BoxCollider mainCollider = null;
     public GameObject hips = null;
     public GameObject player = null;
+
+    // Projectile Impact
+    public int impactCount = 0, maxWeightOfImpact = 5;
 
     // Start is called before the first frame update
     void Start()
@@ -25,6 +34,8 @@ public class EnemyController : MonoBehaviour
     {
         
     }
+
+    #region Ragdoll Physics
 
     private void SetRagdollParts()
     {
@@ -70,12 +81,19 @@ public class EnemyController : MonoBehaviour
         GetComponent<Rigidbody>().isKinematic = true;
     }
 
+    #endregion
+
     private void OnCollisionEnter(Collision collision) // getting hit by junk items
     {
         if (collision.gameObject.layer == 6)
         {
+            int junkProjectileWeight = collision.gameObject.GetComponent<Junk>().weight;
+
             Debug.Log("Time to ragdoll!");
-            TurnOnRagdoll();
+            impactCount += junkProjectileWeight;
+
+            if (impactCount >= maxWeightOfImpact) // different junk items will hold different weight values
+                TurnOnRagdoll();
         }
     }
 }

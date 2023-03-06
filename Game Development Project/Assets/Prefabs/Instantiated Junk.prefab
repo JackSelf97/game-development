@@ -129,4 +129,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isWorldJunk: 0
   shot: 0
+  weight: 1
   lifeTime: 5
