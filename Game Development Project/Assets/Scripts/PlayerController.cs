@@ -36,9 +36,11 @@ public class PlayerController : MonoBehaviour
 
     // Cinemachine
     [SerializeField] private CinemachineVirtualCamera camNPC = null;
+    [SerializeField] private CinemachineVirtualCamera camPlayer = null;
 
     private void Awake()
     {
+        Application.targetFrameRate = 120;
         playerControls = new PlayerControls();
     }
 
@@ -169,7 +171,7 @@ public class PlayerController : MonoBehaviour
         Debug.DrawRay(cam.position, cam.forward.normalized * rayLength, Color.green);
         if (Physics.Raycast(cam.position, cam.forward.normalized, out hit, rayLength, interactableLayer))
         {
-            currCrosshair.color = Color.yellow;
+            currCrosshair.color = Color.cyan;
 
             #region Ammo Box (Junk Container)
 
