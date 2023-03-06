@@ -36,7 +36,7 @@ public class Junk : MonoBehaviour
             zScale -= Time.deltaTime;
             transform.localScale = new Vector3(xScale, yScale, zScale);
 
-            if (yScale <= zero)
+            if (xScale <= zero)
             {
                 xScale = zero;
                 yScale = zero;
