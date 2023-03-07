@@ -120,15 +120,18 @@ public class EnemyController : MonoBehaviour
     {
         if (collision.gameObject.layer == 6)
         {
-            int junkProjectileWeight = collision.gameObject.GetComponent<Junk>().weight;
-
-            Debug.Log("Time to ragdoll!");
-            impactCount += junkProjectileWeight;
-
-            if (impactCount >= maxWeightOfImpact) // different junk items will hold different weight values
+            if (collision.gameObject.GetComponent<Junk>().shot)
             {
-                TurnOnRagdoll();
-                enemyStats.isAlive = false;
+                int junkProjectileWeight = collision.gameObject.GetComponent<Junk>().weight;
+
+                Debug.Log("Time to ragdoll!");
+                impactCount += junkProjectileWeight;
+
+                if (impactCount >= maxWeightOfImpact) // different junk items will hold different weight values
+                {
+                    TurnOnRagdoll();
+                    enemyStats.isAlive = false;
+                }
             }
         }
     }

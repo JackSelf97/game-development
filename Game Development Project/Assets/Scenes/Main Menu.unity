@@ -1475,7 +1475,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Play
+  m_Text: Enter DevRoom
 --- !u!222 &774980893
 CanvasRenderer:
   m_ObjectHideFlags: 0

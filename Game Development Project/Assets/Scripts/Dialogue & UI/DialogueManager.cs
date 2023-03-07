@@ -40,6 +40,7 @@ public class DialogueManager : MonoBehaviour
             EndDialogue();
             playerController.inConversation = false;
             playerController.lockInput = false;
+            playerController.ConversationCheck();
             return;
         }
 

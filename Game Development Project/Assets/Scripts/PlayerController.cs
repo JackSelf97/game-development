@@ -18,9 +18,11 @@ public class PlayerController : MonoBehaviour
     public bool inConversation = false;
     [SerializeField] private bool groundedPlayer = false;
     [SerializeField] private GameObject instantiatedJunk = null;
+    public bool isPaused = false;
+    [SerializeField] private GameObject menu = null;
 
     // Player Traits
-    private float speed = 6f;
+    private float speed = 8f;
     private float jumpHeight = 1f;
     private float rotationSpeed = 10f;
     private float fallMultiplier = 2.5f;
@@ -70,11 +72,14 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        // Checks
         GroundCheck();
-        ConversationCheck();
+
+        // Inputs
         JumpInput();
         PlayerInteraction();
         SwitchGun();
+        Pause();
     }
 
     void FixedUpdate()
@@ -226,6 +231,8 @@ public class PlayerController : MonoBehaviour
                     // Update NPC camera
                     camNPC.Follow = hit.transform.GetChild(0).transform;
                     camNPC.LookAt = hit.transform.GetChild(0).transform;
+
+                    ConversationCheck();
                 }
             }
         }
@@ -261,6 +268,29 @@ public class PlayerController : MonoBehaviour
     {
         interactionBox.SetActive(state);
         interactionText.text = text;
+    }
+
+    public void Pause()
+    {
+        if (SetPause())
+        {
+            isPaused = !isPaused;
+        }
+        if (isPaused)
+        {
+            Time.timeScale = 0f;
+            menu.SetActive(true);
+            Cursor.lockState = CursorLockMode.None;
+            return;
+        }
+        else
+        {
+            Time.timeScale = 1f;
+            menu.SetActive(false);
+
+            if (!inConversation)
+                Cursor.lockState = CursorLockMode.Locked;
+        }
     }
 
     // this script pushes all rigidbodies that the character touches
@@ -325,6 +355,11 @@ public class PlayerController : MonoBehaviour
     public bool PlayerInteract()
     {
         return playerControls.Player.Interact.triggered;
+    }
+
+    public bool SetPause()
+    {
+        return playerControls.Player.Pause.triggered;
     }
 
     #endregion
