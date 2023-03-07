@@ -607,7 +607,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 0, y: 1, z: 1}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.00000032037497, y: -0.00000036973512, z: 0.26024333}
+  m_ConnectedAnchor: {x: -0.00000032037497, y: -0.0000003688038, z: 0.26024333}
   serializedVersion: 2
   m_SwingAxis: {x: -1, y: 0, z: 0}
   m_TwistLimitSpring:
@@ -1203,7 +1203,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3297003043005696832}
-  m_LocalRotation: {x: -0.015826738, y: -0.015426524, z: 0.0033359497, w: 0.99975026}
+  m_LocalRotation: {x: -0.015826736, y: -0.015426524, z: 0.0033359493, w: 0.99975026}
   m_LocalPosition: {x: 0.0000011558318, y: -0.00000011407761, z: 0.25175855}
   m_LocalScale: {x: 1, y: 0.99999994, z: 0.99999994}
   m_ConstrainProportionsScale: 0
@@ -2032,9 +2032,11 @@ GameObject:
   m_Component:
   - component: {fileID: 5841580001423583700}
   - component: {fileID: 5084249350671576104}
+  - component: {fileID: 4182091123684506357}
   - component: {fileID: 1454594268270311441}
   - component: {fileID: 297282609624519169}
   - component: {fileID: 4509847103486419458}
+  - component: {fileID: 493259681152487019}
   m_Layer: 0
   m_Name: Enemy_Runner
   m_TagString: Enemy
@@ -2082,6 +2084,28 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+--- !u!195 &4182091123684506357
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4844060519930227165}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.3
+  m_Speed: 5
+  m_Acceleration: 20
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 2
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!65 &1454594268270311441
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2124,11 +2148,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyType: 0
+  lookRadius: 10
   mainCollider: {fileID: 1454594268270311441}
   hips: {fileID: 425414579520556512}
-  player: {fileID: 0}
   impactCount: 0
   maxWeightOfImpact: 5
+--- !u!114 &493259681152487019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4844060519930227165}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b092436a4b0c56489723b00b1c56929, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 100
+  isAlive: 0
+  enemyController: {fileID: 0}
 --- !u!1 &5196932688992342334
 GameObject:
   m_ObjectHideFlags: 0
