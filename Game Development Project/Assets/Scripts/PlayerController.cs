@@ -36,7 +36,10 @@ public class PlayerController : MonoBehaviour
 
     // Cinemachine
     [SerializeField] private CinemachineVirtualCamera camNPC = null;
-    [SerializeField] private CinemachineVirtualCamera camPlayer = null;
+
+    // Interaction
+    [SerializeField] private GameObject interactionBox = null;
+    [SerializeField] private Text interactionText = null;
 
     private void Awake()
     {
@@ -60,7 +63,9 @@ public class PlayerController : MonoBehaviour
         cam = Camera.main.transform;
         Cursor.lockState = CursorLockMode.Locked;
         lockInput = false;
-        ammoText = transform.GetChild(2).transform.GetChild(3).GetComponent<Text>(); // could change
+
+        // set the ammo
+        ammoText.text = GetComponent<SuckCannon>().currAmmo + "/" + GetComponent<SuckCannon>().maxAmmo;
     }
 
     void Update()
@@ -175,50 +180,59 @@ public class PlayerController : MonoBehaviour
 
             #region Ammo Box (Junk Container)
 
-            if (PlayerInteract() && hit.transform.CompareTag("Container"))
+            if (hit.transform.CompareTag("Container"))
             {
-                Debug.Log("accessing container");
-                JunkContainer container = hit.transform.GetComponent<JunkContainer>();
-                SuckCannon suckCannonScript = GetComponent<SuckCannon>();
+                Interaction(true, "[E] LOOT");
 
-                if (suckCannonScript.currAmmo < suckCannonScript.maxAmmo && container.currAmmo > container.minCapacity) // if the SC ammo is less than its total capacity && the container has ammo
+                if (PlayerInteract())
                 {
-                    int reloadAmount = suckCannonScript.maxAmmo - suckCannonScript.currAmmo; // how many junk items are needed to reach its max
-                    reloadAmount = (container.currAmmo - reloadAmount) >= 0 ? reloadAmount : container.currAmmo; // get as much ammo as I need to refill 
-                    Debug.Log($"Getting ammo...{reloadAmount}");
+                    JunkContainer container = hit.transform.GetComponent<JunkContainer>();
+                    SuckCannon suckCannonScript = GetComponent<SuckCannon>();
 
-                    suckCannonScript.currAmmo += reloadAmount; // add the reloadAmount to the SC [int]
-                    container.currAmmo -= reloadAmount; // minus the reloadAmount from the container [int]
-
-                    for (int i = 0; i < reloadAmount; i++)
+                    if (suckCannonScript.currAmmo < suckCannonScript.maxAmmo && container.currAmmo > container.minCapacity) // if the SC ammo is less than its total capacity && the container has ammo
                     {
-                        Debug.Log("Adding ammo...");
-                        suckCannonScript.currHitObject.Add(instantiatedJunk); // add the reloadAmount to the SC [GameObject]
-                    }
+                        int reloadAmount = suckCannonScript.maxAmmo - suckCannonScript.currAmmo; // how many junk items are needed to reach its max
+                        reloadAmount = (container.currAmmo - reloadAmount) >= 0 ? reloadAmount : container.currAmmo; // get as much ammo as I need to refill 
 
-                    // update SC & Container UI
-                    suckCannonScript.UpdateAmmo();
-                    container.UpdateContainerAmmo();
+                        suckCannonScript.currAmmo += reloadAmount; // add the reloadAmount to the SC [int]
+                        container.currAmmo -= reloadAmount; // minus the reloadAmount from the container [int]
+
+                        for (int i = 0; i < reloadAmount; i++)
+                        {
+                            suckCannonScript.currHitObject.Add(instantiatedJunk); // add the reloadAmount to the SC [GameObject]
+                        }
+
+                        // update SC & Container UI
+                        suckCannonScript.UpdateAmmo();
+                        container.UpdateContainerAmmo();
+                    }
                 }
             }
 
             #endregion
 
-            if (PlayerInteract() && hit.transform.CompareTag("NPC"))
+            if (hit.transform.CompareTag("NPC"))
             {
-                var NPC = hit.transform.GetComponent<NPC>();
-                NPC.TriggerDialogue();
-                inConversation = true;
-                lockInput = true;
+                if (!inConversation)
+                    Interaction(true, "[E] TALK");
 
-                // Update NPC camera
-                camNPC.Follow = hit.transform.GetChild(0).transform;
-                camNPC.LookAt = hit.transform.GetChild(0).transform;
+                if (PlayerInteract())
+                {
+                    var NPC = hit.transform.GetComponent<NPC>();
+                    NPC.TriggerDialogue();
+                    inConversation = true;
+                    lockInput = true;
+
+                    // Update NPC camera
+                    camNPC.Follow = hit.transform.GetChild(0).transform;
+                    camNPC.LookAt = hit.transform.GetChild(0).transform;
+                }
             }
         }
         else
         {
             currCrosshair.color = Color.white;
+            Interaction(false);
         }
     }
 
@@ -231,6 +245,7 @@ public class PlayerController : MonoBehaviour
             cam.transform.GetChild(1).gameObject.SetActive(false);
             GetComponentInChildren<MeshRenderer>().enabled = false; // don't really need a mesh thinking about it...
             currCrosshair.enabled = false;
+            Interaction(false);
         }
         else
         {
@@ -240,6 +255,12 @@ public class PlayerController : MonoBehaviour
             GetComponentInChildren<MeshRenderer>().enabled = true;
             currCrosshair.enabled = true;
         }
+    }
+
+    public void Interaction(bool state, string text = null)
+    {
+        interactionBox.SetActive(state);
+        interactionText.text = text;
     }
 
     // this script pushes all rigidbodies that the character touches
@@ -269,7 +290,6 @@ public class PlayerController : MonoBehaviour
         // Apply the push
         body.velocity = pushDir * pushPower;
     }
-
 
     #region Player Inputs
 
