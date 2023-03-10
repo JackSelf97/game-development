@@ -1,4 +1,6 @@
 using Cinemachine;
+using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -31,8 +33,8 @@ public class PlayerController : MonoBehaviour
     private float pushPower = 2.0f;
 
     // Gun Variables
-    public GameObject gravityGun = null;
     public GameObject suckCannon = null;
+    public GameObject gravityGun = null;
     public Text ammoText = null;
     public bool suckCannonEquipped = false;
 
@@ -121,21 +123,31 @@ public class PlayerController : MonoBehaviour
 
     public void SwitchGun()
     {
-        if (PlayerSwitchGun() > 0 || PlayerSwitchGun() < 0)
+        if (PlayerScrolling() > 0 || PlayerScrolling() < 0)
         {
             suckCannonEquipped = !suckCannonEquipped;
+            if (suckCannonEquipped)
+            {
+                StartCoroutine(SwitchWeapons(gravityGun, suckCannon));
+
+            }
+            if (!suckCannonEquipped)
+            {
+                StartCoroutine(SwitchWeapons(suckCannon, gravityGun));
+            }
         }
-        if (suckCannonEquipped)
-        {
-            suckCannon.SetActive(true);
-            gravityGun.SetActive(false);
-            return;
-        }
-        if (!suckCannonEquipped)
-        {
-            suckCannon.SetActive(false);
-            gravityGun.SetActive(true);
-        }
+    }
+
+    IEnumerator SwitchWeapons(GameObject weapon1, GameObject weapon2)
+    {
+        // first weapon goes down
+        weapon1.GetComponent<Animator>().SetBool("IsSwitching", true);
+        yield return new WaitForSeconds(0.3f);
+        weapon1.SetActive(false);
+
+        // second weapon comes up
+        weapon2.SetActive(true);
+        weapon2.GetComponent<Animator>().SetBool("IsSwitching", false);
     }
 
     public void GroundCheck()
@@ -332,7 +344,7 @@ public class PlayerController : MonoBehaviour
         return playerControls.Player.Look.ReadValue<Vector2>();
     }
 
-    public float PlayerSwitchGun()
+    public float PlayerScrolling()
     {
         return playerControls.Player.SwitchGun.ReadValue<float>();
     }

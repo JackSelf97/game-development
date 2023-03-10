@@ -12,13 +12,13 @@ public class SuckCannon : MonoBehaviour
     private const int zero = 0, one = 1;
 
     // Cannon Properties
+    public GameObject firePos;
     [SerializeField] private bool isSucking = false;
     [SerializeField] private Image crosshairFire = null, crosshairSuck = null;
     public List<GameObject> currHitObject = new List<GameObject>();
     private float sphereRadius = 0.5f;
     private float maxDistance = 5f;
     public LayerMask junkLayer = 6;
-    public GameObject firePos;
     public int currAmmo, minAmmo = 0;
 
     // Upgrades

@@ -5,7 +5,7 @@ public class GravityGun : MonoBehaviour
     private PlayerController playerController = null;
     private bool bombFired = false;
     private float travelSpeed = 3;
-    [SerializeField] private GameObject gravityBomb = null, firePos = null;
+    [SerializeField] private GameObject firePos = null, gravityBomb = null;
 
     // Start is called before the first frame update
     void Start()
