@@ -126,14 +126,17 @@ public class PlayerController : MonoBehaviour
         if (PlayerScrolling() > 0 || PlayerScrolling() < 0)
         {
             suckCannonEquipped = !suckCannonEquipped;
+
+            // switch weapons and update the ammo UI
             if (suckCannonEquipped)
             {
                 StartCoroutine(SwitchWeapons(gravityGun, suckCannon));
-
+                ammoText.text = GetComponent<SuckCannon>().currAmmo + "/" + GetComponent<SuckCannon>().maxAmmo;
             }
             if (!suckCannonEquipped)
             {
                 StartCoroutine(SwitchWeapons(suckCannon, gravityGun));
+                ammoText.text = "\u221E"; // infinite symbol
             }
         }
     }

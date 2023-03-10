@@ -31,7 +31,7 @@ public class GravityGun : MonoBehaviour
 
     private void SpawnBomb()
     {
-        var bomb = Instantiate(gravityBomb, firePos.transform.position, Quaternion.identity);
+        GameObject bomb = Instantiate(gravityBomb, firePos.transform.position, Quaternion.identity);
         bomb.GetComponent<Rigidbody>().AddForce(firePos.transform.forward * travelSpeed, ForceMode.Impulse);
         bombFired = false;
     }
