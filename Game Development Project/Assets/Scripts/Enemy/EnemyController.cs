@@ -24,6 +24,7 @@ public class EnemyController : MonoBehaviour
     private Rigidbody[] rigidbodies = null;
     public BoxCollider mainCollider = null;
     public GameObject hips = null;
+    public GameObject hitBox = null;
 
     // Projectile Impact
     public int impactCount = 0, maxWeightOfImpact = 5;
@@ -50,12 +51,13 @@ public class EnemyController : MonoBehaviour
         {
             // chase target
             animator.SetBool("IsChasing", true);
+            animator.SetBool("IsAttacking", false);
             agent.SetDestination(target.position);
 
             if (distance <= agent.stoppingDistance)
             {
                 // attack and face the target
-                animator.SetBool("IsChasing", false);
+                animator.SetBool("IsAttacking", true);
                 FaceTarget();
             }
         }
@@ -112,6 +114,7 @@ public class EnemyController : MonoBehaviour
         animator.enabled = true;
         mainCollider.enabled = true;
         GetComponent<Rigidbody>().isKinematic = true;
+        hitBox.GetComponent<Collider>().enabled = true; // turn 'hitBox' collider back on
     }
 
     #endregion

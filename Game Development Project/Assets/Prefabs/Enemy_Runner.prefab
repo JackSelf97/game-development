@@ -504,6 +504,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2245757632041036857}
+  - component: {fileID: 3323391961510187833}
+  - component: {fileID: 617422093707241588}
   m_Layer: 0
   m_Name: Right Hand
   m_TagString: Untagged
@@ -526,6 +528,31 @@ Transform:
   m_Father: {fileID: 4923660601275797466}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: -359.577, y: 93.761, z: -270}
+--- !u!114 &3323391961510187833
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1778909702738734876}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 057f815f772ab2d45aa393b47ff9ddb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!135 &617422093707241588
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1778909702738734876}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.2
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2000942258462481839
 GameObject:
   m_ObjectHideFlags: 0
@@ -2094,11 +2121,11 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.3
-  m_Speed: 5
+  m_Speed: 7
   m_Acceleration: 20
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 3
+  m_StoppingDistance: 2
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -2151,6 +2178,7 @@ MonoBehaviour:
   lookRadius: 10
   mainCollider: {fileID: 1454594268270311441}
   hips: {fileID: 425414579520556512}
+  hitBox: {fileID: 1778909702738734876}
   impactCount: 0
   maxWeightOfImpact: 5
 --- !u!114 &493259681152487019

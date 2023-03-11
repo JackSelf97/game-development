@@ -290,21 +290,21 @@ public class PlayerController : MonoBehaviour
         if (SetPause())
         {
             isPaused = !isPaused;
-        }
-        if (isPaused)
-        {
-            Time.timeScale = 0f;
-            menu.SetActive(true);
-            Cursor.lockState = CursorLockMode.None;
-            return;
-        }
-        else
-        {
-            Time.timeScale = 1f;
-            menu.SetActive(false);
+            if (isPaused)
+            {
+                Time.timeScale = 0f;
+                menu.SetActive(true);
+                Cursor.lockState = CursorLockMode.None;
+                return;
+            }
+            else
+            {
+                Time.timeScale = 1f;
+                menu.SetActive(false);
 
-            if (!inConversation)
-                Cursor.lockState = CursorLockMode.Locked;
+                if (!inConversation)
+                    Cursor.lockState = CursorLockMode.Locked;
+            }
         }
     }
 
