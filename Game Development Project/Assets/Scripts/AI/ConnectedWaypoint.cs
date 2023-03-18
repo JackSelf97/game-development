@@ -5,18 +5,15 @@ using UnityEngine;
 public class ConnectedWaypoint : MonoBehaviour
 {
     [SerializeField] protected float debugDrawRadius = 0.5f;
-    [SerializeField] protected float connectivityRadius = 25f;
+    [SerializeField] protected float connectivityRadius = 10f;
 
-    List<ConnectedWaypoint> connections;
+    List<ConnectedWaypoint> connections = new List<ConnectedWaypoint>();
 
     // Start is called before the first frame update
     void Start()
     {
         // Grab all the waypoint objects in the scene
         GameObject[] allWaypoints = GameObject.FindGameObjectsWithTag("Waypoint");
-
-        // Create a list of waypoints I can refer to later
-        connections = new List<ConnectedWaypoint>();
 
         // Check if they're a connected waypoint
         for (int i = 0; i < allWaypoints.Length; i++)

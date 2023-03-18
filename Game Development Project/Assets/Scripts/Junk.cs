@@ -8,7 +8,7 @@ public class Junk : MonoBehaviour
     public int weight;
     private bool shrink;
     private float xScale, yScale, zScale;
-    [SerializeField] private float lifeTime = 5f;
+    private float lifeTime = 2f;
     
     // Start is called before the first frame update
     void Start()

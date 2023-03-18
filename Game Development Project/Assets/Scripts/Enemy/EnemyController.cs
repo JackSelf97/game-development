@@ -14,8 +14,9 @@ public class EnemyController : MonoBehaviour
 
     // Enemy Traits
     public float lookRadius = 10f;
-    private Transform target;
-    private NavMeshAgent agent;
+    private int chaseSpeed = 7;
+    private Transform target = null;
+    private NavMeshAgent navMeshAgent = null;
     private EnemyStats enemyStats = null;
 
     // Ragdoll Physics
@@ -34,7 +35,7 @@ public class EnemyController : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         target = PlayerManager.pMan.player.transform;
-        agent = GetComponent<NavMeshAgent>();
+        navMeshAgent = GetComponent<NavMeshAgent>();
         enemyStats = GetComponent<EnemyStats>();
 
         SetRagdollParts();
@@ -42,7 +43,7 @@ public class EnemyController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (!enemyStats.isAlive) { return; }
 
@@ -50,11 +51,9 @@ public class EnemyController : MonoBehaviour
         if (distance <= lookRadius)
         {
             // chase target
-            animator.SetBool("IsChasing", true);
-            animator.SetBool("IsAttacking", false);
-            agent.SetDestination(target.position);
+            ChaseTarget();
 
-            if (distance <= agent.stoppingDistance)
+            if (distance <= navMeshAgent.stoppingDistance)
             {
                 // attack and face the target
                 animator.SetBool("IsAttacking", true);
@@ -63,11 +62,26 @@ public class EnemyController : MonoBehaviour
         }
     }
 
+    void ChaseTarget()
+    {
+        // Set the animation
+        animator.SetBool("IsWalking", false);
+        animator.SetBool("IsAttacking", false);
+        animator.SetBool("IsChasing", true);
+
+        // Set the scripts
+        GetComponent<EnemyPatrol>().enabled = false;
+        navMeshAgent.speed = chaseSpeed;
+
+        // Set the target
+        navMeshAgent.SetDestination(target.position);
+    }
+
     void FaceTarget()
     {
         Vector3 direction = (target.position - transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
-        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.fixedDeltaTime * 5f);
     }
 
     #region Ragdoll Physics
@@ -133,7 +147,9 @@ public class EnemyController : MonoBehaviour
                 if (impactCount >= maxWeightOfImpact) // different junk items will hold different weight values
                 {
                     TurnOnRagdoll();
+                    GetComponent<EnemyPatrol>().enabled = false;
                     enemyStats.isAlive = false;
+                    Destroy(gameObject, 5); // could make into shrink death
                 }
             }
         }

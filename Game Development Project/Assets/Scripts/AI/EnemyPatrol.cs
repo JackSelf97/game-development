@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Net;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -16,21 +17,21 @@ public class EnemyPatrol : MonoBehaviour
     [SerializeField] private float switchProbability = 0.2f;
 
     // Private variables for base behaviour 
+    Animator animator = null;
     NavMeshAgent navMeshAgent = null;
     ConnectedWaypoint currWaypoint = null;
     ConnectedWaypoint prevWaypoint = null;
-    int currPatrolIndex = 0;
-    bool travelling = false;
-    bool waiting = false;
-    bool patrolForward = false;
+    public bool travelling = false;
+    public bool waiting = false;
     float waitTimer = 0f;
     int waypointsVisited = 0;
 
     // Start is called before the first frame update
     void Start()
     {
+        animator = GetComponent<Animator>();
         navMeshAgent = GetComponent<NavMeshAgent>();
-        navMeshAgent.speed = 3; // change the speed
+        navMeshAgent.speed = 2; // change the speed
 
         if (currWaypoint == null)
         {
@@ -64,16 +65,18 @@ public class EnemyPatrol : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+
         // Check if we're close to the destination
-        if (travelling && navMeshAgent.remainingDistance <= 1f)
+        if (travelling && navMeshAgent.remainingDistance <= 1f) // has to match the stopping distance
         {
             travelling = false;
             waypointsVisited++;
-
+            
             // If we're going to wait, then wait
             if (patrolWaiting)
             {
                 waiting = true;
+                animator.SetBool("IsWalking", false);
                 waitTimer = 0f;
             }
             else
@@ -96,6 +99,8 @@ public class EnemyPatrol : MonoBehaviour
 
     private void SetDestination()
     {
+        Debug.Log("On the move!");
+
         if (waypointsVisited > 0)
         {
             ConnectedWaypoint nextWaypoint = currWaypoint.NextWaypoint(prevWaypoint);
@@ -106,5 +111,7 @@ public class EnemyPatrol : MonoBehaviour
         Vector3 target = currWaypoint.transform.position;
         navMeshAgent.SetDestination(target);
         travelling = true;
+        animator.SetBool("IsWalking", true);
     }
+    
 }
