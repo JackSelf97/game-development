@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class HitBox : MonoBehaviour
 {
-    private int damage = 20;
+    [SerializeField] private int damage = 20;
     private PlayerStats playerStats = null;
 
     private void Start()
@@ -15,8 +15,8 @@ public class HitBox : MonoBehaviour
     {
         if (other.gameObject.name == "Player")
         {
-            playerStats.health -= damage;
-            Debug.Log("Player has taken damage! The player health is now: " + playerStats.health);
+            playerStats.TakeDamage(damage);
+            Debug.Log("Player has taken damage! The player health is now: " + playerStats.currHP);
         }
     }
 

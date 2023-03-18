@@ -41,7 +41,8 @@ public class PlayerController : MonoBehaviour
     // Cinemachine
     [SerializeField] private CinemachineVirtualCamera camNPC = null;
 
-    // Interaction
+    // Interaction & UI
+    [SerializeField] private GameObject playerUI = null;
     [SerializeField] private GameObject interactionBox = null;
     [SerializeField] private Text interactionText = null;
 

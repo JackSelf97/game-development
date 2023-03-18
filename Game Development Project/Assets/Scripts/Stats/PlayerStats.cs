@@ -1,21 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerStats : MonoBehaviour
 {
-    public float health = 0;
-    private float maxHP = 100;
+    public int currHP = 0;
+    private int maxHP = 100;
+    public HealthBar healthBar = null;
 
     // Start is called before the first frame update
     void Start()
     {
-        health = maxHP;
+        currHP = maxHP;
+        healthBar.SetMaxHealth(maxHP);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void TakeDamage(int damage)
     {
-        
+        currHP -= damage;
+        healthBar.SetHealth(currHP);
     }
 }
