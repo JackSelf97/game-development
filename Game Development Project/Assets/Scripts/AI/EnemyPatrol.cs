@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-// https://www.youtube.com/watch?v=5q4JHuJAAcQ&ab_channel=TableFlipGames
+// https://www.youtube.com/watch?v=NK1TssMD5mE&t=501s&ab_channel=TableFlipGames
 [RequireComponent(typeof(NavMeshAgent))]
 public class EnemyPatrol : MonoBehaviour
 {
@@ -15,16 +15,16 @@ public class EnemyPatrol : MonoBehaviour
     // The probability of switching direction
     [SerializeField] private float switchProbability = 0.2f;
 
-    // The list of all patrol nodes the agent can vist
-    [SerializeField] private List<Waypoint> patrolPoints = new List<Waypoint>();
-
     // Private variables for base behaviour 
     NavMeshAgent navMeshAgent = null;
+    ConnectedWaypoint currWaypoint = null;
+    ConnectedWaypoint prevWaypoint = null;
     int currPatrolIndex = 0;
     bool travelling = false;
     bool waiting = false;
     bool patrolForward = false;
     float waitTimer = 0f;
+    int waypointsVisited = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -32,16 +32,33 @@ public class EnemyPatrol : MonoBehaviour
         navMeshAgent = GetComponent<NavMeshAgent>();
         navMeshAgent.speed = 3; // change the speed
 
-        if (patrolPoints != null && patrolPoints.Count >= 2)
+        if (currWaypoint == null)
         {
-            currPatrolIndex = 0;
-            SetDestination();
-        }
-        else
-        {
-            Debug.Log("Insufficient patrol points for basic patrolling behaviour!");
+            // Set it at random
+            // Grab all the waypoint objects in the scene
+            GameObject[] allWaypoints = GameObject.FindGameObjectsWithTag("Waypoint");
+
+            if (allWaypoints.Length > 0)
+            {
+                while (currWaypoint == null)
+                {
+                    int random = Random.Range(0, allWaypoints.Length);
+                    ConnectedWaypoint startingWaypoint = allWaypoints[random].GetComponent<ConnectedWaypoint>();
+
+                    // We found a waypoint
+                    if (startingWaypoint != null)
+                    {
+                        currWaypoint = startingWaypoint;
+                    }
+                }
+            }
+            else
+            {
+                Debug.LogError("Failed to find any waypoints for use in the scene!");
+            }
         }
 
+        SetDestination();
     }
 
     // Update is called once per frame
@@ -51,6 +68,7 @@ public class EnemyPatrol : MonoBehaviour
         if (travelling && navMeshAgent.remainingDistance <= 1f)
         {
             travelling = false;
+            waypointsVisited++;
 
             // If we're going to wait, then wait
             if (patrolWaiting)
@@ -60,7 +78,6 @@ public class EnemyPatrol : MonoBehaviour
             }
             else
             {
-                ChangePatrolPoint();
                 SetDestination();
             }
         }
@@ -72,7 +89,6 @@ public class EnemyPatrol : MonoBehaviour
             if (waitTimer >= totalWaitTime)
             {
                 waiting = false;
-                ChangePatrolPoint();
                 SetDestination();
             }
         }
@@ -80,36 +96,15 @@ public class EnemyPatrol : MonoBehaviour
 
     private void SetDestination()
     {
-        if (patrolPoints != null)
+        if (waypointsVisited > 0)
         {
-            Vector3 target = patrolPoints[currPatrolIndex].transform.position;
-            navMeshAgent.SetDestination(target);
-            travelling = true;
-        }
-    }
-
-    // Select a new patrol point in the available list, but also with a small probability allows for us to move forwards or backwards
-    private void ChangePatrolPoint()
-    {
-        if (Random.Range(0f, 1f) <= switchProbability)
-        {
-            patrolForward = !patrolForward;
+            ConnectedWaypoint nextWaypoint = currWaypoint.NextWaypoint(prevWaypoint);
+            prevWaypoint = currWaypoint;
+            currWaypoint = nextWaypoint;
         }
 
-        if (patrolForward)
-        {
-            //currPatrolIndex++;
-            //if (currPatrolIndex >= patrolPoints.Count)
-            //{
-            //    currPatrolIndex = 0;
-            //}
-
-            // The code below does the same thing as the code above
-            currPatrolIndex = (currPatrolIndex + 1) % patrolPoints.Count;
-        }
-        else if (--currPatrolIndex < 0) // decrement it at the start using '--'
-        {
-            currPatrolIndex = patrolPoints.Count - 1;
-        }
+        Vector3 target = currWaypoint.transform.position;
+        navMeshAgent.SetDestination(target);
+        travelling = true;
     }
 }

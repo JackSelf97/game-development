@@ -991,8 +991,8 @@ GameObject:
   - component: {fileID: 276764935}
   - component: {fileID: 276764936}
   m_Layer: 0
-  m_Name: PatrolPoint (1)
-  m_TagString: Untagged
+  m_Name: Waypoint (1)
+  m_TagString: Waypoint
   m_Icon: {fileID: 2488908585195742037, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1021,10 +1021,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 276764934}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dba678316a4c0154cb73a4ac585e5570, type: 3}
+  m_Script: {fileID: 11500000, guid: 0d4ea4117d8dea242ac090a0666429f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   debugDrawRadius: 0.5
+  connectivityRadius: 25
 --- !u!1 &295252948
 GameObject:
   m_ObjectHideFlags: 0
@@ -1194,8 +1195,8 @@ GameObject:
   - component: {fileID: 322473176}
   - component: {fileID: 322473177}
   m_Layer: 0
-  m_Name: PatrolPoint
-  m_TagString: Untagged
+  m_Name: Waypoint
+  m_TagString: Waypoint
   m_Icon: {fileID: 2488908585195742037, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1224,10 +1225,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 322473175}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dba678316a4c0154cb73a4ac585e5570, type: 3}
+  m_Script: {fileID: 11500000, guid: 0d4ea4117d8dea242ac090a0666429f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   debugDrawRadius: 0.5
+  connectivityRadius: 25
 --- !u!1 &392862479
 GameObject:
   m_ObjectHideFlags: 3
@@ -3506,8 +3508,8 @@ GameObject:
   - component: {fileID: 1043667934}
   - component: {fileID: 1043667935}
   m_Layer: 0
-  m_Name: PatrolPoint (2)
-  m_TagString: Untagged
+  m_Name: Waypoint (2)
+  m_TagString: Waypoint
   m_Icon: {fileID: 2488908585195742037, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3536,10 +3538,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1043667933}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dba678316a4c0154cb73a4ac585e5570, type: 3}
+  m_Script: {fileID: 11500000, guid: 0d4ea4117d8dea242ac090a0666429f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   debugDrawRadius: 0.5
+  connectivityRadius: 25
 --- !u!1001 &1056954638
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6324,14 +6327,14 @@ PrefabInstance:
     - target: {fileID: 8426651588362229027, guid: 8f385e43d99c86947b146f9fed77dbc2, type: 3}
       propertyPath: patrolPoints.Array.data[0]
       value: 
-      objectReference: {fileID: 322473177}
+      objectReference: {fileID: 0}
     - target: {fileID: 8426651588362229027, guid: 8f385e43d99c86947b146f9fed77dbc2, type: 3}
       propertyPath: patrolPoints.Array.data[1]
       value: 
-      objectReference: {fileID: 276764936}
+      objectReference: {fileID: 0}
     - target: {fileID: 8426651588362229027, guid: 8f385e43d99c86947b146f9fed77dbc2, type: 3}
       propertyPath: patrolPoints.Array.data[2]
       value: 
-      objectReference: {fileID: 1043667935}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8f385e43d99c86947b146f9fed77dbc2, type: 3}
