@@ -63,9 +63,8 @@ public class EnemyPatrol : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update() // using FixedUpdate will mess with the animations
     {
-
         // Check if we're close to the destination
         if (travelling && navMeshAgent.remainingDistance <= 1f) // has to match the stopping distance
         {
