@@ -66,7 +66,7 @@ public class EnemyPatrol : MonoBehaviour
     void Update() // using FixedUpdate will mess with the animations
     {
         // Check if we're close to the destination
-        if (travelling && navMeshAgent.remainingDistance <= 1f) // has to match the stopping distance
+        if (travelling && navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance) // has to match the stopping distance
         {
             travelling = false;
             waypointsVisited++;
