@@ -972,7 +972,8 @@ MonoBehaviour:
   enemyType: 0
   zombieRunner: {fileID: 4844060519930227165, guid: 8f385e43d99c86947b146f9fed77dbc2, type: 3}
   spawnCount: 5
-  automatic: 1
+  on: 0
+  spawnOverTime: 0
   timeLimit: 3
 --- !u!4 &269915374
 Transform:

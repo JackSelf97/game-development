@@ -16,7 +16,8 @@ public class Spawner : MonoBehaviour
     [SerializeField] private int spawnCount = 5;
 
     // Whether you want the spawner to be automatic
-    [SerializeField] private bool automatic = false;
+    [SerializeField] private bool on = false;
+    [SerializeField] private bool spawnOverTime = false;
 
     // Timers
     [SerializeField] private float timeLimit = 10;
@@ -25,21 +26,24 @@ public class Spawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (spawnCount <= 0) { return; }
+        if (on)
+        {
+            if (spawnCount <= 0) { return; }
 
-        // Spawns enemy every 'x' amount of seconds
-        if (automatic)
-        {
-            timer += Time.deltaTime;
-            if (timer > timeLimit)
+            // Spawns enemy every 'x' amount of seconds
+            if (spawnOverTime)
             {
-                SpawnEnemies();
-                timer = 0; // reset
+                timer += Time.deltaTime;
+                if (timer > timeLimit)
+                {
+                    SpawnEnemies();
+                    timer = 0; // reset
+                }
             }
-        }
-        else
-        {
-            SpawnEnemies(); // spawns the spawnCount total
+            else
+            {
+                SpawnEnemies(); // spawns the spawnCount total
+            }
         }
     }
 

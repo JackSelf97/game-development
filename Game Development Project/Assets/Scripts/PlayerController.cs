@@ -81,7 +81,7 @@ public class PlayerController : MonoBehaviour
         // Inputs
         JumpInput();
         PlayerInteraction();
-        SwitchGun();
+        PlayerSwitch();
         Pause();
     }
 
@@ -122,7 +122,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void SwitchGun()
+    public void PlayerSwitch()
     {
         if (PlayerScrolling() > 0 || PlayerScrolling() < 0)
         {
@@ -205,7 +205,7 @@ public class PlayerController : MonoBehaviour
             {
                 Interaction(true, "[E] LOOT");
 
-                if (PlayerInteract())
+                if (PlayerInteract() && suckCannon.activeSelf)
                 {
                     JunkContainer container = hit.transform.GetComponent<JunkContainer>();
                     SuckCannon suckCannonScript = GetComponent<SuckCannon>();
@@ -226,6 +226,9 @@ public class PlayerController : MonoBehaviour
                         // update SC & Container UI
                         suckCannonScript.UpdateAmmo();
                         container.UpdateContainerAmmo();
+
+                        // play animation
+                        suckCannon.GetComponent<Animator>().SetTrigger("IsReloading");
                     }
                 }
             }
