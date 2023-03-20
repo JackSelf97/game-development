@@ -1,14 +1,16 @@
 using UnityEngine;
 
+// https://www.youtube.com/watch?v=QIVN-T-1QBE&ab_channel=Plai
 public class WeaponSway : MonoBehaviour
 {
+    [Header("Swaying")]
     [SerializeField] private float smooth;
     [SerializeField] private float swayMultiplier;
     private PlayerController playerController = null;
 
     private void Start()
     {
-        playerController = GameObject.Find("Player").GetComponent<PlayerController>();
+        playerController = PlayerManager.pMan.player.GetComponent<PlayerController>();
     }
 
     private void Update()
@@ -22,6 +24,5 @@ public class WeaponSway : MonoBehaviour
         Quaternion targetRotation = rotationX * rotationY;
 
         transform.localRotation = Quaternion.Slerp(transform.localRotation, targetRotation, smooth * Time.deltaTime);
-
     }
 }

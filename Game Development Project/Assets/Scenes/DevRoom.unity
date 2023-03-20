@@ -3914,6 +3914,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1196896289}
   - component: {fileID: 1196896290}
+  - component: {fileID: 1196896291}
   m_Layer: 8
   m_Name: WH2
   m_TagString: Untagged
@@ -3951,6 +3952,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   smooth: 8
   swayMultiplier: 0.3
+--- !u!114 &1196896291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1196896288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1428aff01b3dd874b97c993b20cbfd2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  smooth: 10
+  speedCurve: 0
+  travelLimit: {x: 0.025, y: 0.025, z: 0.025}
+  bobLimit: {x: 0.01, y: 0.01, z: 0.01}
+  bobExaggeration: 0
+  multiplier: {x: 0, y: 0, z: 0}
 --- !u!1 &1253103989
 GameObject:
   m_ObjectHideFlags: 0
@@ -5816,6 +5835,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1942611349}
   - component: {fileID: 1942611350}
+  - component: {fileID: 1942611351}
   m_Layer: 8
   m_Name: WH1
   m_TagString: Untagged
@@ -5853,6 +5873,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   smooth: 8
   swayMultiplier: 0.3
+--- !u!114 &1942611351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1942611348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1428aff01b3dd874b97c993b20cbfd2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  smooth: 8
+  speedCurve: 0
+  travelLimit: {x: 0.03, y: 0.01, z: 0.03}
+  bobLimit: {x: 0.01, y: 0.01, z: 0.01}
+  bobExaggeration: 0
+  multiplier: {x: 0, y: 0, z: 0}
 --- !u!1 &1970920789
 GameObject:
   m_ObjectHideFlags: 0
