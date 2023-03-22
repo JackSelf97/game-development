@@ -28,6 +28,8 @@ public class GravityGun : MonoBehaviour
             if (weaponRecoil.enabled) // recoil weapon is the script is enabled
                 weaponRecoil.Recoil();
 
+            WeaponShake.wsMan.ShakeCamera(0.2f, 0.2f);
+
             bombFired = true;
         }
     }

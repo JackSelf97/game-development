@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     // Player Variables
     private CharacterController controller = null;
     private PlayerControls playerControls = null;
+    private PlayerStats playerStats = null;
     private Vector3 playerVelocity = Vector3.zero;
     private bool isJumping = false;
     private float gravityValue = -9.81f;
@@ -64,6 +65,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        playerStats = GetComponent<PlayerStats>();
         controller = GetComponent<CharacterController>();
         cam = Camera.main.transform;
         Cursor.lockState = CursorLockMode.Locked;
@@ -216,17 +218,16 @@ public class PlayerController : MonoBehaviour
                         reloadAmount = (container.currAmmo - reloadAmount) >= 0 ? reloadAmount : container.currAmmo; // get as much ammo as I need to refill 
 
                         suckCannonScript.currAmmo += reloadAmount; // add the reloadAmount to the SC [int]
-                        container.currAmmo -= reloadAmount; // minus the reloadAmount from the container [int]
+                        container.UpdateContainerAmmo(-reloadAmount); // minus the reloadAmount from the container [int]
 
                         for (int i = 0; i < reloadAmount; i++)
                         {
                             suckCannonScript.currHitObject.Add(instantiatedJunk); // add the reloadAmount to the SC [GameObject]
                         }
 
-                        // update SC & Container UI
+                        // update SC UI
                         suckCannonScript.UpdateAmmo();
-                        container.UpdateContainerAmmo();
-
+                        
                         // play animation
                         suckCannon.GetComponent<Animator>().SetTrigger("IsReloading");
                     }
@@ -234,6 +235,25 @@ public class PlayerController : MonoBehaviour
             }
 
             #endregion
+
+            if (hit.transform.CompareTag("Health Container"))
+            {
+                Interaction(true, "[E] HEAL");
+
+                if (PlayerInteract())
+                {
+                    HealthContainer healthContainer = hit.transform.GetComponent<HealthContainer>();
+
+                    if (healthContainer.uses <= 0) { return; }
+                    else if (playerStats.currHP < playerStats.maxHP) 
+                    {
+                        playerStats.currHP = playerStats.maxHP; // set the currHP to the maxHP
+                        playerStats.healthBar.SetHealth(playerStats.currHP); // update healthBar UI
+
+                        healthContainer.UpdateContainerStatus(-1); // minus the 'uses' from the health container [int]
+                    }
+                }
+            }
 
             if (hit.transform.CompareTag("NPC"))
             {

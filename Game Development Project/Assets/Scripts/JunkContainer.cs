@@ -15,7 +15,7 @@ public class JunkContainer : MonoBehaviour
         ammoText.text = currAmmo.ToString() + "/" + maxCapacity.ToString();
     }
 
-    public void UpdateContainerAmmo(int value = 0)
+    public void UpdateContainerAmmo(int value)
     {
         currAmmo += value;
         ammoText.text = currAmmo.ToString() + "/" + maxCapacity.ToString();

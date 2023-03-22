@@ -146,9 +146,10 @@ public class EnemyController : MonoBehaviour
 
                 if (impactCount >= maxWeightOfImpact) // different junk items will hold different weight values
                 {
-                    TurnOnRagdoll();
-                    GetComponent<EnemyPatrol>().enabled = false;
+                    Destroy(GetComponent<EnemyPatrol>());
                     enemyStats.isAlive = false;
+
+                    TurnOnRagdoll();
                     Destroy(gameObject, 5); // could make into shrink death
                 }
             }
