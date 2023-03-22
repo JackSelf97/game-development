@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject menu = null;
 
     // Player Traits
-    private float speed = 8f;
+    private float speed = 9f;
     private float jumpHeight = 1f;
     private float rotationSpeed = 10f;
     private float fallMultiplier = 2.5f;
@@ -70,6 +70,7 @@ public class PlayerController : MonoBehaviour
         cam = Camera.main.transform;
         Cursor.lockState = CursorLockMode.Locked;
         lockInput = false;
+        isPaused = false;
 
         // set the ammo
         ammoText.text = GetComponent<SuckCannon>().currAmmo + "/" + GetComponent<SuckCannon>().maxAmmo;
@@ -84,7 +85,7 @@ public class PlayerController : MonoBehaviour
         JumpInput();
         PlayerInteraction();
         PlayerSwitch();
-        Pause();
+        CheckPause();
     }
 
     void FixedUpdate()
@@ -309,7 +310,7 @@ public class PlayerController : MonoBehaviour
         interactionText.text = text;
     }
 
-    public void Pause()
+    public void CheckPause()
     {
         if (SetPause())
         {

@@ -15,6 +15,9 @@ public class UIManager : MonoBehaviour
 
     public void GoToScene(string sceneName)
     {
+        if (SceneManager.GetActiveScene().name != "Main Menu")
+            Time.timeScale = 1f; // remember you cannot call 'CheckPause' because that happens on a button press, so for now, copy over the logic
+
         SceneManager.LoadScene(sceneName);
         Debug.Log("Loading scene: " + sceneName);
     }
