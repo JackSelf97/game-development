@@ -2,15 +2,21 @@ using UnityEngine;
 
 public class GravityGun : MonoBehaviour
 {
+    // Variables
     private PlayerController playerController = null;
+    private WeaponRecoil weaponRecoil = null;
     private bool bombFired = false;
-    private float travelSpeed = 3;
-    [SerializeField] private GameObject firePos = null, gravityBomb = null;
+
+    [SerializeField] private Transform firePos = null;
+    [SerializeField] private float outwardsForce = 3;
+    [SerializeField] private GameObject gravityBomb = null;
+    [SerializeField] private LayerMask projectileLayer;
 
     // Start is called before the first frame update
     void Start()
     {
         playerController = GetComponent<PlayerController>();
+        weaponRecoil = Camera.main.transform.GetChild(2).GetComponent<WeaponRecoil>();
     }
 
     // Update is called once per frame
@@ -19,6 +25,9 @@ public class GravityGun : MonoBehaviour
         if (playerController.suckCannonEquipped || playerController.lockInput) { return; } // if player has 'Suck Cannon' equipped then return
         if (playerController.PlayerShoot())
         {
+            if (weaponRecoil.enabled) // recoil weapon is the script is enabled
+                weaponRecoil.Recoil();
+
             bombFired = true;
         }
     }
@@ -26,13 +35,27 @@ public class GravityGun : MonoBehaviour
     private void FixedUpdate()
     {
         if (bombFired)
-            SpawnBomb();
+            SpawnProjectile();
     }
 
-    private void SpawnBomb()
+    private void SpawnProjectile()
     {
-        GameObject bomb = Instantiate(gravityBomb, firePos.transform.position, Quaternion.identity);
-        bomb.GetComponent<Rigidbody>().AddForce(firePos.transform.forward * travelSpeed, ForceMode.Impulse);
+        // Find exact hit position using a raycast
+        Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0)); // middle of the screen
+        RaycastHit hit;
+
+        // Check if ray hits something
+        Vector3 targetPoint;
+        if (Physics.Raycast(ray, out hit, ~projectileLayer)) // projectiles must be visible to the 'Weapon Camera' and make sure the projectiles collider DOES NOT interfere with 'targetPoint'
+            targetPoint = hit.point;
+        else
+            targetPoint = ray.GetPoint(20); // just a point far away from the player
+
+        // Instantiate the 'Gravity Bomb'
+        GameObject projectile = Instantiate(gravityBomb, firePos.position, Quaternion.identity);
+
+        // Add relative force towards the 'targetPoint'
+        projectile.GetComponent<Rigidbody>().AddForce((targetPoint - firePos.position).normalized * outwardsForce, ForceMode.Impulse);
         bombFired = false;
     }
 }

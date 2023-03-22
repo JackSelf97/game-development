@@ -6,13 +6,14 @@ public class SuckCannon : MonoBehaviour
 {
     // Variables
     private PlayerController playerController = null;
+    private WeaponRecoil weaponRecoil = null;
     private Vector3 origin;
     private Vector3 direction;
     private float currHitDistance;
     private const int zero = 0, one = 1;
 
     // Cannon Properties
-    public GameObject firePos;
+    [SerializeField] private Transform firePos = null;
     [SerializeField] private bool isSucking = false;
     [SerializeField] private Image crosshairFire = null, crosshairSuck = null;
     public List<GameObject> currHitObject = new List<GameObject>();
@@ -29,6 +30,7 @@ public class SuckCannon : MonoBehaviour
     void Start()
     {
         playerController = GetComponent<PlayerController>();
+        weaponRecoil = Camera.main.transform.GetChild(1).GetComponent<WeaponRecoil>();
         SuckState();
     }
 
@@ -76,7 +78,7 @@ public class SuckCannon : MonoBehaviour
                     if (Physics.Raycast(origin, direction, out hit, maxDistance))
                     {
                         if (hit.rigidbody)
-                            hit.transform.GetComponent<Rigidbody>().AddForce(firePos.transform.forward * force, ForceMode.Impulse);
+                            hit.transform.GetComponent<Rigidbody>().AddForce(firePos.forward * force, ForceMode.Impulse);
                     }
                     return;
                 }
@@ -92,9 +94,12 @@ public class SuckCannon : MonoBehaviour
                 }
                 else // instantiated items
                 {
-                    GameObject instantiatedProjectile = Instantiate(currHitObject[lastElement], firePos.transform.position, Quaternion.identity);
+                    GameObject instantiatedProjectile = Instantiate(currHitObject[lastElement], firePos.position, Quaternion.identity);
                     FireJunk(instantiatedProjectile);
                 }
+
+                if (weaponRecoil.enabled) // recoil weapon is the script is enabled
+                    weaponRecoil.Recoil();
 
                 currHitObject.RemoveAt(lastElement);
                 UpdateAmmo(-one);
@@ -106,8 +111,8 @@ public class SuckCannon : MonoBehaviour
 
     public void FireJunk(GameObject junkProjectile)
     {
-        junkProjectile.transform.position = firePos.transform.position;
-        junkProjectile.GetComponent<Rigidbody>().AddForce(firePos.transform.forward * force, ForceMode.Impulse);
+        junkProjectile.transform.position = firePos.position;
+        junkProjectile.GetComponent<Rigidbody>().AddForce(firePos.forward * force, ForceMode.Impulse);
         junkProjectile.GetComponent<Junk>().shot = true;
     }
 

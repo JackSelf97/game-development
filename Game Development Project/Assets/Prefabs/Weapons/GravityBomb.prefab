@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5161783804729940868}
   - component: {fileID: 771626409979807051}
   - component: {fileID: 3635596614665380062}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: GravityBomb
   m_TagString: Untagged
   m_Icon: {fileID: 0}
