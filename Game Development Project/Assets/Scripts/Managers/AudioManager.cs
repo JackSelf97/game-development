@@ -52,4 +52,15 @@ public class AudioManager : MonoBehaviour
         // trigger sound in code
         //FindObjectOfType<AudioManager>().Play("PlayerDeath");
     }
+
+    public void Stop(string name)
+    {
+        Sound item = Array.Find(sounds, sound => sound.name == name);
+        if (item == null)
+        {
+            Debug.LogError("Sound: " + name + " not found! Have you spelt it correctly?");
+            return;
+        }
+        item.source.Stop();
+    }
 }
