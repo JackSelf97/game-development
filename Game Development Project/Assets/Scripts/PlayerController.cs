@@ -2,6 +2,7 @@ using Cinemachine;
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(CharacterController))]
@@ -40,7 +41,8 @@ public class PlayerController : MonoBehaviour
     public bool suckCannonEquipped = false;
 
     // Cinemachine
-    [SerializeField] private CinemachineVirtualCamera camNPC = null;
+    [SerializeField] private CinemachineVirtualCamera vCamNPC = null;
+    [SerializeField] private CinemachineVirtualCamera vCamPlayer = null;
 
     // Interaction & UI
     [SerializeField] private GameObject playerUI = null;
@@ -82,6 +84,7 @@ public class PlayerController : MonoBehaviour
         GroundCheck();
 
         // Inputs
+        OnDeviceChange();
         JumpInput();
         PlayerInteraction();
         PlayerSwitch();
@@ -269,8 +272,8 @@ public class PlayerController : MonoBehaviour
                     lockInput = true;
 
                     // Update NPC camera
-                    camNPC.Follow = hit.transform.GetChild(0).transform;
-                    camNPC.LookAt = hit.transform.GetChild(0).transform;
+                    vCamNPC.Follow = hit.transform.GetChild(0).transform;
+                    vCamNPC.LookAt = hit.transform.GetChild(0).transform;
 
                     ConversationCheck();
                 }
@@ -331,6 +334,40 @@ public class PlayerController : MonoBehaviour
                     Cursor.lockState = CursorLockMode.Locked;
             }
         }
+    }
+
+    void OnDeviceChange()
+    {
+        // Changes speed of the camera depending on device
+        CinemachinePOV playerPOV = vCamPlayer.GetCinemachineComponent<CinemachinePOV>();
+        const int mouseSpeed = 1, controllerSpeed = 10;
+
+        InputSystem.onDeviceChange +=
+        (device, change) =>
+        {
+            switch (change)
+            {
+                case InputDeviceChange.Added:
+                    // New Device.
+                    playerPOV.m_HorizontalAxis.m_MaxSpeed = controllerSpeed;
+                    playerPOV.m_VerticalAxis.m_MaxSpeed = controllerSpeed;
+                    break;
+                case InputDeviceChange.Disconnected:
+                    // Device got unplugged.
+                    playerPOV.m_HorizontalAxis.m_MaxSpeed = mouseSpeed;
+                    playerPOV.m_VerticalAxis.m_MaxSpeed = mouseSpeed;
+                    break;
+                case InputDeviceChange.Reconnected:
+                    // Plugged back in.
+                    break;
+                case InputDeviceChange.Removed:
+                    // Remove from Input System entirely; by default, Devices stay in the system once discovered.
+                    break;
+                default:
+                    // See InputDeviceChange reference for other event types.
+                    break;
+            }
+        };
     }
 
     // this script pushes all rigidbodies that the character touches
