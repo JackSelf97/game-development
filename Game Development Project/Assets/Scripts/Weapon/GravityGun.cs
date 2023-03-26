@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class GravityGun : MonoBehaviour
 {
@@ -31,7 +32,8 @@ public class GravityGun : MonoBehaviour
             //WeaponShake.wsMan.ShakeCamera(0.2f, 0.2f);
 
             // Haptic Feedback
-            StartCoroutine(playerController.PlayHaptics(0.075f, 1f, 1f));
+            if (Gamepad.current != null)
+                StartCoroutine(playerController.PlayHaptics(0.075f, 1f, 1f));
 
             bombFired = true;
         }

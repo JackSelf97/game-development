@@ -85,7 +85,7 @@ public class PlayerController : MonoBehaviour
         GroundCheck();
 
         // Inputs
-        OnDeviceChange();
+        //OnDeviceChange();
         PlayerJump();
         PlayerInteraction();
         PlayerSwitch();

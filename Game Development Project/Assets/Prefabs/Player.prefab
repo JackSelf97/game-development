@@ -592,8 +592,8 @@ GameObject:
   - component: {fileID: 3295252300479090707}
   - component: {fileID: 3295252300479090716}
   - component: {fileID: 3295252300479090712}
-  - component: {fileID: 3295252300479090718}
   - component: {fileID: 3295252300479090719}
+  - component: {fileID: 3295252300479090718}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -684,24 +684,6 @@ MonoBehaviour:
   currHP: 0
   maxHP: 100
   healthBar: {fileID: 3295252300133673079}
---- !u!114 &3295252300479090718
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3295252300479090705}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a05e8f02d5348d546b5dad2218e029da, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  firePos: {fileID: 0}
-  outwardsForce: 3
-  gravityBomb: {fileID: 742208916648984423, guid: 837f9d55c569b894aa45f91cb1b88630, type: 3}
-  projectileLayer:
-    serializedVersion: 2
-    m_Bits: 503
 --- !u!114 &3295252300479090719
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -726,6 +708,24 @@ MonoBehaviour:
   minAmmo: 0
   force: 50
   maxAmmo: 10
+--- !u!114 &3295252300479090718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3295252300479090705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a05e8f02d5348d546b5dad2218e029da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  firePos: {fileID: 0}
+  outwardsForce: 3
+  gravityBomb: {fileID: 742208916648984423, guid: 837f9d55c569b894aa45f91cb1b88630, type: 3}
+  projectileLayer:
+    serializedVersion: 2
+    m_Bits: 503
 --- !u!1 &3295252300518936456
 GameObject:
   m_ObjectHideFlags: 0

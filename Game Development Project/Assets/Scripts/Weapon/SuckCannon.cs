@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class SuckCannon : MonoBehaviour
@@ -102,7 +103,8 @@ public class SuckCannon : MonoBehaviour
                     weaponRecoil.Recoil();
 
                 // Haptic Feedback
-                StartCoroutine(playerController.PlayHaptics(0.1f, 1.5f, 1.5f));
+                if (Gamepad.current != null)
+                    StartCoroutine(playerController.PlayHaptics(0.1f, 1.5f, 1.5f));
 
                 currHitObject.RemoveAt(lastElement);
                 UpdateAmmo(-one);
