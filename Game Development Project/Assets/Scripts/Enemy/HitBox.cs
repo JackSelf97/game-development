@@ -19,5 +19,4 @@ public class HitBox : MonoBehaviour
             Debug.Log("Player has taken damage! The player health is now: " + playerStats.currHP);
         }
     }
-
 }

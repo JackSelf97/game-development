@@ -67,7 +67,7 @@ public class SuckCannon : MonoBehaviour
         }
         if (!isSucking)
         {
-            if (playerController.PlayerShoot())
+            if (playerController.FireInput())
             {
                 if (currHitObject.Count <= zero)
                 {
@@ -101,6 +101,9 @@ public class SuckCannon : MonoBehaviour
                 if (weaponRecoil.enabled) // recoil weapon is the script is enabled
                     weaponRecoil.Recoil();
 
+                // Haptic Feedback
+                StartCoroutine(playerController.PlayHaptics(0.1f, 1.5f, 1.5f));
+
                 currHitObject.RemoveAt(lastElement);
                 UpdateAmmo(-one);
             }
@@ -124,7 +127,7 @@ public class SuckCannon : MonoBehaviour
 
     public void SuckState()
     {
-        if (playerController.PlayerSuck())
+        if (playerController.SuckInput())
         {
             isSucking = !isSucking;
         }

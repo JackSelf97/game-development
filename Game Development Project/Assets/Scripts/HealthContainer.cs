@@ -10,7 +10,7 @@ public class HealthContainer : MonoBehaviour
     void Start()
     {
         displayText = transform.GetChild(1).transform.GetChild(0).GetComponent<Text>();
-        displayText.text = "MEDICAL CARE";
+        displayText.text = "HEALTH";
     }
 
     public void UpdateContainerStatus(int value)

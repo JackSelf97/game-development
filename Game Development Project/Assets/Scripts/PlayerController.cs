@@ -1,6 +1,5 @@
 using Cinemachine;
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -8,43 +7,45 @@ using UnityEngine.UI;
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
 {
-    // Player Variables
+    // Player Classes
     private CharacterController controller = null;
     private PlayerControls playerControls = null;
     private PlayerStats playerStats = null;
+
+    [Header("Player Variables")]
+    [SerializeField] private GameObject instantiatedJunk = null;
+    [SerializeField] private GameObject menu = null;
     private Vector3 playerVelocity = Vector3.zero;
-    private bool isJumping = false;
-    private float gravityValue = -9.81f;
     public LayerMask interactableLayer = 7;
     public Transform cam = null;
     public Image currCrosshair = null;
     public bool lockInput = false;
     public bool inConversation = false;
-    [SerializeField] private bool groundedPlayer = false;
-    [SerializeField] private GameObject instantiatedJunk = null;
+    public bool isGrounded = false;
     public bool isPaused = false;
-    [SerializeField] private GameObject menu = null;
 
     // Player Traits
     private float speed = 9f;
     private float jumpHeight = 1f;
+    private float gravityValue = -9.81f;
     private float rotationSpeed = 10f;
     private float fallMultiplier = 2.5f;
     private float slopeForce = 40;
     private float slopeForceRayLength = 5;
     private float pushPower = 2.0f;
+    private bool isJumping = false;
 
-    // Gun Variables
+    [Header("Gun Properties")]
     public GameObject suckCannon = null;
     public GameObject gravityGun = null;
     public Text ammoText = null;
     public bool suckCannonEquipped = false;
 
-    // Cinemachine
+    [Header("Cinemachine")]
     [SerializeField] private CinemachineVirtualCamera vCamNPC = null;
     [SerializeField] private CinemachineVirtualCamera vCamPlayer = null;
 
-    // Interaction & UI
+    [Header("Interaction & UI")]
     [SerializeField] private GameObject playerUI = null;
     [SerializeField] private GameObject interactionBox = null;
     [SerializeField] private Text interactionText = null;
@@ -85,7 +86,7 @@ public class PlayerController : MonoBehaviour
 
         // Inputs
         OnDeviceChange();
-        JumpInput();
+        PlayerJump();
         PlayerInteraction();
         PlayerSwitch();
         CheckPause();
@@ -130,7 +131,7 @@ public class PlayerController : MonoBehaviour
 
     public void PlayerSwitch()
     {
-        if (PlayerScrolling() > 0 || PlayerScrolling() < 0)
+        if (ScrollInput() > 0 || ScrollInput() < 0 || SwitchInput())
         {
             suckCannonEquipped = !suckCannonEquipped;
 
@@ -162,8 +163,8 @@ public class PlayerController : MonoBehaviour
 
     public void GroundCheck()
     {
-        groundedPlayer = controller.isGrounded;
-        if (groundedPlayer && playerVelocity.y < 0)
+        isGrounded = controller.isGrounded;
+        if (isGrounded && playerVelocity.y < 0)
         {
             playerVelocity.y = 0f;
             isJumping = false;
@@ -185,10 +186,10 @@ public class PlayerController : MonoBehaviour
         return false;
     }
 
-    public void JumpInput()
+    public void PlayerJump()
     {
         // changes the height position of the player..
-        if (PlayerJump() && groundedPlayer)
+        if (JumpInput() && isGrounded && !lockInput)
         {
             isJumping = true;
             playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
@@ -211,7 +212,7 @@ public class PlayerController : MonoBehaviour
             {
                 Interaction(true, "[E] LOOT");
 
-                if (PlayerInteract() && suckCannon.activeSelf)
+                if (InteractInput() && suckCannon.activeSelf)
                 {
                     JunkContainer container = hit.transform.GetComponent<JunkContainer>();
                     SuckCannon suckCannonScript = GetComponent<SuckCannon>();
@@ -244,7 +245,7 @@ public class PlayerController : MonoBehaviour
             {
                 Interaction(true, "[E] HEAL");
 
-                if (PlayerInteract())
+                if (InteractInput())
                 {
                     HealthContainer healthContainer = hit.transform.GetComponent<HealthContainer>();
 
@@ -264,12 +265,11 @@ public class PlayerController : MonoBehaviour
                 if (!inConversation)
                     Interaction(true, "[E] TALK");
 
-                if (PlayerInteract())
+                if (InteractInput())
                 {
                     var NPC = hit.transform.GetComponent<NPC>();
                     NPC.TriggerDialogue();
                     inConversation = true;
-                    lockInput = true;
 
                     // Update NPC camera
                     vCamNPC.Follow = hit.transform.GetChild(0).transform;
@@ -290,6 +290,7 @@ public class PlayerController : MonoBehaviour
     {
         if (inConversation)
         {
+            lockInput = true;
             Cursor.lockState = CursorLockMode.None;
             cam.transform.GetChild(0).gameObject.SetActive(false);
             cam.transform.GetChild(1).gameObject.SetActive(false);
@@ -299,6 +300,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+            lockInput = false;
             Cursor.lockState = CursorLockMode.Locked;
             cam.transform.GetChild(0).gameObject.SetActive(true);
             cam.transform.GetChild(1).gameObject.SetActive(true);
@@ -336,11 +338,20 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    #region Gamepad Logic (Xbox & PS4)
+
+    public IEnumerator PlayHaptics(float seconds, float leftMotorSpeed = 0.25f, float rightMotorSpeed = 0.25f)
+    {
+        Gamepad.current.SetMotorSpeeds(leftMotorSpeed, rightMotorSpeed);
+        yield return new WaitForSeconds(seconds);
+        InputSystem.ResetHaptics();
+    }
+
     void OnDeviceChange()
     {
         // Changes speed of the camera depending on device
         CinemachinePOV playerPOV = vCamPlayer.GetCinemachineComponent<CinemachinePOV>();
-        const int mouseSpeed = 1, controllerSpeed = 10;
+        const float mouseSpeed = 1, controllerSpeed = 5.5f;
 
         InputSystem.onDeviceChange +=
         (device, change) =>
@@ -349,13 +360,13 @@ public class PlayerController : MonoBehaviour
             {
                 case InputDeviceChange.Added:
                     // New Device.
+                    playerPOV.m_VerticalAxis.m_MaxSpeed = 4f;
                     playerPOV.m_HorizontalAxis.m_MaxSpeed = controllerSpeed;
-                    playerPOV.m_VerticalAxis.m_MaxSpeed = controllerSpeed;
                     break;
                 case InputDeviceChange.Disconnected:
                     // Device got unplugged.
-                    playerPOV.m_HorizontalAxis.m_MaxSpeed = mouseSpeed;
                     playerPOV.m_VerticalAxis.m_MaxSpeed = mouseSpeed;
+                    playerPOV.m_HorizontalAxis.m_MaxSpeed = mouseSpeed;
                     break;
                 case InputDeviceChange.Reconnected:
                     // Plugged back in.
@@ -369,6 +380,8 @@ public class PlayerController : MonoBehaviour
             }
         };
     }
+
+    #endregion
 
     // this script pushes all rigidbodies that the character touches
     void OnControllerColliderHit(ControllerColliderHit hit)
@@ -409,27 +422,32 @@ public class PlayerController : MonoBehaviour
         return playerControls.Player.Look.ReadValue<Vector2>();
     }
 
-    public float PlayerScrolling()
+    public float ScrollInput()
     {
-        return playerControls.Player.SwitchGun.ReadValue<float>();
+        return playerControls.Player.Scroll.ReadValue<float>();
     }
 
-    public bool PlayerJump()
+    public bool SwitchInput()
+    {
+        return playerControls.Player.Switch.triggered;
+    }
+
+    public bool JumpInput()
     {
         return playerControls.Player.Jump.triggered;
     }
 
-    public bool PlayerSuck()
+    public bool SuckInput()
     {
         return playerControls.Player.Suck.triggered;
     }
 
-    public bool PlayerShoot()
+    public bool FireInput()
     {
-        return playerControls.Player.Shoot.triggered;
+        return playerControls.Player.Fire.triggered;
     }
 
-    public bool PlayerInteract()
+    public bool InteractInput()
     {
         return playerControls.Player.Interact.triggered;
     }

@@ -28,7 +28,7 @@
                     "type": "PassThrough",
                     "id": "2b8c0d90-947d-4c90-995e-5fe69f8ad937",
                     "expectedControlType": "Vector2",
-                    "processors": "",
+                    "processors": "StickDeadzone",
                     "interactions": "",
                     "initialStateCheck": false
                 },
@@ -42,7 +42,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Shoot",
+                    "name": "Fire",
                     "type": "Button",
                     "id": "3e310bb9-3232-4b5e-b4a2-aa4d0dc388d4",
                     "expectedControlType": "Button",
@@ -51,10 +51,19 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "SwitchGun",
+                    "name": "Scroll",
                     "type": "PassThrough",
                     "id": "2ef8dc65-4aca-412c-b787-8c0995b79de7",
                     "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Switch",
+                    "type": "Button",
+                    "id": "266728a4-3536-4531-96f4-d183005981b9",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -136,11 +145,33 @@
                 },
                 {
                     "name": "",
+                    "id": "3a19e8bb-f6f4-4fdb-b02d-e98f4f621810",
+                    "path": "<Gamepad>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "c115b3bb-cf8b-4c23-b24d-920c3dc15ff6",
                     "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "290ed2c6-a4c6-4493-acd5-74e0ef512a29",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
                     "action": "Jump",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -158,6 +189,17 @@
                 },
                 {
                     "name": "",
+                    "id": "694eeffa-3d64-48a5-9617-2856787ac91f",
+                    "path": "<Gamepad>/rightStick",
+                    "interactions": "",
+                    "processors": "StickDeadzone(min=0.05),NormalizeVector2",
+                    "groups": "Gamepad",
+                    "action": "Look",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "2d578747-3645-4eb5-a73f-36bac63c1af1",
                     "path": "<Mouse>/rightButton",
                     "interactions": "",
@@ -169,12 +211,34 @@
                 },
                 {
                     "name": "",
+                    "id": "8b3257c7-874d-47f7-8d6d-7beb80e0e7dd",
+                    "path": "<Gamepad>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Suck",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "4ee2789f-582a-4bd0-8fbd-087c13093ce0",
                     "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Shoot",
+                    "action": "Fire",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f755df04-b525-44aa-a03d-658eeb146b6d",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Fire",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -185,7 +249,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "SwitchGun",
+                    "action": "Scroll",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -195,8 +259,8 @@
                     "path": "<Mouse>/scroll/up",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
-                    "action": "SwitchGun",
+                    "groups": "Mouse",
+                    "action": "Scroll",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -206,8 +270,8 @@
                     "path": "<Mouse>/scroll/down",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
-                    "action": "SwitchGun",
+                    "groups": "Mouse",
+                    "action": "Scroll",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -224,6 +288,17 @@
                 },
                 {
                     "name": "",
+                    "id": "9218bba7-fca8-4536-b8d7-b48eebcbf5d8",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "332bea38-7979-4dbd-81e4-2a35b629b519",
                     "path": "<Keyboard>/escape",
                     "interactions": "",
@@ -232,9 +307,54 @@
                     "action": "Pause",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9428d151-f14e-4e6c-9ac0-734565657e97",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4c8de476-02e0-43a4-90f8-2179f589cf30",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Switch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }
     ],
-    "controlSchemes": []
+    "controlSchemes": [
+        {
+            "name": "Gamepad",
+            "bindingGroup": "Gamepad",
+            "devices": [
+                {
+                    "devicePath": "<Gamepad>",
+                    "isOptional": true,
+                    "isOR": false
+                }
+            ]
+        },
+        {
+            "name": "Mouse",
+            "bindingGroup": "Mouse",
+            "devices": [
+                {
+                    "devicePath": "<Mouse>",
+                    "isOptional": true,
+                    "isOR": false
+                }
+            ]
+        }
+    ]
 }

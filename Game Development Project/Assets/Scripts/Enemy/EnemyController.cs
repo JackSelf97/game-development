@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -18,6 +16,7 @@ public class EnemyController : MonoBehaviour
     private Transform target = null;
     private NavMeshAgent navMeshAgent = null;
     private EnemyStats enemyStats = null;
+    private bool isChasing = false;
 
     // Ragdoll Physics
     private Animator animator = null;
@@ -64,13 +63,15 @@ public class EnemyController : MonoBehaviour
 
     void ChaseTarget()
     {
+        // Set the bool
+        isChasing = true;
+
         // Set the animation
         animator.SetBool("IsWalking", false);
         animator.SetBool("IsAttacking", false);
         animator.SetBool("IsChasing", true);
 
         // Set the scripts
-        GetComponent<EnemyPatrol>().enabled = false;
         navMeshAgent.speed = chaseSpeed;
 
         // Set the target
@@ -143,10 +144,14 @@ public class EnemyController : MonoBehaviour
 
                 Debug.Log("Time to ragdoll!");
                 impactCount += junkProjectileWeight;
+                Destroy(GetComponent<EnemyPatrol>());
+
+                if (!isChasing)
+                    ChaseTarget();
 
                 if (impactCount >= maxWeightOfImpact) // different junk items will hold different weight values
                 {
-                    Destroy(GetComponent<EnemyPatrol>());
+                    isChasing = false;
                     enemyStats.isAlive = false;
 
                     TurnOnRagdoll();

@@ -649,6 +649,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8f36c35569deeb49a427707c43bac17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  instantiatedJunk: {fileID: 3537035633937629725, guid: ca478c73a64d7dc45a153f5f44afa3e6, type: 3}
+  menu: {fileID: 0}
   interactableLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -656,15 +658,14 @@ MonoBehaviour:
   currCrosshair: {fileID: 0}
   lockInput: 0
   inConversation: 0
-  groundedPlayer: 0
-  instantiatedJunk: {fileID: 3537035633937629725, guid: ca478c73a64d7dc45a153f5f44afa3e6, type: 3}
+  isGrounded: 0
   isPaused: 0
-  menu: {fileID: 0}
   suckCannon: {fileID: 0}
   gravityGun: {fileID: 0}
   ammoText: {fileID: 3295252301636838479}
   suckCannonEquipped: 1
-  camNPC: {fileID: 0}
+  vCamNPC: {fileID: 0}
+  vCamPlayer: {fileID: 0}
   playerUI: {fileID: 3295252301978024687}
   interactionBox: {fileID: 3295252299994037009}
   interactionText: {fileID: 3295252300855039064}

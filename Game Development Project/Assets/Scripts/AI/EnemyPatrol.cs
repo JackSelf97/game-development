@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Net;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -17,14 +15,14 @@ public class EnemyPatrol : MonoBehaviour
     [SerializeField] private float switchProbability = 0.2f;
 
     // Private variables for base behaviour 
-    Animator animator = null;
-    NavMeshAgent navMeshAgent = null;
-    ConnectedWaypoint currWaypoint = null;
-    ConnectedWaypoint prevWaypoint = null;
+    private Animator animator = null;
+    private NavMeshAgent navMeshAgent = null;
+    private ConnectedWaypoint currWaypoint = null;
+    private ConnectedWaypoint prevWaypoint = null;
+    private float waitTimer = 0f;
+    private int waypointsVisited = 0;
     public bool travelling = false;
     public bool waiting = false;
-    float waitTimer = 0f;
-    int waypointsVisited = 0;
 
     // Start is called before the first frame update
     void Start()

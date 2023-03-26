@@ -23,12 +23,15 @@ public class GravityGun : MonoBehaviour
     void Update()
     {
         if (playerController.suckCannonEquipped || playerController.lockInput) { return; } // if player has 'Suck Cannon' equipped then return
-        if (playerController.PlayerShoot())
+        if (playerController.FireInput())
         {
             if (weaponRecoil.enabled) // recoil weapon is the script is enabled
                 weaponRecoil.Recoil();
 
-            WeaponShake.wsMan.ShakeCamera(0.2f, 0.2f);
+            //WeaponShake.wsMan.ShakeCamera(0.2f, 0.2f);
+
+            // Haptic Feedback
+            StartCoroutine(playerController.PlayHaptics(0.075f, 1f, 1f));
 
             bombFired = true;
         }
