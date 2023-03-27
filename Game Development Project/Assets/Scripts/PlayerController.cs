@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     private CharacterController controller = null;
     private PlayerControls playerControls = null;
     private PlayerStats playerStats = null;
+    private PlayerInput playerInput = null;
 
     [Header("Player Variables")]
     [SerializeField] private GameObject instantiatedJunk = null;
@@ -25,15 +26,13 @@ public class PlayerController : MonoBehaviour
     public bool isPaused = false;
 
     // Player Traits
-    private float speed = 9f;
-    private float jumpHeight = 1f;
+    private float moveSpeed = 9f;
     private float gravityValue = -9.81f;
-    private float rotationSpeed = 10f;
     private float fallMultiplier = 2.5f;
     private float slopeForce = 40;
     private float slopeForceRayLength = 5;
     private float pushPower = 2.0f;
-    private bool isJumping = false;
+    public bool jump;
 
     [Header("Gun Properties")]
     public GameObject suckCannon = null;
@@ -44,6 +43,65 @@ public class PlayerController : MonoBehaviour
     [Header("Cinemachine")]
     [SerializeField] private CinemachineVirtualCamera vCamNPC = null;
     [SerializeField] private CinemachineVirtualCamera vCamPlayer = null;
+    [Tooltip("Rotation speed of the character")]
+    public float RotationSpeed = 1.0f;
+    [Tooltip("The follow target set in the Cinemachine Virtual Camera that the camera will follow")]
+    public GameObject CinemachineCameraTarget;
+    [Tooltip("How far in degrees can you move the camera up")]
+    public float TopClamp = 90.0f;
+    [Tooltip("How far in degrees can you move the camera down")]
+    public float BottomClamp = -90.0f;
+
+    // cinemachine
+    private float _cinemachineTargetPitch;
+    private const float _threshold = 0.01f;
+    private float _rotationVelocity;
+    private float _verticalVelocity;
+    public bool analogMovement;
+
+    [Tooltip("Acceleration and deceleration")]
+    public float SpeedChangeRate = 10.0f;
+    private float _speed;
+
+    [Space(10)]
+    [Tooltip("The height the player can jump")]
+    public float JumpHeight = 1.2f;
+    [Tooltip("The character uses its own gravity value. The engine default is -9.81f")]
+    public float Gravity = -15.0f;
+
+    [Space(10)]
+    [Tooltip("Time required to pass before being able to jump again. Set to 0f to instantly jump again")]
+    public float JumpTimeout = 0.1f;
+    [Tooltip("Time required to pass before entering the fall state. Useful for walking down stairs")]
+    public float FallTimeout = 0.15f;
+
+    [Header("Player Grounded")]
+    [Tooltip("If the character is grounded or not. Not part of the CharacterController built in grounded check")]
+    public bool Grounded = true;
+    [Tooltip("Useful for rough ground")]
+    public float GroundedOffset = -0.14f;
+    [Tooltip("The radius of the grounded check. Should match the radius of the CharacterController")]
+    public float GroundedRadius = 0.5f;
+    [Tooltip("What layers the character uses as ground")]
+    public LayerMask GroundLayers;
+
+    // timeout deltatime
+    private float _jumpTimeoutDelta;
+    private float _fallTimeoutDelta;
+
+    private float _terminalVelocity = 53.0f;
+
+    private bool IsCurrentDeviceMouse
+    {
+        get
+        {
+            #if ENABLE_INPUT_SYSTEM
+            return playerInput.currentControlScheme == "Mouse";
+            #else
+				return false;
+            #endif
+        }
+    }
 
     [Header("Interaction & UI")]
     [SerializeField] private GameObject playerUI = null;
@@ -70,6 +128,8 @@ public class PlayerController : MonoBehaviour
     {
         playerStats = GetComponent<PlayerStats>();
         controller = GetComponent<CharacterController>();
+        playerInput = GetComponent<PlayerInput>();
+
         cam = Camera.main.transform;
         Cursor.lockState = CursorLockMode.Locked;
         lockInput = false;
@@ -85,7 +145,6 @@ public class PlayerController : MonoBehaviour
         GroundCheck();
 
         // Inputs
-        //OnDeviceChange();
         PlayerJump();
         PlayerInteraction();
         PlayerSwitch();
@@ -94,38 +153,99 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        ControllerMovement();   
+        Move(); 
     }
 
-    public void ControllerMovement()
+    private void LateUpdate()
+    {
+        CameraRotation();
+    }
+
+    private void Move()
     {
         if (!lockInput)
         {
-            Vector2 movement = GetPlayerMovement();
-            Vector3 move = new Vector3(movement.x, 0f, movement.y);
-            move = cam.forward.normalized * move.z + cam.right.normalized * move.x;
-            move.y = 0f;
-            controller.Move(move.normalized * Time.fixedDeltaTime * speed);
+            // set target speed based on move speed, sprint speed and if sprint is pressed
+            float targetSpeed = moveSpeed;
 
-            playerVelocity.y += gravityValue * Time.fixedDeltaTime;
-            controller.Move(playerVelocity * Time.fixedDeltaTime);
+            // a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
 
-            // player rotation
-            float targetAngle = Mathf.Atan2(movement.x, movement.y) * Mathf.Rad2Deg + cam.eulerAngles.y;
-            Quaternion rotation = Quaternion.Euler(0f, targetAngle, 0f);
-            transform.rotation = Quaternion.Lerp(transform.rotation, rotation, Time.fixedDeltaTime * rotationSpeed);
+            // note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
+            // if there is no input, set the target speed to 0
+            if (GetPlayerMovement() == Vector2.zero) targetSpeed = 0.0f;
 
-            if (movement != Vector2.zero && OnSlope()) // if player is moving and on a slope
+            // a reference to the players current horizontal velocity
+            float currentHorizontalSpeed = new Vector3(controller.velocity.x, 0.0f, controller.velocity.z).magnitude;
+
+            float speedOffset = 0.1f;
+            float inputMagnitude = analogMovement ? GetPlayerMovement().magnitude : 1f;
+
+            // accelerate or decelerate to target speed
+            if (currentHorizontalSpeed < targetSpeed - speedOffset || currentHorizontalSpeed > targetSpeed + speedOffset)
             {
-                controller.Move(Vector3.down * controller.height / 2 * slopeForce * Time.fixedDeltaTime);
-                Debug.Log("I'm on a slope!");
+                // creates curved result rather than a linear one giving a more organic speed change
+                // note T in Lerp is clamped, so we don't need to clamp our speed
+                _speed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * inputMagnitude, Time.deltaTime * SpeedChangeRate);
+
+                // round speed to 3 decimal places
+                _speed = Mathf.Round(_speed * 1000f) / 1000f;
+            }
+            else
+            {
+                _speed = targetSpeed;
             }
 
-            // jump effect
+            // normalise input direction
+            Vector3 inputDirection = new Vector3(GetPlayerMovement().x, 0.0f, GetPlayerMovement().y).normalized;
+
+            // note: Vector2's != operator uses approximation so is not floating point error prone, and is cheaper than magnitude
+            // if there is a move input rotate player when the player is moving
+            if (GetPlayerMovement() != Vector2.zero)
+            {
+                // move
+                inputDirection = transform.right * GetPlayerMovement().x + transform.forward * GetPlayerMovement().y;
+            }
+
+            // Move the player
+            controller.Move(inputDirection.normalized * (moveSpeed * Time.deltaTime) + new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
+
+            #region Slope & Jumping
+
+            // Slope movement
+            if (GetPlayerMovement() != Vector2.zero && OnSlope())
+            {
+                controller.Move(Vector3.down * controller.height / 2 * slopeForce * Time.fixedDeltaTime);
+            }
+
+            // Jump effect
             if (playerVelocity.y < 0f) // if player is falling
             {
                 playerVelocity += Vector3.up * gravityValue * (fallMultiplier - 1) * Time.fixedDeltaTime; // for a 'non-floaty' jump
             }
+
+            #endregion
+        }
+    }
+
+    private void CameraRotation()
+    {
+        // if there is an input
+        if (GetMouseDelta().sqrMagnitude >= _threshold)
+        {
+            //Don't multiply mouse input by Time.deltaTime
+            float deltaTimeMultiplier = IsCurrentDeviceMouse ? 1.0f : Time.deltaTime;
+
+            _cinemachineTargetPitch += GetMouseDelta().y * RotationSpeed * deltaTimeMultiplier;
+            _rotationVelocity = GetMouseDelta().x * RotationSpeed * deltaTimeMultiplier;
+
+            // clamp our pitch rotation
+            _cinemachineTargetPitch = ClampAngle(_cinemachineTargetPitch, BottomClamp, TopClamp);
+
+            // Update Cinemachine camera target pitch
+            CinemachineCameraTarget.transform.localRotation = Quaternion.Euler(_cinemachineTargetPitch, 0.0f, 0.0f);
+
+            // rotate the player left and right
+            transform.Rotate(Vector3.up * _rotationVelocity);
         }
     }
 
@@ -163,17 +283,17 @@ public class PlayerController : MonoBehaviour
 
     public void GroundCheck()
     {
-        isGrounded = controller.isGrounded;
-        if (isGrounded && playerVelocity.y < 0)
+        Grounded = controller.isGrounded;
+        if (Grounded && playerVelocity.y < 0)
         {
             playerVelocity.y = 0f;
-            isJumping = false;
+            jump = false;
         }
     }
 
     public bool OnSlope()
     {
-        if (isJumping) { return false; }
+        if (jump) { return false; }
 
         RaycastHit hit;
         if (Physics.Raycast(transform.position, Vector3.down, out hit, controller.height / 2 * slopeForceRayLength))
@@ -188,11 +308,48 @@ public class PlayerController : MonoBehaviour
 
     public void PlayerJump()
     {
-        // changes the height position of the player..
-        if (JumpInput() && isGrounded && !lockInput)
+        if (Grounded && !lockInput)
         {
-            isJumping = true;
-            playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
+            jump = true;
+
+            // reset the fall timeout timer
+            _fallTimeoutDelta = FallTimeout;
+
+            // stop our velocity dropping infinitely when grounded
+            if (_verticalVelocity < 0.0f)
+            {
+                _verticalVelocity = -2f;
+            }
+
+            // Jump
+            if (JumpInput() && _jumpTimeoutDelta <= 0.0f && jump)
+            {
+                // the square root of H * -2 * G = how much velocity needed to reach desired height
+                _verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
+            }
+
+            // jump timeout
+            if (_jumpTimeoutDelta >= 0.0f)
+            {
+                _jumpTimeoutDelta -= Time.deltaTime;
+            }
+        }
+        else
+        {
+            // reset the jump timeout timer
+            _jumpTimeoutDelta = JumpTimeout;
+
+            // fall timeout
+            if (_fallTimeoutDelta >= 0.0f)
+            {
+                _fallTimeoutDelta -= Time.deltaTime;
+            }
+        }
+
+        // apply gravity over time if under terminal (multiply by delta time twice to linearly speed up over time)
+        if (_verticalVelocity < _terminalVelocity)
+        {
+            _verticalVelocity += Gravity * Time.deltaTime;
         }
     }
 
@@ -210,7 +367,7 @@ public class PlayerController : MonoBehaviour
 
             if (hit.transform.CompareTag("Container"))
             {
-                Interaction(true, "[E] LOOT");
+                InteractionUI(true, "[E] LOOT");
 
                 if (InteractInput() && suckCannon.activeSelf)
                 {
@@ -243,7 +400,7 @@ public class PlayerController : MonoBehaviour
 
             if (hit.transform.CompareTag("Health Container"))
             {
-                Interaction(true, "[E] HEAL");
+                InteractionUI(true, "[E] HEAL");
 
                 if (InteractInput())
                 {
@@ -263,7 +420,7 @@ public class PlayerController : MonoBehaviour
             if (hit.transform.CompareTag("NPC"))
             {
                 if (!inConversation)
-                    Interaction(true, "[E] TALK");
+                    InteractionUI(true, "[E] TALK");
 
                 if (InteractInput())
                 {
@@ -282,7 +439,7 @@ public class PlayerController : MonoBehaviour
         else
         {
             currCrosshair.color = Color.white;
-            Interaction(false);
+            InteractionUI(false);
         }
     }
 
@@ -296,7 +453,7 @@ public class PlayerController : MonoBehaviour
             cam.transform.GetChild(1).gameObject.SetActive(false);
             GetComponentInChildren<MeshRenderer>().enabled = false; // don't really need a mesh thinking about it...
             currCrosshair.enabled = false;
-            Interaction(false);
+            InteractionUI(false);
         }
         else
         {
@@ -309,7 +466,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void Interaction(bool state, string text = null)
+    public void InteractionUI(bool state, string text = null)
     {
         interactionBox.SetActive(state);
         interactionText.text = text;
@@ -347,38 +504,11 @@ public class PlayerController : MonoBehaviour
         InputSystem.ResetHaptics();
     }
 
-    void OnDeviceChange()
+    private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
     {
-        // Changes speed of the camera depending on device
-        CinemachinePOV playerPOV = vCamPlayer.GetCinemachineComponent<CinemachinePOV>();
-        const float mouseSpeed = 1, controllerSpeed = 5.5f;
-
-        InputSystem.onDeviceChange +=
-        (device, change) =>
-        {
-            switch (change)
-            {
-                case InputDeviceChange.Added:
-                    // New Device.
-                    playerPOV.m_VerticalAxis.m_MaxSpeed = 4f;
-                    playerPOV.m_HorizontalAxis.m_MaxSpeed = controllerSpeed;
-                    break;
-                case InputDeviceChange.Disconnected:
-                    // Device got unplugged.
-                    playerPOV.m_VerticalAxis.m_MaxSpeed = mouseSpeed;
-                    playerPOV.m_HorizontalAxis.m_MaxSpeed = mouseSpeed;
-                    break;
-                case InputDeviceChange.Reconnected:
-                    // Plugged back in.
-                    break;
-                case InputDeviceChange.Removed:
-                    // Remove from Input System entirely; by default, Devices stay in the system once discovered.
-                    break;
-                default:
-                    // See InputDeviceChange reference for other event types.
-                    break;
-            }
-        };
+        if (lfAngle < -360f) lfAngle += 360f;
+        if (lfAngle > 360f) lfAngle -= 360f;
+        return Mathf.Clamp(lfAngle, lfMin, lfMax);
     }
 
     #endregion
