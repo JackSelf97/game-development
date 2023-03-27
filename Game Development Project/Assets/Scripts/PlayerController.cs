@@ -229,23 +229,26 @@ public class PlayerController : MonoBehaviour
 
     private void CameraRotation()
     {
-        // if there is an input
-        if (GetMouseDelta().sqrMagnitude >= _threshold)
+        if (!lockInput)
         {
-            //Don't multiply mouse input by Time.deltaTime
-            float deltaTimeMultiplier = IsCurrentDeviceMouse ? 1.0f : Time.deltaTime;
+            // if there is an input
+            if (GetMouseDelta().sqrMagnitude >= _threshold)
+            {
+                //Don't multiply mouse input by Time.deltaTime
+                float deltaTimeMultiplier = IsCurrentDeviceMouse ? 1.0f : Time.deltaTime;
 
-            _cinemachineTargetPitch += GetMouseDelta().y * RotationSpeed * deltaTimeMultiplier;
-            _rotationVelocity = GetMouseDelta().x * RotationSpeed * deltaTimeMultiplier;
+                _cinemachineTargetPitch += GetMouseDelta().y * RotationSpeed * deltaTimeMultiplier;
+                _rotationVelocity = GetMouseDelta().x * RotationSpeed * deltaTimeMultiplier;
 
-            // clamp our pitch rotation
-            _cinemachineTargetPitch = ClampAngle(_cinemachineTargetPitch, BottomClamp, TopClamp);
+                // clamp our pitch rotation
+                _cinemachineTargetPitch = ClampAngle(_cinemachineTargetPitch, BottomClamp, TopClamp);
 
-            // Update Cinemachine camera target pitch
-            CinemachineCameraTarget.transform.localRotation = Quaternion.Euler(_cinemachineTargetPitch, 0.0f, 0.0f);
+                // Update Cinemachine camera target pitch
+                CinemachineCameraTarget.transform.localRotation = Quaternion.Euler(_cinemachineTargetPitch, 0.0f, 0.0f);
 
-            // rotate the player left and right
-            transform.Rotate(Vector3.up * _rotationVelocity);
+                // rotate the player left and right
+                transform.Rotate(Vector3.up * _rotationVelocity);
+            }
         }
     }
 

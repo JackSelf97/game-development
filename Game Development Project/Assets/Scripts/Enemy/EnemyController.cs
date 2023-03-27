@@ -76,6 +76,7 @@ public class EnemyController : MonoBehaviour
 
         // Set the target
         navMeshAgent.SetDestination(target.position);
+        Destroy(GetComponent<EnemyPatrol>());
     }
 
     void FaceTarget()
@@ -141,10 +142,7 @@ public class EnemyController : MonoBehaviour
             if (collision.gameObject.GetComponent<Junk>().shot)
             {
                 int junkProjectileWeight = collision.gameObject.GetComponent<Junk>().weight;
-
-                Debug.Log("Time to ragdoll!");
                 impactCount += junkProjectileWeight;
-                Destroy(GetComponent<EnemyPatrol>());
 
                 if (!isChasing)
                     ChaseTarget();
