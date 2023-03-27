@@ -16,17 +16,20 @@ public class Spawner : MonoBehaviour
     [SerializeField] private int spawnCount = 5;
 
     // Whether you want the spawner to be automatic
-    [SerializeField] private bool on = false;
+    public bool isOn = false;
     [SerializeField] private bool spawnOverTime = false;
 
     // Timers
     [SerializeField] private float timeLimit = 10;
     private float timer = 0;
 
+    // Waypoints
+    public GameObject[] allWaypoints = new GameObject[0];
+
     // Update is called once per frame
     void Update()
     {
-        if (on)
+        if (isOn)
         {
             if (spawnCount <= 0) { return; }
 
@@ -54,7 +57,8 @@ public class Spawner : MonoBehaviour
             switch (enemyType)
             {
                 case EnemyType.Zombie_Runner:
-                    Instantiate(zombieRunner, transform.position, Quaternion.identity);
+                    GameObject enemy = Instantiate(zombieRunner, transform.position, Quaternion.identity);
+                    enemy.GetComponent<EnemyPatrol>().parentSpawner = this;
                     break;
                 default:
                     break;

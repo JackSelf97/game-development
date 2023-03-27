@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
+using static UnityEngine.UI.Image;
 
 // https://www.youtube.com/watch?v=NK1TssMD5mE&t=501s&ab_channel=TableFlipGames
 [RequireComponent(typeof(NavMeshAgent))]
@@ -13,6 +14,9 @@ public class EnemyPatrol : MonoBehaviour
 
     // The probability of switching direction
     [SerializeField] private float switchProbability = 0.2f;
+
+    // Waypoint Radius
+    public Spawner parentSpawner = null;
 
     // Private variables for base behaviour 
     private Animator animator = null;
@@ -35,14 +39,17 @@ public class EnemyPatrol : MonoBehaviour
         {
             // Set it at random
             // Grab all the waypoint objects in the scene
-            GameObject[] allWaypoints = GameObject.FindGameObjectsWithTag("Waypoint");
+            if (parentSpawner == null) // meaning if the enemy was NOT instantiated
+            {
+                parentSpawner.allWaypoints = GameObject.FindGameObjectsWithTag("Waypoint"); // then have the freedom to move with every waypoint
+            }
 
-            if (allWaypoints.Length > 0)
+            if (parentSpawner.allWaypoints.Length > 0)
             {
                 while (currWaypoint == null)
                 {
-                    int random = Random.Range(0, allWaypoints.Length);
-                    ConnectedWaypoint startingWaypoint = allWaypoints[random].GetComponent<ConnectedWaypoint>();
+                    int random = Random.Range(0, parentSpawner.allWaypoints.Length);
+                    ConnectedWaypoint startingWaypoint = parentSpawner.allWaypoints[random].GetComponent<ConnectedWaypoint>();
 
                     // We found a waypoint
                     if (startingWaypoint != null)
@@ -110,5 +117,4 @@ public class EnemyPatrol : MonoBehaviour
         travelling = true;
         animator.SetBool("IsWalking", true);
     }
-    
 }

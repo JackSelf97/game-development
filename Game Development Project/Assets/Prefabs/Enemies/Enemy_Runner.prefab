@@ -2213,6 +2213,7 @@ MonoBehaviour:
   patrolWaiting: 1
   totalWaitTime: 3
   switchProbability: 0.2
+  waypointRadius: 12
   travelling: 0
   waiting: 0
 --- !u!1 &5196932688992342334
