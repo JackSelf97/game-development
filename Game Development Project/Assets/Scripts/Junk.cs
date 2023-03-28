@@ -1,22 +1,13 @@
-using System.Collections;
 using UnityEngine;
+using static UnityEditor.Progress;
+using UnityEngine.UIElements;
 
 public class Junk : MonoBehaviour
 {
     public bool isWorldJunk = false;
     public bool shot = false;
     public int weight;
-    private bool shrink;
-    private float xScale, yScale, zScale;
     private float lifeTime = 2f;
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-        xScale = transform.localScale.x; // size of the objects
-        yScale = transform.localScale.y;
-        zScale = transform.localScale.z;
-    }
 
     private void Update()
     {
@@ -25,33 +16,12 @@ public class Junk : MonoBehaviour
             lifeTime -= Time.deltaTime;
             if (lifeTime < 0)
             {
-                StartCoroutine(ShrinkDeath());
+                Shrink.sMan.ShrinkItem(gameObject, true, lifeTime);
             }
-        }
-
-        if (shrink)
-        {
-            const int zero = 0;
-            xScale -= Time.deltaTime;
-            yScale -= Time.deltaTime;
-            zScale -= Time.deltaTime;
-            transform.localScale = new Vector3(xScale, yScale, zScale);
-
-            if (xScale <= zero)
+            else
             {
-                xScale = zero;
-                yScale = zero;
-                zScale = zero;
-                shrink = false;
+                Shrink.sMan.GrowItem(gameObject);
             }
         }
-    }
-
-    public IEnumerator ShrinkDeath()
-    {
-        shrink = true;
-        gameObject.GetComponent<Collider>().enabled = false;
-        yield return new WaitForSeconds(1);
-        Destroy(gameObject);
     }
 }

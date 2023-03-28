@@ -23,7 +23,6 @@ public class WeaponShake : MonoBehaviour
         if (shakeTimer <= 0f)
         {
             CinemachineBasicMultiChannelPerlin cinemachineBasicMultiChannelPerlin = vCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
-
             cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = Mathf.Lerp(startingIntensity, 0f, (1 - (shakeTimer / shakeTimerTotal)));
         }
     }
@@ -31,7 +30,6 @@ public class WeaponShake : MonoBehaviour
     public void ShakeCamera(float intensity, float time)
     {
         CinemachineBasicMultiChannelPerlin cinemachineBasicMultiChannelPerlin = vCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
-
         cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = intensity;
         startingIntensity = intensity;
         shakeTimerTotal = time;

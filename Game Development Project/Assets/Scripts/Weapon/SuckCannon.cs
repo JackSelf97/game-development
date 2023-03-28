@@ -32,7 +32,10 @@ public class SuckCannon : MonoBehaviour
     {
         playerController = GetComponent<PlayerController>();
         weaponRecoil = Camera.main.transform.GetChild(1).GetComponent<WeaponRecoil>();
-        SuckState();
+
+        crosshairSuck.enabled = false;
+        crosshairFire.enabled = true;
+        playerController.currCrosshair = crosshairFire;
     }
 
     // Update is called once per frame
@@ -40,7 +43,28 @@ public class SuckCannon : MonoBehaviour
     {
         if (!playerController.suckCannonEquipped || playerController.lockInput) { return; } // if player doesn't have 'Suck Cannon' equipped then return
 
-        SuckState();
+        // Inputs
+        SuckInput();
+        FireInput();
+    }
+
+    #region 'Suck Cannon' Logic
+
+    public void FireJunk(GameObject junkProjectile)
+    {
+        junkProjectile.transform.position = firePos.position;
+        junkProjectile.GetComponent<Rigidbody>().AddForce(firePos.forward * force, ForceMode.Impulse);
+        junkProjectile.GetComponent<Junk>().shot = true;
+    }
+
+    public void UpdateAmmo(int value = 0)
+    {
+        currAmmo += value;
+        playerController.ammoText.text = currAmmo.ToString() + "/" + maxAmmo.ToString();
+    }
+
+    public void FireInput()
+    {
         origin = playerController.cam.position;
         direction = playerController.cam.forward;
 
@@ -50,15 +74,25 @@ public class SuckCannon : MonoBehaviour
             if (Physics.SphereCast(origin, sphereRadius, direction, out hit, maxDistance, junkLayer, QueryTriggerInteraction.UseGlobal))
             {
                 GameObject hitObject = hit.transform.gameObject;
+
                 if (!currHitObject.Contains(hitObject))
                 {
                     if (hitObject.GetComponent<Junk>().shot) { return; } // can't suck items back up if they've been shot
 
-                    // suck items
-                    currHitObject.Add(hitObject);
-                    hitObject.SetActive(false);
-                    currHitDistance = hit.distance;
-                    UpdateAmmo(one);
+                    // Suck Items
+                    hitObject.transform.localPosition = Vector3.MoveTowards(hitObject.transform.localPosition, firePos.transform.position, 10 * Time.deltaTime);
+                    float distance = Vector3.Distance(hitObject.transform.position, firePos.transform.position);
+
+                    if (distance <= 2f) // if the junk has reached the firePos
+                    {
+                        Shrink.sMan.ShrinkItem(hitObject, false, 2); // shrink 
+                        if (!hitObject.activeSelf) // only add to the list once the 'hitObject' is no longer active
+                        {
+                            currHitObject.Add(hitObject);
+                            currHitDistance = hit.distance;
+                            UpdateAmmo(one);
+                        }
+                    }
                 }
             }
             else
@@ -91,6 +125,7 @@ public class SuckCannon : MonoBehaviour
                 if (currHitObject[lastElement].GetComponent<Junk>().isWorldJunk) // world items
                 {
                     currHitObject[lastElement].SetActive(true);
+                    currHitObject[lastElement].GetComponent<Junk>().shot = true;
                     FireJunk(currHitObject[lastElement]);
                 }
                 else // instantiated items
@@ -112,38 +147,25 @@ public class SuckCannon : MonoBehaviour
         }
     }
 
-    #region 'Suck Cannon' Logic
-
-    public void FireJunk(GameObject junkProjectile)
-    {
-        junkProjectile.transform.position = firePos.position;
-        junkProjectile.GetComponent<Rigidbody>().AddForce(firePos.forward * force, ForceMode.Impulse);
-        junkProjectile.GetComponent<Junk>().shot = true;
-    }
-
-    public void UpdateAmmo(int value = 0)
-    {
-        currAmmo += value;
-        playerController.ammoText.text = currAmmo.ToString() + "/" + maxAmmo.ToString();
-    }
-
-    public void SuckState()
+    public void SuckInput()
     {
         if (playerController.SuckInput())
         {
             isSucking = !isSucking;
-        }
-        if (isSucking)
-        {
-            crosshairFire.enabled = false;
-            crosshairSuck.enabled = true;
-            playerController.currCrosshair = crosshairSuck;
-        }
-        else
-        {
-            crosshairSuck.enabled = false;
-            crosshairFire.enabled = true;
-            playerController.currCrosshair = crosshairFire;
+            if (isSucking)
+            {
+                // Update UI
+                crosshairFire.enabled = false;
+                crosshairSuck.enabled = true;
+                playerController.currCrosshair = crosshairSuck;
+            }
+            else
+            {
+                // Update UI
+                crosshairSuck.enabled = false;
+                crosshairFire.enabled = true;
+                playerController.currCrosshair = crosshairFire;
+            }
         }
     }
 

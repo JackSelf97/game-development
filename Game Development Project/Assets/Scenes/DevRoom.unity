@@ -4143,6 +4143,7 @@ GameObject:
   - component: {fileID: 1942611350}
   - component: {fileID: 1942611351}
   - component: {fileID: 1942611352}
+  - component: {fileID: 1942611353}
   m_Layer: 8
   m_Name: WH1
   m_TagString: Untagged
@@ -4215,6 +4216,18 @@ MonoBehaviour:
   recoilZ: 0.35
   snappiness: 6
   returnSpeed: 1
+--- !u!114 &1942611353
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1942611348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 944cdc9502343024d91af1b9bb2fda2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!95 &1970920793 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 3295252301255264109, guid: b8c2f7d6f9ffbc64ca1afc69c80eb124, type: 3}
