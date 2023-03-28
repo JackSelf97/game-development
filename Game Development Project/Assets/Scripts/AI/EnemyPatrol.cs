@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.AI;
-using static UnityEngine.UI.Image;
 
 // https://www.youtube.com/watch?v=NK1TssMD5mE&t=501s&ab_channel=TableFlipGames
 [RequireComponent(typeof(NavMeshAgent))]
@@ -41,26 +40,12 @@ public class EnemyPatrol : MonoBehaviour
             // Grab all the waypoint objects in the scene
             if (parentSpawner == null) // meaning if the enemy was NOT instantiated
             {
-                parentSpawner.allWaypoints = GameObject.FindGameObjectsWithTag("Waypoint"); // then have the freedom to move with every waypoint
-            }
-
-            if (parentSpawner.allWaypoints.Length > 0)
-            {
-                while (currWaypoint == null)
-                {
-                    int random = Random.Range(0, parentSpawner.allWaypoints.Length);
-                    ConnectedWaypoint startingWaypoint = parentSpawner.allWaypoints[random].GetComponent<ConnectedWaypoint>();
-
-                    // We found a waypoint
-                    if (startingWaypoint != null)
-                    {
-                        currWaypoint = startingWaypoint;
-                    }
-                }
+                GameObject[] allWaypointsInScene = GameObject.FindGameObjectsWithTag("Waypoint"); // then have the freedom to move with every waypoint
+                GetWaypoints(allWaypointsInScene);
             }
             else
             {
-                Debug.LogError("Failed to find any waypoints for use in the scene!");
+                GetWaypoints(parentSpawner.allWaypoints);
             }
         }
 
@@ -103,8 +88,6 @@ public class EnemyPatrol : MonoBehaviour
 
     private void SetDestination()
     {
-        Debug.Log("On the move!");
-
         if (waypointsVisited > 0)
         {
             ConnectedWaypoint nextWaypoint = currWaypoint.NextWaypoint(prevWaypoint);
@@ -116,5 +99,27 @@ public class EnemyPatrol : MonoBehaviour
         navMeshAgent.SetDestination(target);
         travelling = true;
         animator.SetBool("IsWalking", true);
+    }
+
+    private void GetWaypoints(GameObject[] allWaypoints)
+    {
+        if (allWaypoints.Length > 0)
+        {
+            while (currWaypoint == null)
+            {
+                int random = Random.Range(0, allWaypoints.Length);
+                ConnectedWaypoint startingWaypoint = allWaypoints[random].GetComponent<ConnectedWaypoint>();
+
+                // We found a waypoint
+                if (startingWaypoint != null)
+                {
+                    currWaypoint = startingWaypoint;
+                }
+            }
+        }
+        else
+        {
+            Debug.LogError("Failed to find any waypoints for use in the scene!");
+        }
     }
 }

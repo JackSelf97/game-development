@@ -367,7 +367,7 @@ GameObject:
   - component: {fileID: 115330170}
   - component: {fileID: 115330169}
   m_Layer: 5
-  m_Name: Settings_Button
+  m_Name: Settings_BTN
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -391,7 +391,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 200, y: -200}
+  m_AnchoredPosition: {x: 200, y: -167.5}
   m_SizeDelta: {x: 300, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &115330169
@@ -678,7 +678,7 @@ MonoBehaviour:
   m_ScrollWheelAction: {fileID: 6240969308177333660, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
   m_TrackedDevicePositionAction: {fileID: 6564999863303420839, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
   m_TrackedDeviceOrientationAction: {fileID: 7970375526676320489, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_DeselectOnBackgroundClick: 1
+  m_DeselectOnBackgroundClick: 0
   m_PointerBehavior: 0
   m_CursorLockBehavior: 0
 --- !u!1001 &184972523
@@ -1840,7 +1840,7 @@ GameObject:
   - component: {fileID: 747781576}
   - component: {fileID: 747781575}
   m_Layer: 5
-  m_Name: Resume_Button
+  m_Name: Resume_BTN
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2337,6 +2337,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1005121947}
   m_CullTransparentMesh: 1
+--- !u!114 &1024118945 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3295252300309438596, guid: b8c2f7d6f9ffbc64ca1afc69c80eb124, type: 3}
+  m_PrefabInstance: {fileID: 3295252300907551284}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1039767311
 GameObject:
   m_ObjectHideFlags: 0
@@ -2381,10 +2392,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5abc15beaf3ac9f48ab3a9e9e6b95090, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerController: {fileID: 666520104}
   nameText: {fileID: 673329993}
   dialogueText: {fileID: 1424574572}
   animator: {fileID: 1970920793}
-  playerController: {fileID: 666520104}
+  continueButton: {fileID: 1024118945}
 --- !u!1 &1043667933
 GameObject:
   m_ObjectHideFlags: 0
@@ -2686,7 +2698,7 @@ GameObject:
   - component: {fileID: 1253103992}
   - component: {fileID: 1253103991}
   m_Layer: 5
-  m_Name: Quit_Button
+  m_Name: Quit_BTN
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2710,7 +2722,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 200, y: -265}
+  m_AnchoredPosition: {x: 200, y: -232.5}
   m_SizeDelta: {x: 300, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1253103991
@@ -2726,7 +2738,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -2737,7 +2749,7 @@ MonoBehaviour:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_SelectedColor: {r: 0.54509807, g: 1, b: 1, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -5080,9 +5092,13 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1814886349}
     - target: {fileID: 3295252300479090716, guid: b8c2f7d6f9ffbc64ca1afc69c80eb124, type: 3}
-      propertyPath: analogMovement
-      value: 0
-      objectReference: {fileID: 0}
+      propertyPath: continueButton
+      value: 
+      objectReference: {fileID: 1024118945}
+    - target: {fileID: 3295252300479090716, guid: b8c2f7d6f9ffbc64ca1afc69c80eb124, type: 3}
+      propertyPath: mainMenuButton
+      value: 
+      objectReference: {fileID: 1253103991}
     - target: {fileID: 3295252300479090718, guid: b8c2f7d6f9ffbc64ca1afc69c80eb124, type: 3}
       propertyPath: firePos
       value: 

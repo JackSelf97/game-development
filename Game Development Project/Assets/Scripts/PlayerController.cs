@@ -1,6 +1,7 @@
 using Cinemachine;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
@@ -105,8 +106,10 @@ public class PlayerController : MonoBehaviour
 
     [Header("Interaction & UI")]
     [SerializeField] private GameObject playerUI = null;
+    [SerializeField] private Button mainMenuButton = null;
     [SerializeField] private GameObject interactionBox = null;
     [SerializeField] private Text interactionText = null;
+    public Button continueButton = null;
 
     private void Awake()
     {
@@ -450,6 +453,7 @@ public class PlayerController : MonoBehaviour
     {
         if (inConversation)
         {
+
             lockInput = true;
             Cursor.lockState = CursorLockMode.None;
             cam.transform.GetChild(0).gameObject.SetActive(false);
@@ -485,15 +489,22 @@ public class PlayerController : MonoBehaviour
                 Time.timeScale = 0f;
                 menu.SetActive(true);
                 Cursor.lockState = CursorLockMode.None;
+                mainMenuButton.Select(); 
                 return;
             }
             else
             {
                 Time.timeScale = 1f;
-                menu.SetActive(false);
-
                 if (!inConversation)
+                {
                     Cursor.lockState = CursorLockMode.Locked;
+                    EventSystem.current.SetSelectedGameObject(null);
+                }
+                else
+                {
+                    continueButton.Select();
+                }
+                menu.SetActive(false);
             }
         }
     }

@@ -1,25 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 // https://www.youtube.com/watch?v=_nRzoTzeyxU&t=65s&ab_channel=Brackeys
 public class DialogueManager : MonoBehaviour
 {
+    [SerializeField] private PlayerController playerController = null;
     public Text nameText = null, dialogueText = null;
     public Animator animator;
-    [SerializeField] private PlayerController playerController = null;
+    public Button continueButton = null;
     private Queue<string> sentences = null;
 
     // Start is called before the first frame update
     void Start()
     {
+        continueButton = playerController.continueButton;
         sentences = new Queue<string>();
     }
 
     public void StartDialogue(Dialogue dialogue)
     {
         animator.SetBool("isOpen", true);
+        continueButton.Select(); // enable the button for gamepad
 
         Debug.Log("Starting conversation with " + dialogue.name);
         nameText.text = dialogue.name;
@@ -63,6 +67,8 @@ public class DialogueManager : MonoBehaviour
     void EndDialogue()
     {
         Debug.Log("End of conversation");
+
+        EventSystem.current.SetSelectedGameObject(null); // disable the continue button for gamepad
         animator.SetBool("isOpen", false);
     }
 }

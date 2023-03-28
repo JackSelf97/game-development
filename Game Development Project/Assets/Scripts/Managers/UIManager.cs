@@ -22,12 +22,14 @@ public class UIManager : MonoBehaviour
         {
             Time.timeScale = 1f; // remember you cannot call 'CheckPause' because that happens on a button press, so for now, copy over the logic
         }
+        else
+        {
+            // Music
+            FindObjectOfType<AudioManager>().Stop("Crickets [Main Menu]");
+        }
             
         SceneManager.LoadScene(sceneName);
         Debug.Log("Loading scene: " + sceneName);
-
-        // Music
-        FindObjectOfType<AudioManager>().Stop("Crickets [Main Menu]");
     }
 
     public void Quit()
