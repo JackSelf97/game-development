@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 3537035633937629725}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -127,7 +127,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 091731545b92d5045b66ef447af1fba8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  originalXScale: 0.5
+  originalYScale: 0.5
+  originalZScale: 0.5
   isWorldJunk: 0
+  targeted: 0
   shot: 0
   weight: 1
-  lifeTime: 5
+  lifeTime: 2

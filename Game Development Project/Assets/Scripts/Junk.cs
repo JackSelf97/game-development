@@ -19,9 +19,12 @@ public class Junk : MonoBehaviour
     private void Start()
     {
         // Get the starting scales
-        originalXScale = transform.localScale.x;
-        originalYScale = transform.localScale.y;
-        originalZScale = transform.localScale.z;
+        if (isWorldJunk)
+        {
+            originalXScale = transform.localScale.x;
+            originalYScale = transform.localScale.y;
+            originalZScale = transform.localScale.z;
+        }
 
         // Get the player refs
         suckCannon = PlayerManager.pMan.player.GetComponent<SuckCannon>();

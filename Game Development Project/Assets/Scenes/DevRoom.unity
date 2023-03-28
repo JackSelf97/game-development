@@ -5105,10 +5105,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1814886349}
     - target: {fileID: 3295252300479090716, guid: b8c2f7d6f9ffbc64ca1afc69c80eb124, type: 3}
-      propertyPath: continueButton
-      value: 
-      objectReference: {fileID: 1024118945}
-    - target: {fileID: 3295252300479090716, guid: b8c2f7d6f9ffbc64ca1afc69c80eb124, type: 3}
       propertyPath: mainMenuButton
       value: 
       objectReference: {fileID: 1253103991}
@@ -5117,9 +5113,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1138575487}
     - target: {fileID: 3295252300479090719, guid: b8c2f7d6f9ffbc64ca1afc69c80eb124, type: 3}
+      propertyPath: force
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 3295252300479090719, guid: b8c2f7d6f9ffbc64ca1afc69c80eb124, type: 3}
       propertyPath: firePos
       value: 
       objectReference: {fileID: 1876033922}
+    - target: {fileID: 3295252300479090719, guid: b8c2f7d6f9ffbc64ca1afc69c80eb124, type: 3}
+      propertyPath: projectileLayer.m_Bits
+      value: 951
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b8c2f7d6f9ffbc64ca1afc69c80eb124, type: 3}
 --- !u!4 &3600543509348658382

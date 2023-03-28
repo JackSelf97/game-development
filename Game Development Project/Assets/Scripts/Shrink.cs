@@ -17,7 +17,7 @@ public class Shrink : MonoBehaviour
         // Set a constant
         const int zero = 0;
 
-        // Get the size
+        // Set the size
         xScale = item.transform.localScale.x; 
         yScale = item.transform.localScale.y;
         zScale = item.transform.localScale.z;
@@ -29,7 +29,7 @@ public class Shrink : MonoBehaviour
 
         if (xScale <= zero)
         {
-            item.transform.localScale = new Vector3(zero, zero, zero);
+            item.transform.localScale = Vector3.zero;
 
             // Destroy or SetActive(false) ??
             if (!destroy)
@@ -44,8 +44,8 @@ public class Shrink : MonoBehaviour
         // Get the script
         Junk junkScript = item.GetComponent<Junk>();
 
-        // Get the size
-        xScale = item.transform.localScale.x; 
+        // Set the size
+        xScale = item.transform.localScale.x;
         yScale = item.transform.localScale.y;
         zScale = item.transform.localScale.z;
 

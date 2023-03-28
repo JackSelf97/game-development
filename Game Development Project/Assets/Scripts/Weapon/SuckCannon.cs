@@ -17,6 +17,7 @@ public class SuckCannon : MonoBehaviour
     public Transform firePos = null;
     [SerializeField] private bool isSucking = false;
     [SerializeField] private Image crosshairFire = null, crosshairSuck = null;
+    [SerializeField] private LayerMask projectileLayer;
     public List<GameObject> currHitObject = new List<GameObject>();
     private float sphereRadius = 0.5f;
     private float maxDistance = 5f;
@@ -24,7 +25,7 @@ public class SuckCannon : MonoBehaviour
     public int currAmmo, minAmmo = 0;
 
     // Upgrades
-    public float force = 50f;
+    public float force = 20f;
     public int maxAmmo = 10;
 
     // Start is called before the first frame update
@@ -50,11 +51,42 @@ public class SuckCannon : MonoBehaviour
 
     #region 'Suck Cannon' Logic
 
-    public void FireJunk(GameObject junkProjectile)
+    public void FireJunk(GameObject junkProjectile) // needs to be moved to FixedUpdate()
     {
+        //junkProjectile.transform.position = firePos.position;
+        //junkProjectile.GetComponent<Rigidbody>().AddForce(firePos.forward * force, ForceMode.Impulse);
+        //junkProjectile.GetComponent<Junk>().shot = true;
+
+
+        // Find exact hit position using a raycast
+        Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0)); // middle of the screen
+        RaycastHit hit;
+
+        // Check if ray hits something
+        Vector3 targetPoint;
+        if (Physics.Raycast(ray, out hit, ~projectileLayer)) // projectiles must be visible to the 'Weapon Camera' and make sure the projectiles collider DOES NOT interfere with 'targetPoint'
+            targetPoint = hit.point;
+        else
+            targetPoint = ray.GetPoint(20); // just a point far away from the player
+
+
+
+
+
+        // Add relative force towards the 'targetPoint'
+        junkProjectile.GetComponent<Rigidbody>().velocity = Vector3.zero; // RESET THE VELOCITY
         junkProjectile.transform.position = firePos.position;
-        junkProjectile.GetComponent<Rigidbody>().AddForce(firePos.forward * force, ForceMode.Impulse);
+        junkProjectile.GetComponent<Rigidbody>().AddForce((targetPoint - firePos.position).normalized * force, ForceMode.Impulse);
         junkProjectile.GetComponent<Junk>().shot = true;
+
+
+
+
+
+
+
+
+
     }
 
     public void UpdateAmmo(int value = 0)
@@ -74,14 +106,12 @@ public class SuckCannon : MonoBehaviour
             if (Physics.SphereCast(origin, sphereRadius, direction, out hit, maxDistance, junkLayer, QueryTriggerInteraction.UseGlobal))
             {
                 GameObject hitObject = hit.transform.gameObject; // get the hit object 
-
-                if (!currHitObject.Contains(hitObject))
+                if (!currHitObject.Contains(hitObject)) // if the list does NOT contain 'hitObject'
                 {
-                    if (hitObject.GetComponent<Junk>().shot) { return; } // can't suck items back up if they've been shot
-                    
-                    
-                    hitObject.GetComponent<Junk>().targeted = true;
+                    Junk junkScript = hitObject.GetComponent<Junk>(); // get the script from 'hitObject'
 
+                    if (junkScript.shot) { return; } // can't suck items back up if they've been shot
+                    junkScript.targeted = true; // then target the 'hitObject'
                     currHitDistance = hit.distance;
                 }
             }
@@ -98,7 +128,7 @@ public class SuckCannon : MonoBehaviour
                 {
                     Debug.Log("No ammo");
 
-                    // push items
+                    // Push items
                     RaycastHit hit;
                     if (Physics.Raycast(origin, direction, out hit, maxDistance))
                     {
@@ -108,26 +138,19 @@ public class SuckCannon : MonoBehaviour
                     return;
                 }
 
-                // fire  items
+                // Fire  items
                 int lastElement = currHitObject.Count - one;
-                Debug.Log($"Firing {currHitObject[lastElement].name}");
+                Junk junkScript = currHitObject[lastElement].GetComponent<Junk>();
 
-                if (currHitObject[lastElement].GetComponent<Junk>().isWorldJunk) // world items
+                if (junkScript.isWorldJunk) // world items
                 {
-
-
                     currHitObject[lastElement].SetActive(true);
                     currHitObject[lastElement].GetComponent<Collider>().enabled = true;
-                    //Shrink.sMan.GrowItem(currHitObject[lastElement]);
-
-
-                    currHitObject[lastElement].GetComponent<Junk>().shot = true;
                     FireJunk(currHitObject[lastElement]);
                 }
                 else // instantiated items
                 {
-                    GameObject instantiatedProjectile = Instantiate(currHitObject[lastElement], firePos.position, Quaternion.identity);
-                    FireJunk(instantiatedProjectile);
+                    FireJunk(Instantiate(currHitObject[lastElement]));
                 }
 
                 if (weaponRecoil.enabled) // recoil weapon is the script is enabled

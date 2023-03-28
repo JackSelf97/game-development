@@ -720,13 +720,16 @@ MonoBehaviour:
   isSucking: 0
   crosshairFire: {fileID: 3295252301038466916}
   crosshairSuck: {fileID: 3295252301652290450}
+  projectileLayer:
+    serializedVersion: 2
+    m_Bits: 0
   currHitObject: []
   junkLayer:
     serializedVersion: 2
     m_Bits: 64
   currAmmo: 0
   minAmmo: 0
-  force: 50
+  force: 20
   maxAmmo: 30
 --- !u!114 &3295252300479090718
 MonoBehaviour:
