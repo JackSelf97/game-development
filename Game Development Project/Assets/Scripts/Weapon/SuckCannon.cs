@@ -14,7 +14,7 @@ public class SuckCannon : MonoBehaviour
     private const int zero = 0, one = 1;
 
     // Cannon Properties
-    [SerializeField] private Transform firePos = null;
+    public Transform firePos = null;
     [SerializeField] private bool isSucking = false;
     [SerializeField] private Image crosshairFire = null, crosshairSuck = null;
     public List<GameObject> currHitObject = new List<GameObject>();
@@ -73,26 +73,16 @@ public class SuckCannon : MonoBehaviour
             RaycastHit hit;
             if (Physics.SphereCast(origin, sphereRadius, direction, out hit, maxDistance, junkLayer, QueryTriggerInteraction.UseGlobal))
             {
-                GameObject hitObject = hit.transform.gameObject;
+                GameObject hitObject = hit.transform.gameObject; // get the hit object 
 
                 if (!currHitObject.Contains(hitObject))
                 {
                     if (hitObject.GetComponent<Junk>().shot) { return; } // can't suck items back up if they've been shot
+                    
+                    
+                    hitObject.GetComponent<Junk>().targeted = true;
 
-                    // Suck Items
-                    hitObject.transform.localPosition = Vector3.MoveTowards(hitObject.transform.localPosition, firePos.transform.position, 10 * Time.deltaTime);
-                    float distance = Vector3.Distance(hitObject.transform.position, firePos.transform.position);
-
-                    if (distance <= 2f) // if the junk has reached the firePos
-                    {
-                        Shrink.sMan.ShrinkItem(hitObject, false, 2); // shrink 
-                        if (!hitObject.activeSelf) // only add to the list once the 'hitObject' is no longer active
-                        {
-                            currHitObject.Add(hitObject);
-                            currHitDistance = hit.distance;
-                            UpdateAmmo(one);
-                        }
-                    }
+                    currHitDistance = hit.distance;
                 }
             }
             else
@@ -124,7 +114,13 @@ public class SuckCannon : MonoBehaviour
 
                 if (currHitObject[lastElement].GetComponent<Junk>().isWorldJunk) // world items
                 {
+
+
                     currHitObject[lastElement].SetActive(true);
+                    currHitObject[lastElement].GetComponent<Collider>().enabled = true;
+                    //Shrink.sMan.GrowItem(currHitObject[lastElement]);
+
+
                     currHitObject[lastElement].GetComponent<Junk>().shot = true;
                     FireJunk(currHitObject[lastElement]);
                 }
