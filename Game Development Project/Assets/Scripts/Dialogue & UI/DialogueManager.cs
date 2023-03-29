@@ -8,11 +8,11 @@ using UnityEngine.UI;
 public class DialogueManager : MonoBehaviour
 {
     [SerializeField] private PlayerController playerController = null;
+    private Queue<string> sentences = null;
     public Text nameText = null, dialogueText = null;
     public Animator animator;
     public Button continueButton = null;
-    private Queue<string> sentences = null;
-
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -55,19 +55,19 @@ public class DialogueManager : MonoBehaviour
 
     IEnumerator TypeSentence(string sentence)
     {
+        const float beat = 0.01f;
         dialogueText.text = "";
         foreach (char letter in sentence.ToCharArray())
         {
             // add letter to dialogue.text one by one
             dialogueText.text += letter;
-            yield return new WaitForSeconds(0.01f); // wait before adding a letter
+            yield return new WaitForSeconds(beat); // wait before adding a letter
         }
     }
 
     void EndDialogue()
     {
         Debug.Log("End of conversation");
-
         EventSystem.current.SetSelectedGameObject(null); // disable the continue button for gamepad
         animator.SetBool("isOpen", false);
     }

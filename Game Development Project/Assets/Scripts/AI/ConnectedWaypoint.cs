@@ -6,14 +6,13 @@ public class ConnectedWaypoint : MonoBehaviour
 {
     [SerializeField] protected float debugDrawRadius = 0.5f;
     [SerializeField] protected float connectivityRadius = 10f;
-
     List<ConnectedWaypoint> connections = new List<ConnectedWaypoint>();
 
     // Start is called before the first frame update
     void Start()
     {
         // Grab all the waypoint objects in the scene
-        GameObject[] allWaypoints = GameObject.FindGameObjectsWithTag("Waypoint");
+        GameObject[] allWaypoints = GameObject.FindGameObjectsWithTag("Waypoint"); // ?
 
         // Check if they're a connected waypoint
         for (int i = 0; i < allWaypoints.Length; i++)

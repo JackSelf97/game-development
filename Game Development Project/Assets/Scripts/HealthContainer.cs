@@ -5,11 +5,12 @@ public class HealthContainer : MonoBehaviour
 {
     public int uses = 1;
     private Text displayText = null;
+    private const int zero = 0, one = 1;
 
     // Start is called before the first frame update
     void Start()
     {
-        displayText = transform.GetChild(1).transform.GetChild(0).GetComponent<Text>();
+        displayText = transform.GetChild(one).transform.GetChild(zero).GetComponent<Text>();
         displayText.text = "HEALTH";
     }
 

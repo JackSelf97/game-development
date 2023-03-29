@@ -8,7 +8,7 @@ public class HitBox : MonoBehaviour
     private void Start()
     {
         playerStats = PlayerManager.pMan.player.GetComponent<PlayerStats>();
-        GetComponent<Collider>().enabled = true;
+        GetComponent<Collider>().enabled = true; // ragdoll turns this off, so enable it after
     }
 
     private void OnTriggerEnter(Collider other)
@@ -16,7 +16,6 @@ public class HitBox : MonoBehaviour
         if (other.gameObject.name == "Player")
         {
             playerStats.TakeDamage(damage);
-            Debug.Log("Player has taken damage! The player health is now: " + playerStats.currHP);
         }
     }
 }

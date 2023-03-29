@@ -55,7 +55,7 @@ public class Shrink : MonoBehaviour
         item.transform.localScale = new Vector3(xScale, yScale, zScale); // update the size
 
         // If the 'xScale' is bigger than the original size, then set the original size
-        if (xScale > junkScript.originalXScale)
+        if (xScale > junkScript.originalXScale) // remember this statement does not apply to instantiated junk when the 'xScale' is the same as the original scale
         {
             item.transform.localScale = new Vector3(junkScript.originalXScale, junkScript.originalYScale, junkScript.originalZScale);
         }

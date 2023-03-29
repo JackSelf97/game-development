@@ -32,7 +32,7 @@ public class EnemyPatrol : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         navMeshAgent = GetComponent<NavMeshAgent>();
-        navMeshAgent.speed = 2; // change the speed
+        navMeshAgent.speed = 2; 
 
         if (currWaypoint == null)
         {

@@ -453,12 +453,10 @@ public class PlayerController : MonoBehaviour
     {
         if (inConversation)
         {
-
             lockInput = true;
             Cursor.lockState = CursorLockMode.None;
             cam.transform.GetChild(0).gameObject.SetActive(false);
             cam.transform.GetChild(1).gameObject.SetActive(false);
-            GetComponentInChildren<MeshRenderer>().enabled = false; // don't really need a mesh thinking about it...
             currCrosshair.enabled = false;
             InteractionUI(false);
         }
@@ -468,7 +466,6 @@ public class PlayerController : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
             cam.transform.GetChild(0).gameObject.SetActive(true);
             cam.transform.GetChild(1).gameObject.SetActive(true);
-            GetComponentInChildren<MeshRenderer>().enabled = true;
             currCrosshair.enabled = true;
         }
     }

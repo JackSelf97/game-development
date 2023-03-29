@@ -49,12 +49,12 @@ public class Junk : MonoBehaviour
     void SuckMovement()
     {
         GetComponent<Collider>().enabled = false;
-        transform.localPosition = Vector3.MoveTowards(transform.localPosition, firePos.transform.position, 20 * Time.deltaTime);
+        transform.localPosition = Vector3.MoveTowards(transform.localPosition, firePos.transform.position, suckCannon.force * Time.deltaTime); // 'suckCannon.force' may be too strong?
         float distance = Vector3.Distance(transform.position, firePos.transform.position);
 
         if (distance <= 2f) // if the junk has reached the firePos
         {
-            Shrink.sMan.ShrinkItem(gameObject, false, 2); // shrink 
+            Shrink.sMan.ShrinkItem(gameObject, false, lifeTime); // shrink 
             if (!gameObject.activeSelf) // only add to the list once the 'hitObject' is no longer active
             {
                 suckCannon.currHitObject.Add(gameObject);

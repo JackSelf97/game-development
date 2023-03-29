@@ -722,14 +722,14 @@ MonoBehaviour:
   crosshairSuck: {fileID: 3295252301652290450}
   projectileLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 951
   currHitObject: []
   junkLayer:
     serializedVersion: 2
     m_Bits: 64
   currAmmo: 0
   minAmmo: 0
-  force: 20
+  force: 75
   maxAmmo: 30
 --- !u!114 &3295252300479090718
 MonoBehaviour:
@@ -744,7 +744,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   firePos: {fileID: 0}
-  outwardsForce: 3
   gravityBomb: {fileID: 742208916648984423, guid: 837f9d55c569b894aa45f91cb1b88630, type: 3}
   projectileLayer:
     serializedVersion: 2

@@ -5,19 +5,24 @@ public class GravityGun : MonoBehaviour
 {
     // Variables
     private PlayerController playerController = null;
+    private GameObject weaponHandler = null;
     private WeaponRecoil weaponRecoil = null;
     private bool bombFired = false;
-
     [SerializeField] private Transform firePos = null;
-    [SerializeField] private float outwardsForce = 3;
     [SerializeField] private GameObject gravityBomb = null;
     [SerializeField] private LayerMask projectileLayer;
+    private float force = 15;
+
+    // Constants
+    private const int zero = 0;
 
     // Start is called before the first frame update
     void Start()
     {
         playerController = GetComponent<PlayerController>();
-        weaponRecoil = Camera.main.transform.GetChild(2).GetComponent<WeaponRecoil>();
+        weaponHandler = Camera.main.transform.GetChild(2).gameObject;
+        weaponRecoil = weaponHandler.GetComponent<WeaponRecoil>();
+        firePos = weaponHandler.transform.GetChild(zero).transform.GetChild(zero).transform;
     }
 
     // Update is called once per frame
@@ -26,8 +31,7 @@ public class GravityGun : MonoBehaviour
         if (playerController.suckCannonEquipped || playerController.lockInput) { return; } // if player has 'Suck Cannon' equipped then return
         if (playerController.FireInput())
         {
-            if (weaponRecoil.enabled) // recoil weapon is the script is enabled
-                weaponRecoil.Recoil();
+            weaponRecoil.Recoil();
 
             //WeaponShake.wsMan.ShakeCamera(0.2f, 0.2f);
 
@@ -48,7 +52,7 @@ public class GravityGun : MonoBehaviour
     private void SpawnProjectile()
     {
         // Find exact hit position using a raycast
-        Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0)); // middle of the screen
+        Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, zero)); // middle of the screen
         RaycastHit hit;
 
         // Check if ray hits something
@@ -62,7 +66,7 @@ public class GravityGun : MonoBehaviour
         GameObject projectile = Instantiate(gravityBomb, firePos.position, Quaternion.identity);
 
         // Add relative force towards the 'targetPoint'
-        projectile.GetComponent<Rigidbody>().AddForce((targetPoint - firePos.position).normalized * outwardsForce, ForceMode.Impulse);
+        projectile.GetComponent<Rigidbody>().AddForce((targetPoint - firePos.position).normalized * force, ForceMode.Impulse);
         bombFired = false;
     }
 }

@@ -10,15 +10,15 @@ public class EnemyController : MonoBehaviour
     }
     public EnemyType enemyType;
 
-    // Enemy Traits
-    public float lookRadius = 10f;
-    private int chaseSpeed = 7;
+    [Header("Enemy Properties")]
+    [SerializeField] private float lookRadius = 10f;
+    [SerializeField] private int chaseSpeed = 7;
     private Transform target = null;
     private NavMeshAgent navMeshAgent = null;
     private EnemyStats enemyStats = null;
     private bool isChasing = false;
 
-    // Ragdoll Physics
+    [Header("Ragdoll Physics")]
     private Animator animator = null;
     private Collider[] colliders = null;
     private Rigidbody[] rigidbodies = null;
@@ -26,8 +26,9 @@ public class EnemyController : MonoBehaviour
     public GameObject hips = null;
     public GameObject hitBox = null;
 
-    // Projectile Impact
-    public int impactCount = 0, maxWeightOfImpact = 5;
+    [Header("Projectile Data")]
+    public int impactCount = 0;
+    public int maxWeightOfImpact = 5;
 
     // Start is called before the first frame update
     void Start()
@@ -44,19 +45,20 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (!enemyStats.isAlive) { return; }
-
-        float distance = Vector3.Distance(target.position, transform.position);
-        if (distance <= lookRadius)
+        if (enemyStats.isAlive)
         {
-            // chase target
-            ChaseTarget();
-
-            if (distance <= navMeshAgent.stoppingDistance)
+            float distance = Vector3.Distance(target.position, transform.position);
+            if (distance <= lookRadius)
             {
-                // attack and face the target
-                animator.SetBool("IsAttacking", true);
-                FaceTarget();
+                // chase target
+                ChaseTarget();
+
+                if (distance <= navMeshAgent.stoppingDistance)
+                {
+                    // attack and face the target
+                    animator.SetBool("IsAttacking", true);
+                    FaceTarget();
+                }
             }
         }
     }

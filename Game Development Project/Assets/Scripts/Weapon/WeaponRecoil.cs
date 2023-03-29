@@ -3,6 +3,8 @@ using UnityEngine;
 // https://www.youtube.com/watch?v=geieixA4Mqc&t=816s&ab_channel=Gilbert
 public class WeaponRecoil : MonoBehaviour
 {
+    private PlayerController playerController = null;
+
     // Rotations
     private Vector3 currRotation = Vector3.zero;
     private Vector3 targetRotation = Vector3.zero;
@@ -15,6 +17,11 @@ public class WeaponRecoil : MonoBehaviour
     // Settings
     [SerializeField] private float snappiness;
     [SerializeField] private float returnSpeed;
+
+    private void Start()
+    {
+        playerController = PlayerManager.pMan.player.GetComponent<PlayerController>();
+    }
 
     // Update is called once per frame
     void Update()

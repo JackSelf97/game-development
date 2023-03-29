@@ -1,13 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyStats : MonoBehaviour
 {
-    public float health = 0;
-    private float maxHP = 100f;
-    public bool isAlive = false;
     [SerializeField] private EnemyController enemyController = null;
+    private float maxHP = 100f;
+    public float health = 0;
+    public bool isAlive = false;
 
     private void Start()
     {

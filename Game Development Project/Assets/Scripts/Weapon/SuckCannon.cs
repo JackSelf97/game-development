@@ -7,32 +7,37 @@ public class SuckCannon : MonoBehaviour
 {
     // Variables
     private PlayerController playerController = null;
+    private GameObject weaponHandler = null;
     private WeaponRecoil weaponRecoil = null;
     private Vector3 origin;
     private Vector3 direction;
     private float currHitDistance;
-    private const int zero = 0, one = 1;
 
-    // Cannon Properties
+    [Header("Properties")]
     public Transform firePos = null;
     [SerializeField] private bool isSucking = false;
     [SerializeField] private Image crosshairFire = null, crosshairSuck = null;
     [SerializeField] private LayerMask projectileLayer;
     public List<GameObject> currHitObject = new List<GameObject>();
     private float sphereRadius = 0.5f;
-    private float maxDistance = 5f;
+    private float maxDistance = 10f;
     public LayerMask junkLayer = 6;
     public int currAmmo, minAmmo = 0;
 
-    // Upgrades
-    public float force = 20f;
+    [Header("Upgrades")]
+    public float force = 75f;
     public int maxAmmo = 10;
+
+    // Constants
+    private const int zero = 0, one = 1;
 
     // Start is called before the first frame update
     void Start()
     {
         playerController = GetComponent<PlayerController>();
-        weaponRecoil = Camera.main.transform.GetChild(1).GetComponent<WeaponRecoil>();
+        weaponHandler = Camera.main.transform.GetChild(1).gameObject;
+        weaponRecoil = weaponHandler.GetComponent<WeaponRecoil>();
+        firePos = weaponHandler.transform.GetChild(zero).transform.GetChild(zero).transform;
 
         crosshairSuck.enabled = false;
         crosshairFire.enabled = true;
@@ -53,11 +58,6 @@ public class SuckCannon : MonoBehaviour
 
     public void FireJunk(GameObject junkProjectile) // needs to be moved to FixedUpdate()
     {
-        //junkProjectile.transform.position = firePos.position;
-        //junkProjectile.GetComponent<Rigidbody>().AddForce(firePos.forward * force, ForceMode.Impulse);
-        //junkProjectile.GetComponent<Junk>().shot = true;
-
-
         // Find exact hit position using a raycast
         Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0)); // middle of the screen
         RaycastHit hit;
@@ -69,24 +69,16 @@ public class SuckCannon : MonoBehaviour
         else
             targetPoint = ray.GetPoint(20); // just a point far away from the player
 
+        // Get the rigidbody
+        Rigidbody rigidbody = junkProjectile.GetComponent<Rigidbody>();
 
-
-
-
-        // Add relative force towards the 'targetPoint'
-        junkProjectile.GetComponent<Rigidbody>().velocity = Vector3.zero; // RESET THE VELOCITY
+        // Reset the velocity for a clean shot & set the new transform position
+        rigidbody.velocity = Vector3.zero;
         junkProjectile.transform.position = firePos.position;
-        junkProjectile.GetComponent<Rigidbody>().AddForce((targetPoint - firePos.position).normalized * force, ForceMode.Impulse);
+
+        // Add relative force towards the 'targetPoint' & make 'junkProjectile' shot
+        rigidbody.AddForce((targetPoint - firePos.position).normalized * force, ForceMode.Impulse);
         junkProjectile.GetComponent<Junk>().shot = true;
-
-
-
-
-
-
-
-
-
     }
 
     public void UpdateAmmo(int value = 0)
@@ -153,8 +145,8 @@ public class SuckCannon : MonoBehaviour
                     FireJunk(Instantiate(currHitObject[lastElement]));
                 }
 
-                if (weaponRecoil.enabled) // recoil weapon is the script is enabled
-                    weaponRecoil.Recoil();
+                // Recoil
+                weaponRecoil.Recoil();
 
                 // Haptic Feedback
                 if (Gamepad.current != null)
@@ -171,16 +163,15 @@ public class SuckCannon : MonoBehaviour
         if (playerController.SuckInput())
         {
             isSucking = !isSucking;
+            // Update UI
             if (isSucking)
             {
-                // Update UI
                 crosshairFire.enabled = false;
                 crosshairSuck.enabled = true;
                 playerController.currCrosshair = crosshairSuck;
             }
             else
             {
-                // Update UI
                 crosshairSuck.enabled = false;
                 crosshairFire.enabled = true;
                 playerController.currCrosshair = crosshairFire;
