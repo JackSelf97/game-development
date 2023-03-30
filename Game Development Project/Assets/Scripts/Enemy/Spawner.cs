@@ -17,6 +17,7 @@ public class Spawner : MonoBehaviour
 
     // Whether you want the spawner to be automatic
     public bool isOn = false;
+    public bool complete = false;
     [SerializeField] private bool spawnOverTime = false;
 
     // Timers
@@ -31,7 +32,11 @@ public class Spawner : MonoBehaviour
     {
         if (isOn)
         {
-            if (spawnCount <= 0) { return; }
+            if (spawnCount <= 0) 
+            {
+                complete = true;
+                return; 
+            }
 
             // Spawns enemy every 'x' amount of seconds
             if (spawnOverTime)

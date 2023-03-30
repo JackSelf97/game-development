@@ -729,7 +729,7 @@ MonoBehaviour:
     m_Bits: 64
   currAmmo: 0
   minAmmo: 0
-  force: 75
+  force: 60
   maxAmmo: 30
 --- !u!114 &3295252300479090718
 MonoBehaviour:

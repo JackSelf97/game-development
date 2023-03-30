@@ -135,3 +135,4 @@ MonoBehaviour:
   shot: 0
   weight: 5
   lifeTime: 2
+  firePos: {fileID: 0}

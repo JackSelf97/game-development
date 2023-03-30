@@ -25,7 +25,7 @@ public class SuckCannon : MonoBehaviour
     public int currAmmo, minAmmo = 0;
 
     [Header("Upgrades")]
-    public float force = 75f;
+    public float force = 60f;
     public int maxAmmo = 10;
 
     // Constants
@@ -34,11 +34,11 @@ public class SuckCannon : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        playerController = GetComponent<PlayerController>();
         weaponHandler = Camera.main.transform.GetChild(1).gameObject;
-        weaponRecoil = weaponHandler.GetComponent<WeaponRecoil>();
         firePos = weaponHandler.transform.GetChild(zero).transform.GetChild(zero).transform;
-
+        playerController = GetComponent<PlayerController>();
+        weaponRecoil = weaponHandler.GetComponent<WeaponRecoil>();
+        
         crosshairSuck.enabled = false;
         crosshairFire.enabled = true;
         playerController.currCrosshair = crosshairFire;
@@ -102,8 +102,11 @@ public class SuckCannon : MonoBehaviour
                 {
                     Junk junkScript = hitObject.GetComponent<Junk>(); // get the script from 'hitObject'
 
-                    if (junkScript.shot) { return; } // can't suck items back up if they've been shot
+                    if (junkScript.shot || currHitObject.Count == maxAmmo) { return; } // can't suck items back up if they've been shot
+
                     junkScript.targeted = true; // then target the 'hitObject'
+                    currHitObject.Add(hitObject);
+
                     currHitDistance = hit.distance;
                 }
             }
@@ -133,6 +136,7 @@ public class SuckCannon : MonoBehaviour
                 // Fire  items
                 int lastElement = currHitObject.Count - one;
                 Junk junkScript = currHitObject[lastElement].GetComponent<Junk>();
+                if (junkScript.targeted) { return; } // cannot fire if junk is being 'sucked'
 
                 if (junkScript.isWorldJunk) // world items
                 {

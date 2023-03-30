@@ -995,7 +995,7 @@ GameObject:
   - component: {fileID: 470051369}
   - component: {fileID: 470051368}
   m_Layer: 0
-  m_Name: SoundManager
+  m_Name: AudioManager
   m_TagString: Untagged
   m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -1014,7 +1014,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sounds:
-  - name: Crickets [Main Menu]
+  - name: Theme
     clip: {fileID: 8300000, guid: 6673800cf4e384c4f925896961efd884, type: 3}
     volume: 0.5
     pitch: 1

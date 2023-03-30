@@ -16,7 +16,9 @@ public class TriggerEvent : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            spawner.isOn = true;
+            if (!spawner.complete)
+                spawner.isOn = true;
+
             Destroy(this);
         }
     }

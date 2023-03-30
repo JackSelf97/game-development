@@ -6,23 +6,13 @@ using UnityEngine.SceneManagement;
 public class AudioManager : MonoBehaviour
 {
     public Sound[] sounds;
-    public static AudioManager aMan;
+
+    public static AudioManager aMan { get; private set; }
 
     // Start is called before the first frame update
     void Awake()
     {
-        if (aMan == null)
-        {
-            aMan = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-            return;
-        }
-            
-        DontDestroyOnLoad(gameObject);
-
+        aMan = this;
         foreach (Sound item in sounds)
         {
             item.source = gameObject.AddComponent<AudioSource>();
@@ -35,8 +25,7 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
-        if (SceneManager.GetActiveScene().buildIndex == 2)
-            Play("Theme");
+        Play("Theme");
     }
 
     public void Play(string name)

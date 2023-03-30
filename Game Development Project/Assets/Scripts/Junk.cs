@@ -14,7 +14,8 @@ public class Junk : MonoBehaviour
 
     // Player Properties
     private SuckCannon suckCannon = null;
-    private Transform firePos = null;
+    private GameObject weaponHandler = null;
+    [SerializeField] private Transform firePos = null;
 
     private void Start()
     {
@@ -28,7 +29,8 @@ public class Junk : MonoBehaviour
 
         // Get the player refs
         suckCannon = PlayerManager.pMan.player.GetComponent<SuckCannon>();
-        firePos = suckCannon.firePos;
+        weaponHandler = Camera.main.transform.GetChild(1).gameObject;
+        firePos = weaponHandler.transform.GetChild(0).transform.GetChild(0).transform;
     }
 
     private void Update()
@@ -46,6 +48,7 @@ public class Junk : MonoBehaviour
         }
     }
 
+    // NOTE - This does not add the gameObject to the list
     void SuckMovement()
     {
         GetComponent<Collider>().enabled = false;
@@ -57,7 +60,6 @@ public class Junk : MonoBehaviour
             Shrink.sMan.ShrinkItem(gameObject, false, lifeTime); // shrink 
             if (!gameObject.activeSelf) // only add to the list once the 'hitObject' is no longer active
             {
-                suckCannon.currHitObject.Add(gameObject);
                 suckCannon.UpdateAmmo(1);
                 targeted = false;
             }

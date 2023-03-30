@@ -10,9 +10,6 @@ public class UIManager : MonoBehaviour
         {
             Application.targetFrameRate = 60;
             Debug.Log("Capping FPS at " + Application.targetFrameRate);
-
-            // Music
-            FindObjectOfType<AudioManager>().Play("Crickets [Main Menu]");
         }
     }
 
@@ -21,11 +18,6 @@ public class UIManager : MonoBehaviour
         if (SceneManager.GetActiveScene().buildIndex != 0)
         {
             Time.timeScale = 1f; // remember you cannot call 'CheckPause' because that happens on a button press, so for now, copy over the logic
-        }
-        else
-        {
-            // Music
-            FindObjectOfType<AudioManager>().Stop("Crickets [Main Menu]");
         }
             
         SceneManager.LoadScene(sceneName);
