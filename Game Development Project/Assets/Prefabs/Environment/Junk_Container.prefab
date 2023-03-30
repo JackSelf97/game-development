@@ -332,6 +332,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cfe5f1a60f1db844adb14a57af36725, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  instantiatedJunk: {fileID: 3537035633937629725, guid: ca478c73a64d7dc45a153f5f44afa3e6, type: 3}
   currAmmo: 0
   minCapacity: 0
   maxCapacity: 10

@@ -2915,7 +2915,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogue:
-    name: Jack [Tutorial]
+    name: Dave [PC/Tutorial]
     sentences:
     - 'Hello, fellow tester! You have two guns! The first is called the ''Suck Cannon'',
       and the second is named the ''Gravity Gun''. You can use the scroll wheel to
@@ -3770,7 +3770,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Have you met Jack?
+  m_Text: Have you met Dave?
 --- !u!222 &1883369225
 CanvasRenderer:
   m_ObjectHideFlags: 0

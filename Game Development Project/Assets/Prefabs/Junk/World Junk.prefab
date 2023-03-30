@@ -133,6 +133,6 @@ MonoBehaviour:
   isWorldJunk: 1
   targeted: 0
   shot: 0
-  weight: 5
+  weight: 3
   lifeTime: 2
   firePos: {fileID: 0}

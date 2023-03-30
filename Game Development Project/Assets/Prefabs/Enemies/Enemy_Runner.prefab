@@ -2177,7 +2177,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyType: 0
-  lookRadius: 10
+  chaseSpeed: 7
   mainCollider: {fileID: 1454594268270311441}
   hips: {fileID: 425414579520556512}
   hitBox: {fileID: 1778909702738734876}
@@ -2195,9 +2195,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b092436a4b0c56489723b00b1c56929, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyController: {fileID: 0}
   health: 100
   isAlive: 0
-  enemyController: {fileID: 0}
 --- !u!114 &8426651588362229027
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2213,7 +2213,7 @@ MonoBehaviour:
   patrolWaiting: 1
   totalWaitTime: 3
   switchProbability: 0.2
-  waypointRadius: 12
+  parentSpawner: {fileID: 0}
   travelling: 0
   waiting: 0
 --- !u!1 &5196932688992342334

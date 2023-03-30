@@ -15,7 +15,6 @@ public class PlayerController : MonoBehaviour
     private PlayerInput playerInput = null;
 
     [Header("Player Variables")]
-    [SerializeField] private GameObject instantiatedJunk = null;
     [SerializeField] private GameObject menu = null;
     private Vector3 playerVelocity = Vector3.zero;
     public LayerMask interactableLayer = 7;
@@ -390,7 +389,7 @@ public class PlayerController : MonoBehaviour
 
                         for (int i = 0; i < reloadAmount; i++)
                         {
-                            suckCannonScript.currHitObject.Add(instantiatedJunk); // add the reloadAmount to the SC [GameObject]
+                            suckCannonScript.currHitObject.Add(container.instantiatedJunk); // add the reloadAmount to the SC [GameObject]
                         }
 
                         // update SC UI

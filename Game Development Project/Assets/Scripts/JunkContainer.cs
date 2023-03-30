@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 public class JunkContainer : MonoBehaviour
 {
+    public GameObject instantiatedJunk = null;
     public int currAmmo = 0;
     public int minCapacity = 0, maxCapacity = 10;
     private Text ammoText = null;

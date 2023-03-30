@@ -11,7 +11,7 @@ public class EnemyController : MonoBehaviour
     public EnemyType enemyType;
 
     [Header("Enemy Properties")]
-    [SerializeField] private float lookRadius = 10f;
+    private float lookRadius = 20f;
     [SerializeField] private int chaseSpeed = 7;
     private Transform target = null;
     private NavMeshAgent navMeshAgent = null;
@@ -152,6 +152,7 @@ public class EnemyController : MonoBehaviour
                 if (impactCount >= maxWeightOfImpact) // different junk items will hold different weight values
                 {
                     isChasing = false;
+                    navMeshAgent.enabled = false; // makes them grounded and also solves the issue of them 'zapping'
                     enemyStats.isAlive = false;
 
                     TurnOnRagdoll();
