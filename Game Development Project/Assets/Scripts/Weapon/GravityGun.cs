@@ -60,7 +60,7 @@ public class GravityGun : MonoBehaviour
         if (Physics.Raycast(ray, out hit, ~projectileLayer)) // projectiles must be visible to the 'Weapon Camera' and make sure the projectiles collider DOES NOT interfere with 'targetPoint'
             targetPoint = hit.point;
         else
-            targetPoint = ray.GetPoint(20); // just a point far away from the player
+            targetPoint = ray.GetPoint(9); // just a point far away from the player - if the 'gravityBombs' are slow, reduce the number so it meets the crosshair
 
         // Instantiate the 'Gravity Bomb'
         GameObject projectile = Instantiate(gravityBomb, firePos.position, Quaternion.identity);
