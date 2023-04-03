@@ -17,7 +17,8 @@ public class PlayerController : MonoBehaviour
     [Header("Player Variables")]
     [SerializeField] private GameObject menu = null;
     private Vector3 playerVelocity = Vector3.zero;
-    public LayerMask interactableLayer = 7;
+    public LayerMask interactableLayer;
+    public LayerMask targetLayer;
     public Transform cam = null;
     public Image currCrosshair = null;
     public bool lockInput = false;
@@ -26,6 +27,7 @@ public class PlayerController : MonoBehaviour
     public bool isPaused = false;
 
     // Player Traits
+    private Color32 crosshairColour = new Color32(189, 213, 226, 255);
     private float moveSpeed = 9f;
     private float gravityValue = -9.81f;
     private float fallMultiplier = 2.5f;
@@ -44,7 +46,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private CinemachineVirtualCamera vCamNPC = null;
     [SerializeField] private CinemachineVirtualCamera vCamPlayer = null;
     [Tooltip("Rotation speed of the character")]
-    public float RotationSpeed = 1.0f;
+    public float currRotationSpeed = 2.0f;
+    public float rotationSpeed = 0.0f;
     [Tooltip("The follow target set in the Cinemachine Virtual Camera that the camera will follow")]
     public GameObject CinemachineCameraTarget;
     [Tooltip("How far in degrees can you move the camera up")]
@@ -131,6 +134,8 @@ public class PlayerController : MonoBehaviour
         playerStats = GetComponent<PlayerStats>();
         controller = GetComponent<CharacterController>();
         playerInput = GetComponent<PlayerInput>();
+
+        rotationSpeed = currRotationSpeed; // setting the speed
 
         cam = Camera.main.transform;
         Cursor.lockState = CursorLockMode.Locked;
@@ -239,8 +244,8 @@ public class PlayerController : MonoBehaviour
                 //Don't multiply mouse input by Time.deltaTime
                 float deltaTimeMultiplier = IsCurrentDeviceMouse ? 1.0f : Time.deltaTime;
 
-                _cinemachineTargetPitch += GetMouseDelta().y * RotationSpeed * deltaTimeMultiplier;
-                _rotationVelocity = GetMouseDelta().x * RotationSpeed * deltaTimeMultiplier;
+                _cinemachineTargetPitch += GetMouseDelta().y * currRotationSpeed * deltaTimeMultiplier;
+                _rotationVelocity = GetMouseDelta().x * currRotationSpeed * deltaTimeMultiplier;
 
                 // clamp our pitch rotation
                 _cinemachineTargetPitch = ClampAngle(_cinemachineTargetPitch, BottomClamp, TopClamp);
@@ -363,10 +368,10 @@ public class PlayerController : MonoBehaviour
         RaycastHit hit;
         const float rayLength = 3;
 
-        Debug.DrawRay(cam.position, cam.forward.normalized * rayLength, Color.green);
+        Debug.DrawRay(cam.position, cam.forward.normalized * rayLength, Color.cyan);
         if (Physics.Raycast(cam.position, cam.forward.normalized, out hit, rayLength, interactableLayer))
         {
-            currCrosshair.color = Color.cyan;
+            ChangeCrosshairColour(Color.cyan);
 
             #region Ammo Box (Junk Container)
 
@@ -394,7 +399,7 @@ public class PlayerController : MonoBehaviour
 
                         // update SC UI
                         suckCannonScript.UpdateAmmo();
-                        
+
                         // play animation
                         suckCannon.GetComponent<Animator>().SetTrigger("IsReloading");
                     }
@@ -412,7 +417,7 @@ public class PlayerController : MonoBehaviour
                     HealthContainer healthContainer = hit.transform.GetComponent<HealthContainer>();
 
                     if (healthContainer.uses <= 0) { return; }
-                    else if (playerStats.currHP < playerStats.maxHP) 
+                    else if (playerStats.currHP < playerStats.maxHP)
                     {
                         playerStats.currHP = playerStats.maxHP; // set the currHP to the maxHP
                         playerStats.healthBar.SetHealth(playerStats.currHP); // update healthBar UI
@@ -443,7 +448,9 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            currCrosshair.color = Color.white;
+            if (!targetLock)
+                ChangeCrosshairColour(Color.white); // this handles the default colour
+
             InteractionUI(false);
         }
     }
@@ -505,6 +512,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void ChangeCrosshairColour(Color32 colour)
+    {
+        currCrosshair.color = colour;
+    }
+
     #region Gamepad Logic (Xbox & PS4)
 
     public IEnumerator PlayHaptics(float seconds, float leftMotorSpeed = 0.25f, float rightMotorSpeed = 0.25f)
@@ -519,6 +531,31 @@ public class PlayerController : MonoBehaviour
         if (lfAngle < -360f) lfAngle += 360f;
         if (lfAngle > 360f) lfAngle -= 360f;
         return Mathf.Clamp(lfAngle, lfMin, lfMax);
+    }
+
+    [Header("Aim Assist")]
+    [SerializeField] private bool targetLock = false;
+    [SerializeField] private int strengthPercentage = 30;
+    public void AimAssist()
+    {
+        RaycastHit hit;
+        const int rayLength = 5;
+        
+        Debug.DrawRay(cam.position, cam.forward.normalized * rayLength, Color.red);
+        if (Physics.Raycast(cam.position, cam.forward.normalized, out hit, rayLength, targetLayer))
+        {
+            ChangeCrosshairColour(Color.red);
+            if (hit.transform.CompareTag("Enemy") && !targetLock) // bool from the enemy?
+            {
+                currRotationSpeed -= currRotationSpeed * strengthPercentage / 100;
+                targetLock = true;
+            }
+        }
+        else
+        {
+            currRotationSpeed = rotationSpeed;
+            targetLock = false;
+        }
     }
 
     #endregion

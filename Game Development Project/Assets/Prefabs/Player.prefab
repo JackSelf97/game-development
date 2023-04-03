@@ -650,11 +650,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8f36c35569deeb49a427707c43bac17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  instantiatedJunk: {fileID: 3537035633937629725, guid: ca478c73a64d7dc45a153f5f44afa3e6, type: 3}
   menu: {fileID: 0}
   interactableLayer:
     serializedVersion: 2
     m_Bits: 128
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 1024
   cam: {fileID: 0}
   currCrosshair: {fileID: 0}
   lockInput: 0
@@ -668,7 +670,8 @@ MonoBehaviour:
   suckCannonEquipped: 1
   vCamNPC: {fileID: 0}
   vCamPlayer: {fileID: 0}
-  RotationSpeed: 2
+  currRotationSpeed: 2
+  rotationSpeed: 0
   CinemachineCameraTarget: {fileID: 3295252300345472715}
   TopClamp: 90
   BottomClamp: -90
@@ -689,6 +692,7 @@ MonoBehaviour:
   interactionBox: {fileID: 3295252299994037009}
   interactionText: {fileID: 3295252300855039064}
   continueButton: {fileID: 3295252300309438596}
+  targetLock: 0
 --- !u!114 &3295252300479090712
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -12,6 +12,7 @@ public class SuckCannon : MonoBehaviour
     private Vector3 origin;
     private Vector3 direction;
     private float currHitDistance;
+    private bool junkFired = false;
 
     [Header("Properties")]
     public Transform firePos = null;
@@ -49,14 +50,40 @@ public class SuckCannon : MonoBehaviour
     {
         if (!playerController.suckCannonEquipped || playerController.lockInput) { return; } // if player doesn't have 'Suck Cannon' equipped then return
 
+        // Assitance
+        playerController.AimAssist();
+
         // Inputs
         SuckInput();
         FireInput();
     }
 
+    private void FixedUpdate()
+    {
+        if (junkFired)
+        {
+            int lastElement = currHitObject.Count - one;
+            Junk junkScript = currHitObject[lastElement].GetComponent<Junk>();
+            if (junkScript.targeted) { return; } // cannot fire if junk is being 'sucked'
+
+            if (junkScript.isWorldJunk) // world items
+            {
+                currHitObject[lastElement].SetActive(true);
+                currHitObject[lastElement].GetComponent<Collider>().enabled = true;
+                FireProjectile(currHitObject[lastElement]);
+            }
+            else // instantiated items
+            {
+                FireProjectile(Instantiate(currHitObject[lastElement]));
+            }
+
+            currHitObject.RemoveAt(lastElement);
+        }
+    }
+
     #region 'Suck Cannon' Logic
 
-    public void FireJunk(GameObject junkProjectile) // needs to be moved to FixedUpdate()
+    public void FireProjectile(GameObject junkProjectile)
     {
         // Find exact hit position using a raycast
         Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0)); // middle of the screen
@@ -64,7 +91,7 @@ public class SuckCannon : MonoBehaviour
 
         // Check if ray hits something
         Vector3 targetPoint;
-        if (Physics.Raycast(ray, out hit, ~projectileLayer)) // projectiles must be visible to the 'Weapon Camera' and make sure the projectiles collider DOES NOT interfere with 'targetPoint'
+        if (Physics.Raycast(ray, out hit, ~projectileLayer)) // make sure the projectiles collider DOES NOT interfere with 'targetPoint'
             targetPoint = hit.point;
         else
             targetPoint = ray.GetPoint(20); // just a point far away from the player
@@ -79,6 +106,7 @@ public class SuckCannon : MonoBehaviour
         // Add relative force towards the 'targetPoint' & make 'junkProjectile' shot
         rigidbody.AddForce((targetPoint - firePos.position).normalized * force, ForceMode.Impulse);
         junkProjectile.GetComponent<Junk>().shot = true;
+        junkFired = false;
     }
 
     public void UpdateAmmo(int value = 0)
@@ -133,31 +161,14 @@ public class SuckCannon : MonoBehaviour
                     return;
                 }
 
-                // Fire  items
-                int lastElement = currHitObject.Count - one;
-                Junk junkScript = currHitObject[lastElement].GetComponent<Junk>();
-                if (junkScript.targeted) { return; } // cannot fire if junk is being 'sucked'
-
-                if (junkScript.isWorldJunk) // world items
-                {
-                    currHitObject[lastElement].SetActive(true);
-                    currHitObject[lastElement].GetComponent<Collider>().enabled = true;
-                    FireJunk(currHitObject[lastElement]);
-                }
-                else // instantiated items
-                {
-                    FireJunk(Instantiate(currHitObject[lastElement]));
-                }
-
-                // Recoil
+                // Fire items
+                junkFired = true;
                 weaponRecoil.Recoil();
+                UpdateAmmo(-one);
 
                 // Haptic Feedback
                 if (Gamepad.current != null)
                     StartCoroutine(playerController.PlayHaptics(0.1f, 1.5f, 1.5f));
-
-                currHitObject.RemoveAt(lastElement);
-                UpdateAmmo(-one);
             }
         }
     }
@@ -190,7 +201,7 @@ public class SuckCannon : MonoBehaviour
         if (isSucking)
         {
             Gizmos.color = Color.magenta;
-            Debug.DrawLine(origin, origin + direction * currHitDistance, Color.magenta);
+            Debug.DrawLine(origin, origin + direction * currHitDistance);
             Gizmos.DrawWireSphere(origin + direction * currHitDistance, sphereRadius);
         }
     }
