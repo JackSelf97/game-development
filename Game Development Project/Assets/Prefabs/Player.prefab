@@ -650,32 +650,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8f36c35569deeb49a427707c43bac17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  menu: {fileID: 0}
+  pauseMenu: {fileID: 0}
+  currCrosshair: {fileID: 0}
   interactableLayer:
     serializedVersion: 2
     m_Bits: 128
   targetLayer:
     serializedVersion: 2
     m_Bits: 1024
-  cam: {fileID: 0}
-  currCrosshair: {fileID: 0}
   lockInput: 0
   inConversation: 0
-  isGrounded: 0
-  isPaused: 0
   jump: 0
-  suckCannon: {fileID: 0}
-  gravityGun: {fileID: 0}
-  ammoText: {fileID: 3295252301636838479}
-  suckCannonEquipped: 1
-  vCamNPC: {fileID: 0}
-  vCamPlayer: {fileID: 0}
-  currRotationSpeed: 2
-  rotationSpeed: 0
-  CinemachineCameraTarget: {fileID: 3295252300345472715}
-  TopClamp: 90
-  BottomClamp: -90
-  analogMovement: 0
   SpeedChangeRate: 10
   JumpHeight: 1.2
   Gravity: -15
@@ -687,12 +672,23 @@ MonoBehaviour:
   GroundLayers:
     serializedVersion: 2
     m_Bits: 2147483647
+  suckCannon: {fileID: 0}
+  gravityGun: {fileID: 0}
+  ammoText: {fileID: 3295252301636838479}
+  suckCannonEquipped: 1
+  targetLock: 0
+  strengthPercentage: 30
+  vCamNPC: {fileID: 0}
+  vCamPlayer: {fileID: 0}
+  currRotationSpeed: 2
+  rotationSpeed: 0
+  CinemachineCameraTarget: {fileID: 3295252300345472715}
+  analogMovement: 0
   playerUI: {fileID: 3295252301978024687}
   mainMenuButton: {fileID: 0}
   interactionBox: {fileID: 3295252299994037009}
   interactionText: {fileID: 3295252300855039064}
   continueButton: {fileID: 3295252300309438596}
-  targetLock: 0
 --- !u!114 &3295252300479090712
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -751,7 +747,7 @@ MonoBehaviour:
   gravityBomb: {fileID: 742208916648984423, guid: 837f9d55c569b894aa45f91cb1b88630, type: 3}
   projectileLayer:
     serializedVersion: 2
-    m_Bits: 503
+    m_Bits: 1527
 --- !u!114 &666520106
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1423,7 +1419,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 56f8165bc8b0a98419e06f018a808c4c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9ee137293631b9e46b1a401b72b130a4, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

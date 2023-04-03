@@ -77,7 +77,7 @@ public class EnemyController : MonoBehaviour
         navMeshAgent.speed = chaseSpeed;
 
         // Set the target
-        navMeshAgent.SetDestination(target.position);
+        navMeshAgent.SetDestination(target.position); // error?
         Destroy(GetComponent<EnemyPatrol>());
     }
 
@@ -99,7 +99,7 @@ public class EnemyController : MonoBehaviour
     void TurnOnRagdoll()
     {
         float suckCannonForce = PlayerManager.pMan.player.GetComponent<SuckCannon>().force;
-        Transform playerCam = PlayerManager.pMan.player.GetComponent<PlayerController>().cam;
+        Transform playerCam = Camera.main.transform;
 
         animator.enabled = false;
         foreach (Collider col in colliders)
@@ -146,7 +146,7 @@ public class EnemyController : MonoBehaviour
                 int junkProjectileWeight = collision.gameObject.GetComponent<Junk>().weight;
                 impactCount += junkProjectileWeight;
 
-                if (!isChasing)
+                if (!isChasing && enemyStats.isAlive)
                     ChaseTarget();
 
                 if (impactCount >= maxWeightOfImpact) // different junk items will hold different weight values

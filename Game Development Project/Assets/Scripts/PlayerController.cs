@@ -15,16 +15,16 @@ public class PlayerController : MonoBehaviour
     private PlayerInput playerInput = null;
 
     [Header("Player Variables")]
-    [SerializeField] private GameObject menu = null;
+    [SerializeField] private GameObject pauseMenu = null;
     private Vector3 playerVelocity = Vector3.zero;
+    private Transform cam = null;
+    private bool isPaused = false;
+    public Image currCrosshair = null;
     public LayerMask interactableLayer;
     public LayerMask targetLayer;
-    public Transform cam = null;
-    public Image currCrosshair = null;
     public bool lockInput = false;
     public bool inConversation = false;
-    public bool isGrounded = false;
-    public bool isPaused = false;
+    public bool jump;
 
     // Player Traits
     private Color32 crosshairColour = new Color32(189, 213, 226, 255);
@@ -34,33 +34,6 @@ public class PlayerController : MonoBehaviour
     private float slopeForce = 40;
     private float slopeForceRayLength = 5;
     private float pushPower = 2.0f;
-    public bool jump;
-
-    [Header("Gun Properties")]
-    public GameObject suckCannon = null;
-    public GameObject gravityGun = null;
-    public Text ammoText = null;
-    public bool suckCannonEquipped = false;
-
-    [Header("Cinemachine")]
-    [SerializeField] private CinemachineVirtualCamera vCamNPC = null;
-    [SerializeField] private CinemachineVirtualCamera vCamPlayer = null;
-    [Tooltip("Rotation speed of the character")]
-    public float currRotationSpeed = 2.0f;
-    public float rotationSpeed = 0.0f;
-    [Tooltip("The follow target set in the Cinemachine Virtual Camera that the camera will follow")]
-    public GameObject CinemachineCameraTarget;
-    [Tooltip("How far in degrees can you move the camera up")]
-    public float TopClamp = 90.0f;
-    [Tooltip("How far in degrees can you move the camera down")]
-    public float BottomClamp = -90.0f;
-
-    // cinemachine
-    private float _cinemachineTargetPitch;
-    private const float _threshold = 0.01f;
-    private float _rotationVelocity;
-    private float _verticalVelocity;
-    public bool analogMovement;
 
     [Tooltip("Acceleration and deceleration")]
     public float SpeedChangeRate = 10.0f;
@@ -91,8 +64,31 @@ public class PlayerController : MonoBehaviour
     // timeout deltatime
     private float _jumpTimeoutDelta;
     private float _fallTimeoutDelta;
-
     private float _terminalVelocity = 53.0f;
+
+    [Header("Weapon Properties")]
+    public GameObject suckCannon = null;
+    public GameObject gravityGun = null;
+    public Text ammoText = null;
+    public bool suckCannonEquipped = false;
+
+    [Header("Aim Assist")]
+    [SerializeField] private bool targetLock = false;
+    [SerializeField] private int strength = 30;
+
+    [Header("Cinemachine")]
+    [SerializeField] private CinemachineVirtualCamera vCamNPC = null;
+    [SerializeField] private CinemachineVirtualCamera vCamPlayer = null;
+    private float TopClamp = 90.0f;
+    private float BottomClamp = -90.0f;
+    private float _cinemachineTargetPitch;
+    private const float _threshold = 0.01f;
+    private float _rotationVelocity;
+    private float _verticalVelocity;
+    public float currRotationSpeed = 2.0f;
+    public float rotationSpeed = 0.0f;
+    public GameObject CinemachineCameraTarget;
+    public bool analogMovement;
 
     private bool IsCurrentDeviceMouse
     {
@@ -131,19 +127,28 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        SetPlayerVariables();
+    }
+
+    void SetPlayerVariables()
+    {
         playerStats = GetComponent<PlayerStats>();
         controller = GetComponent<CharacterController>();
         playerInput = GetComponent<PlayerInput>();
 
-        rotationSpeed = currRotationSpeed; // setting the speed
-
+        // set the camera speed
         cam = Camera.main.transform;
+        rotationSpeed = currRotationSpeed; 
+
+        // set the lock state
         Cursor.lockState = CursorLockMode.Locked;
         lockInput = false;
-        isPaused = false;
-
+        
         // set the ammo
         ammoText.text = GetComponent<SuckCannon>().currAmmo + "/" + GetComponent<SuckCannon>().maxAmmo;
+
+        // set the UI
+        isPaused = false;
     }
 
     void Update()
@@ -490,7 +495,7 @@ public class PlayerController : MonoBehaviour
             if (isPaused)
             {
                 Time.timeScale = 0f;
-                menu.SetActive(true);
+                pauseMenu.SetActive(true);
                 Cursor.lockState = CursorLockMode.None;
                 mainMenuButton.Select(); 
                 return;
@@ -507,7 +512,7 @@ public class PlayerController : MonoBehaviour
                 {
                     continueButton.Select();
                 }
-                menu.SetActive(false);
+                pauseMenu.SetActive(false);
             }
         }
     }
@@ -533,13 +538,10 @@ public class PlayerController : MonoBehaviour
         return Mathf.Clamp(lfAngle, lfMin, lfMax);
     }
 
-    [Header("Aim Assist")]
-    [SerializeField] private bool targetLock = false;
-    [SerializeField] private int strengthPercentage = 30;
     public void AimAssist()
     {
         RaycastHit hit;
-        const int rayLength = 5;
+        const int rayLength = 10;
         
         Debug.DrawRay(cam.position, cam.forward.normalized * rayLength, Color.red);
         if (Physics.Raycast(cam.position, cam.forward.normalized, out hit, rayLength, targetLayer))
@@ -547,7 +549,7 @@ public class PlayerController : MonoBehaviour
             ChangeCrosshairColour(Color.red);
             if (hit.transform.CompareTag("Enemy") && !targetLock) // bool from the enemy?
             {
-                currRotationSpeed -= currRotationSpeed * strengthPercentage / 100;
+                currRotationSpeed -= currRotationSpeed * strength / 100;
                 targetLock = true;
             }
         }

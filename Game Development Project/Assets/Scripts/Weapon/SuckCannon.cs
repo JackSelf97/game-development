@@ -117,8 +117,8 @@ public class SuckCannon : MonoBehaviour
 
     public void FireInput()
     {
-        origin = playerController.cam.position;
-        direction = playerController.cam.forward;
+        origin = Camera.main.transform.position;
+        direction = Camera.main.transform.forward;
 
         if (isSucking && currAmmo < maxAmmo)
         {
