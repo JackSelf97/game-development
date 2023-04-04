@@ -1,8 +1,15 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
+    [Header("Main Menu")]
+    [SerializeField] private GameObject buttonPanel = null;
+    [SerializeField] private GameObject controlPanel = null;
+    [SerializeField] private Button controlButton = null;
+    [SerializeField] private Button backButton = null;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -21,6 +28,20 @@ public class UIManager : MonoBehaviour
         }
             
         SceneManager.LoadScene(sceneName);
+    }
+
+    public void Controls()
+    {
+        buttonPanel.SetActive(false);
+        controlPanel.SetActive(true);
+        backButton.Select();
+    }
+
+    public void Back()
+    {
+        controlPanel.SetActive(false);
+        buttonPanel.SetActive(true);
+        controlButton.Select();
     }
 
     public void Quit()
