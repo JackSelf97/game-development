@@ -16,8 +16,9 @@ public class SuckCannon : MonoBehaviour
 
     [Header("Properties")]
     public Transform firePos = null;
-    [SerializeField] private bool isSucking = false;
-    [SerializeField] private Image crosshairFire = null, crosshairSuck = null;
+    public bool isSucking = false;
+    public Image crosshairFire = null, crosshairSuck = null;
+    [SerializeField] private ParticleSystem suction = null;
     [SerializeField] private LayerMask projectileLayer;
     public List<GameObject> currHitObject = new List<GameObject>();
     private float sphereRadius = 0.5f;
@@ -122,6 +123,7 @@ public class SuckCannon : MonoBehaviour
 
         if (isSucking && currAmmo < maxAmmo)
         {
+            suction.Play();
             RaycastHit hit;
             if (Physics.SphereCast(origin, sphereRadius, direction, out hit, maxDistance, junkLayer, QueryTriggerInteraction.UseGlobal))
             {
@@ -145,6 +147,7 @@ public class SuckCannon : MonoBehaviour
         }
         if (!isSucking)
         {
+            suction.Stop();
             if (playerController.FireInput())
             {
                 if (currHitObject.Count <= zero)
@@ -181,7 +184,7 @@ public class SuckCannon : MonoBehaviour
             // Update UI
             if (isSucking)
             {
-                crosshairFire.enabled = false;
+                crosshairFire.enabled = false; // update UI function?...
                 crosshairSuck.enabled = true;
                 playerController.currCrosshair = crosshairSuck;
             }

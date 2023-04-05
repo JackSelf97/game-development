@@ -2102,6 +2102,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 177872081}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!198 &178712056 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 2144210264, guid: a90e120c1d75f0244ac2a45d9ac34c74, type: 3}
+  m_PrefabInstance: {fileID: 1791583516266463172}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &190196133
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9613,6 +9618,10 @@ PrefabInstance:
       propertyPath: firePos
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 3295252300479090719, guid: b8c2f7d6f9ffbc64ca1afc69c80eb124, type: 3}
+      propertyPath: suction
+      value: 
+      objectReference: {fileID: 178712056}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b8c2f7d6f9ffbc64ca1afc69c80eb124, type: 3}
 --- !u!1 &1039767311
@@ -20412,6 +20421,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a86a45ecdf2e61543a3357fd300fb13a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buttonPanel: {fileID: 0}
+  controlPanel: {fileID: 0}
+  controlButton: {fileID: 0}
+  backButton: {fileID: 0}
 --- !u!4 &2147363048 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4626076820045791636, guid: 3e154ea4012a15a479b10263094fbd79, type: 3}

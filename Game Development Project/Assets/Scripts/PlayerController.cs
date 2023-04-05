@@ -278,6 +278,17 @@ public class PlayerController : MonoBehaviour
             }
             if (!suckCannonEquipped)
             {
+                // Get the script
+                SuckCannon suckCannonScript = GetComponent<SuckCannon>(); // make this global...
+                if (suckCannonScript.isSucking)
+                {
+                    suckCannonScript.crosshairSuck.enabled = false; // make this a function...
+                    suckCannonScript.crosshairFire.enabled = true;
+                    currCrosshair = suckCannonScript.crosshairFire;
+                    suckCannonScript.isSucking = false;
+                    // bug where switch weapons holding suck still sucks
+                }
+
                 StartCoroutine(SwitchWeapons(suckCannon, gravityGun));
                 ammoText.text = "\u221E"; // infinite symbol
             }

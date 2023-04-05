@@ -677,7 +677,7 @@ MonoBehaviour:
   ammoText: {fileID: 3295252301636838479}
   suckCannonEquipped: 1
   targetLock: 0
-  strengthPercentage: 30
+  strength: 30
   vCamNPC: {fileID: 0}
   vCamPlayer: {fileID: 0}
   currRotationSpeed: 2
@@ -720,6 +720,7 @@ MonoBehaviour:
   isSucking: 0
   crosshairFire: {fileID: 3295252301038466916}
   crosshairSuck: {fileID: 3295252301652290450}
+  suction: {fileID: 0}
   projectileLayer:
     serializedVersion: 2
     m_Bits: 951
