@@ -8,11 +8,11 @@ using UnityEngine.UI;
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
 {
-    // Player Classes
     private CharacterController controller = null;
     private PlayerControls playerControls = null;
     private PlayerStats playerStats = null;
     private PlayerInput playerInput = null;
+    private SuckCannon suckCannon = null;
 
     [Header("Player Variables")]
     [SerializeField] private GameObject pauseMenu = null;
@@ -67,8 +67,8 @@ public class PlayerController : MonoBehaviour
     private float _terminalVelocity = 53.0f;
 
     [Header("Weapon Properties")]
-    public GameObject suckCannon = null;
-    public GameObject gravityGun = null;
+    public GameObject suckCannonObj = null;
+    public GameObject gravityGunObj = null;
     public Text ammoText = null;
     public bool suckCannonEquipped = false;
 
@@ -135,6 +135,7 @@ public class PlayerController : MonoBehaviour
         playerStats = GetComponent<PlayerStats>();
         controller = GetComponent<CharacterController>();
         playerInput = GetComponent<PlayerInput>();
+        suckCannon = GetComponent<SuckCannon>();
 
         // set the camera speed
         cam = Camera.main.transform;
@@ -145,7 +146,7 @@ public class PlayerController : MonoBehaviour
         lockInput = false;
         
         // set the ammo
-        ammoText.text = GetComponent<SuckCannon>().currAmmo + "/" + GetComponent<SuckCannon>().maxAmmo;
+        ammoText.text = suckCannon.currAmmo + "/" + suckCannon.maxAmmo;
 
         // set the UI
         isPaused = false;
@@ -273,23 +274,21 @@ public class PlayerController : MonoBehaviour
             // switch weapons and update the ammo UI
             if (suckCannonEquipped)
             {
-                StartCoroutine(SwitchWeapons(gravityGun, suckCannon));
-                ammoText.text = GetComponent<SuckCannon>().currAmmo + "/" + GetComponent<SuckCannon>().maxAmmo;
+                StartCoroutine(SwitchWeapons(gravityGunObj, suckCannonObj));
+                ammoText.text = suckCannon.currAmmo + "/" + suckCannon.maxAmmo;
+                playerControls.Player.Suck.Enable();
+                return;
             }
             if (!suckCannonEquipped)
             {
-                // Get the script
-                SuckCannon suckCannonScript = GetComponent<SuckCannon>(); // make this global...
-                if (suckCannonScript.isSucking)
+                if (suckCannon.isSucking)
                 {
-                    suckCannonScript.crosshairSuck.enabled = false; // make this a function...
-                    suckCannonScript.crosshairFire.enabled = true;
-                    currCrosshair = suckCannonScript.crosshairFire;
-                    suckCannonScript.isSucking = false;
-                    // bug where switch weapons holding suck still sucks
+                    suckCannon.isSucking = false;
+                    suckCannon.UpdateUI(suckCannon.isSucking);
+                    playerControls.Player.Suck.Disable();
                 }
 
-                StartCoroutine(SwitchWeapons(suckCannon, gravityGun));
+                StartCoroutine(SwitchWeapons(suckCannonObj, gravityGunObj));
                 ammoText.text = "\u221E"; // infinite symbol
             }
         }
@@ -395,29 +394,28 @@ public class PlayerController : MonoBehaviour
             {
                 InteractionUI(true, "[E] LOOT");
 
-                if (InteractInput() && suckCannon.activeSelf)
+                if (InteractInput() && suckCannonObj.activeSelf)
                 {
                     JunkContainer container = hit.transform.GetComponent<JunkContainer>();
-                    SuckCannon suckCannonScript = GetComponent<SuckCannon>();
 
-                    if (suckCannonScript.currAmmo < suckCannonScript.maxAmmo && container.currAmmo > container.minCapacity) // if the SC ammo is less than its total capacity && the container has ammo
+                    if (suckCannon.currAmmo < suckCannon.maxAmmo && container.currAmmo > container.minCapacity) // if the SC ammo is less than its total capacity && the container has ammo
                     {
-                        int reloadAmount = suckCannonScript.maxAmmo - suckCannonScript.currAmmo; // how many junk items are needed to reach its max
+                        int reloadAmount = suckCannon.maxAmmo - suckCannon.currAmmo; // how many junk items are needed to reach its max
                         reloadAmount = (container.currAmmo - reloadAmount) >= 0 ? reloadAmount : container.currAmmo; // get as much ammo as I need to refill 
 
-                        suckCannonScript.currAmmo += reloadAmount; // add the reloadAmount to the SC [int]
+                        suckCannon.currAmmo += reloadAmount; // add the reloadAmount to the SC [int]
                         container.UpdateContainerAmmo(-reloadAmount); // minus the reloadAmount from the container [int]
 
                         for (int i = 0; i < reloadAmount; i++)
                         {
-                            suckCannonScript.currHitObject.Add(container.instantiatedJunk); // add the reloadAmount to the SC [GameObject]
+                            suckCannon.currHitObject.Add(container.instantiatedJunk); // add the reloadAmount to the SC [GameObject]
                         }
 
-                        // update SC UI
-                        suckCannonScript.UpdateAmmo();
+                        // update SC Ammo
+                        suckCannon.UpdateAmmo();
 
                         // play animation
-                        suckCannon.GetComponent<Animator>().SetTrigger("IsReloading");
+                        suckCannonObj.GetComponent<Animator>().SetTrigger("IsReloading");
                     }
                 }
             }

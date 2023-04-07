@@ -716,14 +716,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3a11e1c913cbbc46beb772790f8ede8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  suction: {fileID: 0}
+  projectileLayer:
+    serializedVersion: 2
+    m_Bits: 1975
   firePos: {fileID: 0}
   isSucking: 0
   crosshairFire: {fileID: 3295252301038466916}
   crosshairSuck: {fileID: 3295252301652290450}
-  suction: {fileID: 0}
-  projectileLayer:
-    serializedVersion: 2
-    m_Bits: 951
   currHitObject: []
   junkLayer:
     serializedVersion: 2

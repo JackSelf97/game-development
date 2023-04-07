@@ -1,30 +1,29 @@
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
+using System.Collections.Generic;
 
 public class SuckCannon : MonoBehaviour
 {
-    // Variables
     private PlayerController playerController = null;
     private GameObject weaponHandler = null;
     private WeaponRecoil weaponRecoil = null;
-    private Vector3 origin;
-    private Vector3 direction;
-    private float currHitDistance;
+    private Vector3 origin = Vector3.zero;
+    private Vector3 direction = Vector3.zero;
+    private float currHitDistance = 0f;
     private bool junkFired = false;
+    private float sphereRadius = 0.5f;
+    private float maxDistance = 10f;
 
     [Header("Properties")]
+    [SerializeField] private ParticleSystem suctionVFX = null;
+    [SerializeField] private LayerMask projectileLayer = 0;
     public Transform firePos = null;
     public bool isSucking = false;
     public Image crosshairFire = null, crosshairSuck = null;
-    [SerializeField] private ParticleSystem suction = null;
-    [SerializeField] private LayerMask projectileLayer;
     public List<GameObject> currHitObject = new List<GameObject>();
-    private float sphereRadius = 0.5f;
-    private float maxDistance = 10f;
     public LayerMask junkLayer = 6;
-    public int currAmmo, minAmmo = 0;
+    public int currAmmo = 0, minAmmo = 0;
 
     [Header("Upgrades")]
     public float force = 60f;
@@ -36,14 +35,16 @@ public class SuckCannon : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        weaponHandler = Camera.main.transform.GetChild(1).gameObject;
-        firePos = weaponHandler.transform.GetChild(zero).transform.GetChild(zero).transform;
+        SetSuckCannonVariables();
+        UpdateUI(isSucking);
+    }
+
+    void SetSuckCannonVariables()
+    {
         playerController = GetComponent<PlayerController>();
+        weaponHandler = Camera.main.transform.GetChild(1).gameObject;
         weaponRecoil = weaponHandler.GetComponent<WeaponRecoil>();
-        
-        crosshairSuck.enabled = false;
-        crosshairFire.enabled = true;
-        playerController.currCrosshair = crosshairFire;
+        firePos = weaponHandler.transform.GetChild(zero).transform.GetChild(zero).transform;
     }
 
     // Update is called once per frame
@@ -51,7 +52,7 @@ public class SuckCannon : MonoBehaviour
     {
         if (!playerController.suckCannonEquipped || playerController.lockInput) { return; } // if player doesn't have 'Suck Cannon' equipped then return
 
-        // Assitance
+        // Assistance
         playerController.AimAssist();
 
         // Inputs
@@ -110,12 +111,6 @@ public class SuckCannon : MonoBehaviour
         junkFired = false;
     }
 
-    public void UpdateAmmo(int value = 0)
-    {
-        currAmmo += value;
-        playerController.ammoText.text = currAmmo.ToString() + "/" + maxAmmo.ToString();
-    }
-
     public void FireInput()
     {
         origin = Camera.main.transform.position;
@@ -123,7 +118,7 @@ public class SuckCannon : MonoBehaviour
 
         if (isSucking && currAmmo < maxAmmo)
         {
-            suction.Play();
+            suctionVFX.Play();
             RaycastHit hit;
             if (Physics.SphereCast(origin, sphereRadius, direction, out hit, maxDistance, junkLayer, QueryTriggerInteraction.UseGlobal))
             {
@@ -136,7 +131,6 @@ public class SuckCannon : MonoBehaviour
 
                     junkScript.targeted = true; // then target the 'hitObject'
                     currHitObject.Add(hitObject);
-
                     currHitDistance = hit.distance;
                 }
             }
@@ -147,7 +141,7 @@ public class SuckCannon : MonoBehaviour
         }
         if (!isSucking)
         {
-            suction.Stop();
+            suctionVFX.Stop();
             if (playerController.FireInput())
             {
                 if (currHitObject.Count <= zero)
@@ -181,20 +175,30 @@ public class SuckCannon : MonoBehaviour
         if (playerController.SuckInput())
         {
             isSucking = !isSucking;
-            // Update UI
-            if (isSucking)
-            {
-                crosshairFire.enabled = false; // update UI function?...
-                crosshairSuck.enabled = true;
-                playerController.currCrosshair = crosshairSuck;
-            }
-            else
-            {
-                crosshairSuck.enabled = false;
-                crosshairFire.enabled = true;
-                playerController.currCrosshair = crosshairFire;
-            }
+            UpdateUI(isSucking);
         }
+    }
+
+    public void UpdateUI(bool isSucking)
+    {
+        if (isSucking)
+        {
+            crosshairFire.enabled = false;
+            crosshairSuck.enabled = true;
+            playerController.currCrosshair = crosshairSuck;
+        }
+        else
+        {
+            crosshairSuck.enabled = false;
+            crosshairFire.enabled = true;
+            playerController.currCrosshair = crosshairFire;
+        }
+    }
+
+    public void UpdateAmmo(int value = 0)
+    {
+        currAmmo += value;
+        playerController.ammoText.text = currAmmo.ToString() + "/" + maxAmmo.ToString();
     }
 
     #endregion
