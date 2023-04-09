@@ -811,7 +811,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4844060519930227165, guid: 8f385e43d99c86947b146f9fed77dbc2, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5841580001423583700, guid: 8f385e43d99c86947b146f9fed77dbc2, type: 3}
       propertyPath: m_RootOrder
@@ -879,6 +879,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8f385e43d99c86947b146f9fed77dbc2, type: 3}
+--- !u!114 &398701145 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 398701145, guid: b8c2f7d6f9ffbc64ca1afc69c80eb124, type: 3}
+  m_PrefabInstance: {fileID: 3295252300907551284}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &407471570
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1942,17 +1953,6 @@ MonoBehaviour:
     pitch: 1
     loop: 0
     source: {fileID: 0}
---- !u!114 &1310699269 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6896388216134780216, guid: ef8adc6de0ec65d4794b795e123fb6c5, type: 3}
-  m_PrefabInstance: {fileID: 6896388216974797373}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1343590614 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3295252300479090705, guid: b8c2f7d6f9ffbc64ca1afc69c80eb124, type: 3}
@@ -2217,7 +2217,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4844060519930227165, guid: 8f385e43d99c86947b146f9fed77dbc2, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5841580001423583700, guid: 8f385e43d99c86947b146f9fed77dbc2, type: 3}
       propertyPath: m_RootOrder
@@ -3119,6 +3119,9 @@ MonoBehaviour:
   controlPanel: {fileID: 807114899}
   controlButton: {fileID: 1565542624}
   backButton: {fileID: 1830825947}
+  buttonImage: {fileID: 398701145}
+  gamepadSprite: {fileID: 21300000, guid: 1f0d3623d5cb2bd42b075ff606a8ea56, type: 3}
+  keyboardSprite: {fileID: 21300000, guid: 31d31b7fb2d94b34c9f17d4bd02fa47e, type: 3}
 --- !u!198 &2144210264 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 2144210264, guid: a90e120c1d75f0244ac2a45d9ac34c74, type: 3}
@@ -3756,6 +3759,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 398701145, guid: b8c2f7d6f9ffbc64ca1afc69c80eb124, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 1f0d3623d5cb2bd42b075ff606a8ea56, type: 3}
     - target: {fileID: 3295252300212693431, guid: b8c2f7d6f9ffbc64ca1afc69c80eb124, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -3832,10 +3839,6 @@ PrefabInstance:
       propertyPath: vCamPlayer
       value: 
       objectReference: {fileID: 1814886349}
-    - target: {fileID: 3295252300479090716, guid: b8c2f7d6f9ffbc64ca1afc69c80eb124, type: 3}
-      propertyPath: resumeButton
-      value: 
-      objectReference: {fileID: 1310699269}
     - target: {fileID: 3295252300479090716, guid: b8c2f7d6f9ffbc64ca1afc69c80eb124, type: 3}
       propertyPath: gravityGunObj
       value: 
@@ -4967,7 +4970,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4844060519930227165, guid: 8f385e43d99c86947b146f9fed77dbc2, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5841580001423583700, guid: 8f385e43d99c86947b146f9fed77dbc2, type: 3}
       propertyPath: m_RootOrder

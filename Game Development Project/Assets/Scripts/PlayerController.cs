@@ -394,7 +394,7 @@ public class PlayerController : MonoBehaviour
 
             if (hit.transform.CompareTag("Container"))
             {
-                InteractionUI(true, "[E] LOOT");
+                InteractionUI(true, "LOOT");
 
                 if (InteractInput() && suckCannonObj.activeSelf)
                 {
@@ -426,7 +426,7 @@ public class PlayerController : MonoBehaviour
 
             if (hit.transform.CompareTag("Health Container"))
             {
-                InteractionUI(true, "[E] HEAL");
+                InteractionUI(true, "HEAL");
 
                 if (InteractInput())
                 {
@@ -446,7 +446,7 @@ public class PlayerController : MonoBehaviour
             if (hit.transform.CompareTag("NPC"))
             {
                 if (!inConversation)
-                    InteractionUI(true, "[E] TALK");
+                    InteractionUI(true, "TALK");
 
                 if (InteractInput())
                 {
