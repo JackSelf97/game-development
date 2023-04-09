@@ -12,9 +12,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Button controlButton = null;
     [SerializeField] private Button backButton = null;
 
-    [Header("UI")]
+    [Header("UI Sprites")]
     [SerializeField] private Image buttonImage;
-    [SerializeField] private Sprite gamepadSprite;
+    [SerializeField] private Sprite xboxSprite;
+    [SerializeField] private Sprite playstationSprite;
     [SerializeField] private Sprite keyboardSprite;
 
     // Start is called before the first frame update
@@ -27,26 +28,15 @@ public class UIManager : MonoBehaviour
         }
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    #region Update UI Sprites Based On Input Device
 
     void Awake()
     {
-        PlayerInput playerInput = PlayerManager.pMan.player.GetComponent<PlayerInput>();
-        UpdateButtonUI(playerInput.currentControlScheme);
+        if (SceneManager.GetActiveScene().buildIndex != 0)
+        {
+            PlayerInput playerInput = PlayerManager.pMan.player.GetComponent<PlayerInput>();
+            UpdateButtonUI(playerInput.currentControlScheme);
+        }
     }
 
     void OnEnable()
@@ -62,32 +52,20 @@ public class UIManager : MonoBehaviour
     void OnInputDeviceChange(InputUser user, InputUserChange change, InputDevice device)
     {
         if (change == InputUserChange.ControlSchemeChanged)
-        {
             UpdateButtonUI(user.controlScheme.Value.name);
-        }
     }
 
     void UpdateButtonUI(string schemeName)
     {
-        // assuming you have only 2 schemes: keyboard and gamepad
-        if (schemeName.Equals("Gamepad"))
-        {
-            buttonImage.sprite = gamepadSprite;
-        }
+        if (schemeName.Equals("Xbox"))
+            buttonImage.sprite = xboxSprite;
+        else if (schemeName.Equals("Playstation"))
+            buttonImage.sprite = playstationSprite;
         else
-        {
             buttonImage.sprite = keyboardSprite;
-        }
     }
 
-
-
-
-
-
-
-
-
+    #endregion
 
     public void GoToScene(string sceneName)
     {
@@ -95,7 +73,6 @@ public class UIManager : MonoBehaviour
         {
             Time.timeScale = 1f; // remember you cannot call 'CheckPause' because that happens on a button press, so for now, copy over the logic
         }
-            
         SceneManager.LoadScene(sceneName);
     }
 
@@ -111,11 +88,6 @@ public class UIManager : MonoBehaviour
         controlPanel.SetActive(false);
         buttonPanel.SetActive(true);
         controlButton.Select();
-    }
-
-    public void Resume()
-    {
-        
     }
 
     public void RestartLevel()

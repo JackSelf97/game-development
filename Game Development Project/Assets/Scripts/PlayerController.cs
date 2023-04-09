@@ -103,6 +103,7 @@ public class PlayerController : MonoBehaviour
     }
 
     [Header("Interaction & UI")]
+    [SerializeField] private UIManager UIman = null;
     [SerializeField] private GameObject playerUI = null;
     [SerializeField] private Button restartButton = null;
     [SerializeField] private GameObject interactionBox = null;
@@ -523,6 +524,7 @@ public class PlayerController : MonoBehaviour
                 {
                     continueButton.Select();
                 }
+                UIman.Back();
                 pauseMenu.SetActive(false);
             }
         }

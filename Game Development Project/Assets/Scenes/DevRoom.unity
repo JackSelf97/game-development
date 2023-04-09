@@ -470,10 +470,10 @@ MonoBehaviour:
   m_XRTrackingOrigin: {fileID: 0}
   m_ActionsAsset: {fileID: -944628639613478452, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
   m_PointAction: {fileID: -1654692200621890270, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_MoveAction: {fileID: -1680190386980627800, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_MoveAction: {fileID: -8784545083839296357, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
   m_SubmitAction: {fileID: 392368643174621059, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
   m_CancelAction: {fileID: 7727032971491509709, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_LeftClickAction: {fileID: 1120369429361536294, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_LeftClickAction: {fileID: 3001919216989983466, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
   m_MiddleClickAction: {fileID: -2185481485913320682, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
   m_RightClickAction: {fileID: -4090225696740746782, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
   m_ScrollWheelAction: {fileID: 6240969308177333660, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
@@ -3120,7 +3120,8 @@ MonoBehaviour:
   controlButton: {fileID: 1565542624}
   backButton: {fileID: 1830825947}
   buttonImage: {fileID: 398701145}
-  gamepadSprite: {fileID: 21300000, guid: 1f0d3623d5cb2bd42b075ff606a8ea56, type: 3}
+  xboxSprite: {fileID: 21300000, guid: 1f0d3623d5cb2bd42b075ff606a8ea56, type: 3}
+  playstationSprite: {fileID: 21300000, guid: f1833cc46c6618348983632cbb7f312b, type: 3}
   keyboardSprite: {fileID: 21300000, guid: 31d31b7fb2d94b34c9f17d4bd02fa47e, type: 3}
 --- !u!198 &2144210264 stripped
 ParticleSystem:
@@ -3827,6 +3828,10 @@ PrefabInstance:
       propertyPath: stateDrivenCam2
       value: 
       objectReference: {fileID: 1635113371}
+    - target: {fileID: 3295252300479090716, guid: b8c2f7d6f9ffbc64ca1afc69c80eb124, type: 3}
+      propertyPath: UIman
+      value: 
+      objectReference: {fileID: 2142953635}
     - target: {fileID: 3295252300479090716, guid: b8c2f7d6f9ffbc64ca1afc69c80eb124, type: 3}
       propertyPath: vCamNPC
       value: 
