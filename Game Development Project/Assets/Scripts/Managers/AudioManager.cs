@@ -54,4 +54,9 @@ public class AudioManager : MonoBehaviour
         }
         item.source.Stop();
     }
+
+    public void OnSelectButtonSound()
+    {
+        Play("Select");
+    }
 }

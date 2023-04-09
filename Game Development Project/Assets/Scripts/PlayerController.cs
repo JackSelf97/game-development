@@ -107,6 +107,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Button mainMenuButton = null;
     [SerializeField] private GameObject interactionBox = null;
     [SerializeField] private Text interactionText = null;
+    [SerializeField] private GameObject ammoBox = null;
+    [SerializeField] private GameObject healthBar = null;
     public Button continueButton = null;
 
     private void Awake()
@@ -529,6 +531,22 @@ public class PlayerController : MonoBehaviour
     private void ChangeCrosshairColour(Color32 colour)
     {
         currCrosshair.color = colour;
+    }
+
+    public void UIController(bool input, bool state)
+    {
+        lockInput = input;
+
+        // Control the UI
+        currCrosshair.enabled = state;
+        healthBar.SetActive(state);
+        ammoBox.SetActive(state);
+
+        // Deactive the weapon
+        if (suckCannonEquipped)
+            suckCannonObj.SetActive(state);
+        else
+            gravityGunObj.SetActive(state);
     }
 
     #region Gamepad Logic (Xbox & PS4)

@@ -578,7 +578,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3295252300479090706}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3295252300479090705
 GameObject:
@@ -614,6 +614,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 8518812249229075351}
   - {fileID: 3295252300518936457}
   - {fileID: 3295252300345472820}
   - {fileID: 3295252301978024680}
@@ -672,8 +673,8 @@ MonoBehaviour:
   GroundLayers:
     serializedVersion: 2
     m_Bits: 2147483647
-  suckCannon: {fileID: 0}
-  gravityGun: {fileID: 0}
+  suckCannonObj: {fileID: 0}
+  gravityGunObj: {fileID: 0}
   ammoText: {fileID: 3295252301636838479}
   suckCannonEquipped: 1
   targetLock: 0
@@ -688,6 +689,8 @@ MonoBehaviour:
   mainMenuButton: {fileID: 0}
   interactionBox: {fileID: 3295252299994037009}
   interactionText: {fileID: 3295252300855039064}
+  ammoBox: {fileID: 3295252300293172480}
+  healthBar: {fileID: 3295252300133673076}
   continueButton: {fileID: 3295252300309438596}
 --- !u!114 &3295252300479090712
 MonoBehaviour:
@@ -701,9 +704,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f00d7d24caad1a8448d68c90bfc117eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerController: {fileID: 0}
+  mesh: {fileID: 0}
+  animator: {fileID: 0}
+  healthBar: {fileID: 3295252300133673079}
   currHP: 0
   maxHP: 100
-  healthBar: {fileID: 3295252300133673079}
+  stateDrivenCam1: {fileID: 0}
+  stateDrivenCam2: {fileID: 0}
 --- !u!114 &3295252300479090719
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -716,7 +724,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3a11e1c913cbbc46beb772790f8ede8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  suction: {fileID: 0}
+  suctionVFX: {fileID: 0}
   projectileLayer:
     serializedVersion: 2
     m_Bits: 1975
@@ -796,7 +804,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3295252300518936457
 Transform:
   m_ObjectHideFlags: 0
@@ -810,7 +818,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3295252300479090706}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3295252300518936459
 MeshFilter:
@@ -1624,7 +1632,7 @@ RectTransform:
   - {fileID: 3295252299994037010}
   - {fileID: 3295252300133673077}
   m_Father: {fileID: 3295252300479090706}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1692,3 +1700,77 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!1001 &8518107482404269277
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 3295252300479090706}
+    m_Modifications:
+    - target: {fileID: 1759730054593822, guid: e1ea702ec4ae0b145a85e13540aa7ec7, type: 3}
+      propertyPath: m_Name
+      value: DOOM Extinguisher (Green)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1759730054593822, guid: e1ea702ec4ae0b145a85e13540aa7ec7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4084706916568906, guid: e1ea702ec4ae0b145a85e13540aa7ec7, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4084706916568906, guid: e1ea702ec4ae0b145a85e13540aa7ec7, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4084706916568906, guid: e1ea702ec4ae0b145a85e13540aa7ec7, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4084706916568906, guid: e1ea702ec4ae0b145a85e13540aa7ec7, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4084706916568906, guid: e1ea702ec4ae0b145a85e13540aa7ec7, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4084706916568906, guid: e1ea702ec4ae0b145a85e13540aa7ec7, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4084706916568906, guid: e1ea702ec4ae0b145a85e13540aa7ec7, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4084706916568906, guid: e1ea702ec4ae0b145a85e13540aa7ec7, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4084706916568906, guid: e1ea702ec4ae0b145a85e13540aa7ec7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4084706916568906, guid: e1ea702ec4ae0b145a85e13540aa7ec7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4084706916568906, guid: e1ea702ec4ae0b145a85e13540aa7ec7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 95282749649713988, guid: e1ea702ec4ae0b145a85e13540aa7ec7, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 804d695c94e00e94192f24515908856c, type: 2}
+    - target: {fileID: 95282749649713988, guid: e1ea702ec4ae0b145a85e13540aa7ec7, type: 3}
+      propertyPath: m_CullingMode
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e1ea702ec4ae0b145a85e13540aa7ec7, type: 3}
+--- !u!4 &8518812249229075351 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4084706916568906, guid: e1ea702ec4ae0b145a85e13540aa7ec7, type: 3}
+  m_PrefabInstance: {fileID: 8518107482404269277}
+  m_PrefabAsset: {fileID: 0}
