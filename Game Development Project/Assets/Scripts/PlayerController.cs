@@ -104,7 +104,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Interaction & UI")]
     [SerializeField] private GameObject playerUI = null;
-    [SerializeField] private Button mainMenuButton = null;
+    [SerializeField] private Button restartButton = null;
     [SerializeField] private GameObject interactionBox = null;
     [SerializeField] private Text interactionText = null;
     [SerializeField] private GameObject ammoBox = null;
@@ -508,7 +508,7 @@ public class PlayerController : MonoBehaviour
                 Time.timeScale = 0f;
                 pauseMenu.SetActive(true);
                 Cursor.lockState = CursorLockMode.None;
-                mainMenuButton.Select(); 
+                restartButton.Select(); 
                 return;
             }
             else

@@ -1,10 +1,11 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
-    [Header("Main Menu")]
+    [Header("Menu")]
     [SerializeField] private GameObject buttonPanel = null;
     [SerializeField] private GameObject controlPanel = null;
     [SerializeField] private Button controlButton = null;
@@ -18,6 +19,7 @@ public class UIManager : MonoBehaviour
             Application.targetFrameRate = 60;
             Debug.Log("Capping FPS at " + Application.targetFrameRate);
         }
+
     }
 
     public void GoToScene(string sceneName)
@@ -42,6 +44,18 @@ public class UIManager : MonoBehaviour
         controlPanel.SetActive(false);
         buttonPanel.SetActive(true);
         controlButton.Select();
+    }
+
+    public void Resume()
+    {
+        
+    }
+
+    public void RestartLevel()
+    {
+        // Reload the scene
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        Time.timeScale = 1f;
     }
 
     public void Quit()
