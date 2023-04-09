@@ -55,7 +55,7 @@ public class PlayerStats : MonoBehaviour
         // Wait
         yield return new WaitForSeconds(respawnTime);
 
-        // Load the scene from the beginning
+        // Reload the scene
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
