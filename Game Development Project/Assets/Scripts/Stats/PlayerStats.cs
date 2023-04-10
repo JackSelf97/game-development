@@ -7,11 +7,12 @@ public class PlayerStats : MonoBehaviour
     [SerializeField] private PlayerController playerController = null;
     [SerializeField] private GameObject mesh = null;
     [SerializeField] private Animator animator = null;
+    private int respawnTime = 7;
+    public GameObject capsuleMesh = null;
     public HealthBar healthBar = null;
     public int currHP = 0;
     public int maxHP = 100;
-    private int respawnTime = 7;
-    const int zero = 0;
+    const int zero = 0, one = 1;
 
     [Header("Cinemachine")]
     [SerializeField] private GameObject stateDrivenCam1;
@@ -24,6 +25,7 @@ public class PlayerStats : MonoBehaviour
         healthBar.SetMaxHealth(maxHP);
         playerController = GetComponent<PlayerController>();
         mesh = transform.GetChild(zero).gameObject;
+        capsuleMesh = transform.GetChild(one).gameObject;
         animator = mesh.GetComponent<Animator>();
     }
 
@@ -47,7 +49,8 @@ public class PlayerStats : MonoBehaviour
         stateDrivenCam1.SetActive(false);
         stateDrivenCam2.SetActive(true);
 
-        // Update the UI
+        // Update the UI & the character mesh
+        capsuleMesh.SetActive(false);
         mesh.SetActive(true);
         playerController.UIController(true, false);
         animator.SetTrigger("Death");

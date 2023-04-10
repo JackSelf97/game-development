@@ -4387,7 +4387,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: f0184392ea03cae48ad427fc701eb0fa, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -5166,7 +5166,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: f0184392ea03cae48ad427fc701eb0fa, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -7540,6 +7540,10 @@ MonoBehaviour:
   controlPanel: {fileID: 2117865046}
   controlButton: {fileID: 1937451450}
   backButton: {fileID: 675700720}
+  buttonImage: {fileID: 0}
+  xboxSprite: {fileID: 0}
+  playstationSprite: {fileID: 0}
+  keyboardSprite: {fileID: 0}
 --- !u!1 &1309119220
 GameObject:
   m_ObjectHideFlags: 0
@@ -11179,7 +11183,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: f0184392ea03cae48ad427fc701eb0fa, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -12602,7 +12606,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: f0184392ea03cae48ad427fc701eb0fa, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

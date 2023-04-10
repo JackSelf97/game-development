@@ -476,20 +476,16 @@ public class PlayerController : MonoBehaviour
     {
         if (inConversation)
         {
-            lockInput = true;
+            UIController(true, false);
+            playerStats.capsuleMesh.SetActive(false);
             Cursor.lockState = CursorLockMode.None;
-            cam.transform.GetChild(0).gameObject.SetActive(false);
-            cam.transform.GetChild(1).gameObject.SetActive(false);
-            currCrosshair.enabled = false;
             InteractionUI(false);
         }
         else
         {
-            lockInput = false;
+            UIController(false, true);
+            playerStats.capsuleMesh.SetActive(false);
             Cursor.lockState = CursorLockMode.Locked;
-            cam.transform.GetChild(0).gameObject.SetActive(true);
-            cam.transform.GetChild(1).gameObject.SetActive(true);
-            currCrosshair.enabled = true;
         }
     }
 
