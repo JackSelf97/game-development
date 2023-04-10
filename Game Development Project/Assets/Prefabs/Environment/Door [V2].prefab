@@ -161,7 +161,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   xValue: 0
   zValue: 1.5
-  doorSpeed: 1.2
+  doorSpeed: 1.4
   isClosed: 0
   pointA: {x: 0, y: 0, z: 0}
   pointB: {x: 0, y: 0, z: 0}
