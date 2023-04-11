@@ -5,6 +5,13 @@ public class TriggerEvent : MonoBehaviour
     [SerializeField] private GameObject enemySpawner = null;
     private Spawner spawner = null;
 
+    [Header("Events")]
+    public bool killBox = false;
+    public bool music = false;
+    public bool exit = false;
+    public GameObject exitObj = null;
+    public GameObject countdownObj = null;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -14,12 +21,31 @@ public class TriggerEvent : MonoBehaviour
             spawner = enemySpawner.GetComponent<Spawner>();
     }
 
+    // Event Trigger
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") && enemySpawner != null)
+        if (other.CompareTag("Player"))
         {
-            if (!spawner.complete)
-                spawner.isOn = true;
+            if (spawner != null)
+            {
+                if (!spawner.complete)
+                    spawner.isOn = true;
+            }
+
+            // theme music
+            if (music)
+                FindObjectOfType<AudioManager>().Play("Theme");
+
+            // exit
+            if (exit)
+            {
+                exitObj.GetComponent<Collider>().enabled = true;
+                countdownObj.SetActive(true);
+            }
+                
+            // instant death
+            if (killBox)
+                PlayerManager.pMan.player.GetComponent<PlayerStats>().TakeDamage(100);
 
             Destroy(this);
         }

@@ -396,7 +396,6 @@ public class PlayerController : MonoBehaviour
             if (hit.transform.CompareTag("Container"))
             {
                 InteractionUI(true, "LOOT");
-
                 if (InteractInput() && suckCannonObj.activeSelf)
                 {
                     JunkContainer container = hit.transform.GetComponent<JunkContainer>();
@@ -428,7 +427,6 @@ public class PlayerController : MonoBehaviour
             if (hit.transform.CompareTag("Health Container"))
             {
                 InteractionUI(true, "HEAL");
-
                 if (InteractInput())
                 {
                     HealthContainer healthContainer = hit.transform.GetComponent<HealthContainer>();
@@ -460,6 +458,15 @@ public class PlayerController : MonoBehaviour
                     vCamNPC.LookAt = hit.transform.GetChild(0).transform;
 
                     ConversationCheck();
+                }
+            }
+
+            if (hit.transform.CompareTag("Exit"))
+            {
+                InteractionUI(true, "EXIT");
+                if (InteractInput())
+                {
+                    UIman.GoToScene("Main Menu"); // roll credits...
                 }
             }
         }

@@ -9,6 +9,7 @@ TagManager:
   - Enemy
   - Waypoint
   - Health Container
+  - Exit
   layers:
   - Default
   - TransparentFX

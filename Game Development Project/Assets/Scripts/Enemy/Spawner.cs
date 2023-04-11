@@ -10,7 +10,7 @@ public class Spawner : MonoBehaviour
     public EnemyType enemyType;
 
     // Enemy types
-    [SerializeField] private GameObject zombieRunner = null;
+    [SerializeField] private GameObject[] zombieRunner = new GameObject[0];
 
     // How many enemy will be spawned
     [SerializeField] private int spawnCount = 5;
@@ -27,12 +27,15 @@ public class Spawner : MonoBehaviour
     // Waypoints
     public GameObject[] allWaypoints = new GameObject[0];
 
+    // Constants
+    private const int zero = 0;
+
     // Update is called once per frame
     void Update()
     {
         if (isOn)
         {
-            if (spawnCount <= 0) 
+            if (spawnCount <= zero) 
             {
                 complete = true;
                 return; 
@@ -45,7 +48,7 @@ public class Spawner : MonoBehaviour
                 if (timer > timeLimit)
                 {
                     SpawnEnemies();
-                    timer = 0; // reset
+                    timer = zero; // reset
                 }
             }
             else
@@ -57,12 +60,12 @@ public class Spawner : MonoBehaviour
 
     void SpawnEnemies()
     {
-        for (int i = 0; i < spawnCount;)
+        for (int i = zero; i < spawnCount;)
         {
             switch (enemyType)
             {
                 case EnemyType.Zombie_Runner:
-                    GameObject enemy = Instantiate(zombieRunner, transform.position, Quaternion.identity);
+                    GameObject enemy = Instantiate(zombieRunner[Random.Range(zero, zombieRunner.Length)], transform.position, Quaternion.identity);
                     enemy.GetComponent<EnemyPatrol>().parentSpawner = this;
                     break;
                 default:

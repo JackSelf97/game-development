@@ -45,8 +45,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyType: 0
-  zombieRunner: {fileID: 4844060519930227165, guid: 8f385e43d99c86947b146f9fed77dbc2, type: 3}
+  zombieRunner:
+  - {fileID: 4844060519930227165, guid: 8f385e43d99c86947b146f9fed77dbc2, type: 3}
+  - {fileID: 4844060519930227165, guid: 7c395f7d0ae9f16489d92269b5a66aee, type: 3}
+  - {fileID: 4844060519930227165, guid: 5499b4acdb4644044b46a3a772ad5410, type: 3}
+  - {fileID: 4844060519930227165, guid: 370e493fec9ff3c438ffd54977b2d43d, type: 3}
   spawnCount: 5
-  on: 0
+  isOn: 0
+  complete: 0
   spawnOverTime: 0
   timeLimit: 3
+  allWaypoints: []
