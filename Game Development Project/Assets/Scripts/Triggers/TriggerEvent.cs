@@ -8,13 +8,15 @@ public class TriggerEvent : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (enemySpawner != null)
+        if (enemySpawner == null)
+            return;
+        else
             spawner = enemySpawner.GetComponent<Spawner>();
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && enemySpawner != null)
         {
             if (!spawner.complete)
                 spawner.isOn = true;

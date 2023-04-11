@@ -1,12 +1,14 @@
 using UnityEngine.Audio;
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class AudioManager : MonoBehaviour
 {
     public Sound[] sounds;
 
     public static AudioManager aMan { get; private set; }
+    private bool playingTheme = false;
 
     // Start is called before the first frame update
     void Awake()
@@ -24,7 +26,8 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
-        Play("Theme");
+        if (SceneManager.GetActiveScene().buildIndex == 0)
+            Play("Theme");
     }
 
     public void Play(string name)
