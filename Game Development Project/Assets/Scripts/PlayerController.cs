@@ -473,7 +473,8 @@ public class PlayerController : MonoBehaviour
                 InteractionUI(true, "EXIT");
                 if (InteractInput())
                 {
-                    UIman.GoToScene("Main Menu"); // roll credits...
+                    UIman.GoToScene("Main Menu");
+                    GameManager.gMan.gameCompleted = true;
                 }
             }
         }

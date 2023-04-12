@@ -18,4 +18,6 @@ public class GameManager : MonoBehaviour
         }
     }
     #endregion
+
+    public bool gameCompleted = false;
 }

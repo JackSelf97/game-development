@@ -3,10 +3,13 @@ using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem.Users;
+using System.Collections;
 
 public class UIManager : MonoBehaviour
 {
     [Header("Game Menu")]
+    [SerializeField] private GameObject title = null;
+    [SerializeField] private GameObject creditPanel = null;
     [SerializeField] private GameObject buttonPanel = null;
     [SerializeField] private GameObject controlPanel = null;
     [SerializeField] private Button controlButton = null;
@@ -25,6 +28,12 @@ public class UIManager : MonoBehaviour
         {
             Application.targetFrameRate = 60;
             Debug.Log("Capping FPS at " + Application.targetFrameRate);
+        }
+
+        if (SceneManager.GetActiveScene().buildIndex == 0 && GameManager.gMan.gameCompleted)
+        {
+            BeginCredits();
+            GameManager.gMan.gameCompleted = false;
         }
     }
 
@@ -95,6 +104,34 @@ public class UIManager : MonoBehaviour
         // Reload the scene
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         Time.timeScale = 1f;
+    }
+
+    public void BeginCredits()
+    {
+        StartCoroutine(Credits());
+    }
+
+    public IEnumerator Credits()
+    {
+        // Deactivate the UI
+        title.SetActive(false);
+        buttonPanel.SetActive(false);
+        creditPanel.SetActive(true);
+
+        // Play the music
+        FindObjectOfType<AudioManager>().Stop("Theme");
+        FindObjectOfType<AudioManager>().Play("Theme-Ending");
+
+        yield return new WaitForSeconds(55f);
+
+        // Activate the UI
+        creditPanel.SetActive(false);
+        title.SetActive(true);
+        buttonPanel.SetActive(true);
+
+        // Stop the music
+        FindObjectOfType<AudioManager>().Stop("Theme-Ending");
+        FindObjectOfType<AudioManager>().Play("Theme");
     }
 
     public void Quit()
