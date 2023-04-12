@@ -158,14 +158,20 @@ public class SuckCannon : MonoBehaviour
                     return;
                 }
 
-                // Fire items
-                junkFired = true;
-                weaponRecoil.Recoil();
-                UpdateAmmo(-one);
+                if (currAmmo == currHitObject.Count) // prevents "rapid suck and shoot" - waits for the ammo count to match the object count
+                {
+                    // Fire items
+                    junkFired = true;
+                    weaponRecoil.Recoil();
+                    UpdateAmmo(-one);
 
-                // Haptic Feedback
-                if (Gamepad.current != null)
-                    StartCoroutine(playerController.PlayHaptics(0.1f, 1.5f, 1.5f));
+                    // Haptic feedback
+                    if (Gamepad.current != null)
+                        StartCoroutine(playerController.PlayHaptics(0.1f, 1.5f, 1.5f));
+
+                    // Play sound
+                    FindObjectOfType<AudioManager>().Play("Fire Junk");
+                }
             }
         }
     }

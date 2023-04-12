@@ -60,7 +60,7 @@ public class Junk : MonoBehaviour
             Shrink.sMan.ShrinkItem(gameObject, false, lifeTime); // shrink 
             if (!gameObject.activeSelf) // only add to the list once the 'hitObject' is no longer active
             {
-                suckCannon.UpdateAmmo(1);
+                suckCannon.UpdateAmmo(1); // can't have update ammo and add gameobject in two different places...
                 targeted = false;
             }
         }

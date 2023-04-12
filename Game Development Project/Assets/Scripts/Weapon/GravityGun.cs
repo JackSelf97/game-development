@@ -39,6 +39,9 @@ public class GravityGun : MonoBehaviour
             if (Gamepad.current != null)
                 StartCoroutine(playerController.PlayHaptics(0.075f, 1f, 1f));
 
+            // Play sound
+            FindObjectOfType<AudioManager>().Play("Fire Gravity Bomb");
+
             bombFired = true;
         }
     }

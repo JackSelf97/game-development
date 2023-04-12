@@ -1,4 +1,3 @@
-using UnityEngine.Audio;
 using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -57,8 +56,16 @@ public class AudioManager : MonoBehaviour
         item.source.Stop();
     }
 
+    #region UI Sound Functions
+
     public void OnSelectButtonSound()
     {
-        Play("Select");
+        Play("Selected");
     }
+    public void OnPressButtonSound()
+    {
+        Play("Pressed");
+    }
+
+    #endregion
 }

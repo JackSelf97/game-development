@@ -307,6 +307,7 @@ public class PlayerController : MonoBehaviour
         // second weapon comes up
         weapon2.SetActive(true);
         weapon2.GetComponent<Animator>().SetBool("IsSwitching", false);
+        FindObjectOfType<AudioManager>().Play("Weapon Switch");
     }
 
     public void GroundCheck()
@@ -418,6 +419,9 @@ public class PlayerController : MonoBehaviour
 
                         // play animation
                         suckCannonObj.GetComponent<Animator>().SetTrigger("IsReloading");
+
+                        // play sound
+                        FindObjectOfType<AudioManager>().Play("Loot");
                     }
                 }
             }
@@ -438,6 +442,9 @@ public class PlayerController : MonoBehaviour
                         playerStats.healthBar.SetHealth(playerStats.currHP); // update healthBar UI
 
                         healthContainer.UpdateContainerStatus(-1); // minus the 'uses' from the health container [int]
+
+                        // play sound
+                        FindObjectOfType<AudioManager>().Play("Heal");
                     }
                 }
             }

@@ -2931,8 +2931,14 @@ MonoBehaviour:
     pitch: 1
     loop: 1
     source: {fileID: 0}
-  - name: Select
-    clip: {fileID: 8300000, guid: 661b2e399faecfe4aaa46d6afbf7a08b, type: 3}
+  - name: Selected
+    clip: {fileID: 8300000, guid: a574cea2976df874daa2351c2fdcbfe2, type: 3}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Pressed
+    clip: {fileID: 8300000, guid: 4cab8b28b3f76f241b15eb3b0f5cbc60, type: 3}
     volume: 0.5
     pitch: 1
     loop: 0
@@ -10962,6 +10968,22 @@ MonoBehaviour:
         - m_Target: {fileID: 470051368}
           m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
           m_MethodName: OnSelectButtonSound
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 15
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 470051368}
+          m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
+          m_MethodName: OnPressButtonSound
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
