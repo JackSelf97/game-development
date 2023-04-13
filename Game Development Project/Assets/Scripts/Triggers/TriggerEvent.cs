@@ -6,6 +6,7 @@ public class TriggerEvent : MonoBehaviour
     private Spawner spawner = null;
 
     [Header("Events")]
+    public NPC npc = null;
     public bool killBox = false;
     public bool music = false;
     public bool exit = false;
@@ -15,10 +16,15 @@ public class TriggerEvent : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // Spawner
         if (enemySpawner == null)
             return;
         else
             spawner = enemySpawner.GetComponent<Spawner>();
+
+        // NPC
+        if (npc != null)
+            GetComponent<SlidingDoor>().enabled = false;
     }
 
     // Event Trigger
@@ -26,31 +32,60 @@ public class TriggerEvent : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            if (spawner != null)
+            // Spawner
+            if (spawner != null && npc == null)
             {
                 if (!spawner.complete)
                     spawner.isOn = true;
             }
 
-            // theme music
-            if (music)
+            // NPC
+            if (npc != null)
             {
-                FindObjectOfType<AudioManager>().Play("Theme");
-                FindObjectOfType<AudioManager>().Stop("Ambience");
+                if (npc.dialogueStarted)
+                {
+                    GetComponent<SlidingDoor>().enabled = true;
+                    npc.gameObject.SetActive(false);
+
+                    // Trigger Music
+                    if (music)
+                    {
+                        FindObjectOfType<AudioManager>().Play("Theme");
+                        FindObjectOfType<AudioManager>().Stop("Ambience");
+                    }
+
+                    // Trigger Exit
+                    if (exit)
+                    {
+                        // Reset the spawners
+                        Spawner[] spawners = FindObjectsOfType<Spawner>();
+                        for (int i = 0; i < spawners.Length; i++)
+                        {
+                            spawners[i].spawnCount = spawners[i].maxSpawnCount;
+                        }
+
+                        exitObj.GetComponent<Collider>().enabled = true;
+                        countdownObj.SetActive(true);
+                    }
+
+                    // Trigger Spawner
+                    if (spawner != null)
+                    {
+                        if (!spawner.complete)
+                            spawner.isOn = true;
+                    }
+
+                    npc = null;
+                }
             }
-                
-            // exit
-            if (exit)
-            {
-                exitObj.GetComponent<Collider>().enabled = true;
-                countdownObj.SetActive(true);
-            }
-                
-            // instant death
+
+            // Instant Death
             if (killBox)
                 PlayerManager.pMan.player.GetComponent<PlayerStats>().TakeDamage(100);
 
-            Destroy(this);
+            // Destroy the script
+            if (npc == null || npc != null && npc.dialogueStarted)
+                Destroy(this);
         }
     }
 }

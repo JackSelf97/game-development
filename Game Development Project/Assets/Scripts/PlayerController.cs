@@ -457,6 +457,7 @@ public class PlayerController : MonoBehaviour
                 if (InteractInput())
                 {
                     var NPC = hit.transform.GetComponent<NPC>();
+                    NPC.dialogueStarted = true;
                     NPC.TriggerDialogue();
                     inConversation = true;
 

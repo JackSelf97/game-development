@@ -13,7 +13,7 @@ public class Spawner : MonoBehaviour
     [SerializeField] private GameObject[] zombieRunner = new GameObject[0];
 
     // How many enemy will be spawned
-    [SerializeField] private int spawnCount = 5;
+    public int spawnCount = 5, maxSpawnCount = 0;
 
     // Whether you want the spawner to be automatic
     public bool isOn = false;
@@ -29,6 +29,11 @@ public class Spawner : MonoBehaviour
 
     // Constants
     private const int zero = 0;
+
+    private void Start()
+    {
+        maxSpawnCount = spawnCount;
+    }
 
     // Update is called once per frame
     void Update()
