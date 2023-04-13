@@ -17444,6 +17444,7 @@ GameObject:
   - component: {fileID: 963194226}
   - component: {fileID: 963194229}
   - component: {fileID: 963194230}
+  - component: {fileID: 963194231}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -17614,6 +17615,31 @@ MonoBehaviour:
   m_BeforeTransparentBundles: []
   m_BeforeStackBundles: []
   m_AfterStackBundles: []
+--- !u!169 &963194231
+AudioLowPassFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_LowpassResonanceQ: 1
+  lowpassLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.22727273
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!4 &965515976 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4626076820045791636, guid: 3e154ea4012a15a479b10263094fbd79, type: 3}
@@ -23525,53 +23551,89 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sounds:
-  - name: Theme
-    clip: {fileID: 8300000, guid: 440358a53b0a782448197d2299e53809, type: 3}
-    volume: 0.05
+  - name: Ambience
+    clip: {fileID: 8300000, guid: 31ac12bdbd2984c449325214a27a9f1c, type: 3}
+    volume: 0.02
     pitch: 1
     loop: 1
+    bypassListenerEffects: 1
+    source: {fileID: 0}
+  - name: Theme
+    clip: {fileID: 8300000, guid: 440358a53b0a782448197d2299e53809, type: 3}
+    volume: 0.04
+    pitch: 1
+    loop: 1
+    bypassListenerEffects: 1
     source: {fileID: 0}
   - name: Selected
     clip: {fileID: 8300000, guid: a574cea2976df874daa2351c2fdcbfe2, type: 3}
     volume: 0.5
     pitch: 1
     loop: 0
+    bypassListenerEffects: 1
     source: {fileID: 0}
   - name: Pressed
     clip: {fileID: 8300000, guid: 4cab8b28b3f76f241b15eb3b0f5cbc60, type: 3}
     volume: 0.5
     pitch: 1
     loop: 0
+    bypassListenerEffects: 1
     source: {fileID: 0}
   - name: Weapon Switch
     clip: {fileID: 8300000, guid: 898b296db0da11d429dd2e81c841b8f4, type: 3}
     volume: 0.1
     pitch: 0.8
     loop: 0
+    bypassListenerEffects: 0
     source: {fileID: 0}
   - name: Loot
     clip: {fileID: 8300000, guid: 1f43e42353b7b414abb851794e6b0d23, type: 3}
     volume: 0.3
     pitch: 1
     loop: 0
+    bypassListenerEffects: 0
     source: {fileID: 0}
   - name: Heal
     clip: {fileID: 8300000, guid: f1e92f8f473de6448b64713ee9a14445, type: 3}
     volume: 0.3
     pitch: 1
     loop: 0
+    bypassListenerEffects: 0
+    source: {fileID: 0}
+  - name: Suck
+    clip: {fileID: 8300000, guid: f318ff2e69b2fb241b8af8b4ad0a5124, type: 3}
+    volume: 0.2
+    pitch: 0.8
+    loop: 0
+    bypassListenerEffects: 0
     source: {fileID: 0}
   - name: Fire Junk
     clip: {fileID: 8300000, guid: 3000f0387b9a87f44af36cb6876a3259, type: 3}
     volume: 0.2
     pitch: 1
     loop: 0
+    bypassListenerEffects: 0
     source: {fileID: 0}
   - name: Fire Gravity Bomb
     clip: {fileID: 8300000, guid: 2fcdeba36ce9b89469032d400979b375, type: 3}
     volume: 0.2
     pitch: 1
     loop: 0
+    bypassListenerEffects: 0
+    source: {fileID: 0}
+  - name: Empty
+    clip: {fileID: 8300000, guid: 2f5d0165c9bf5ad4c8b1b5911de2e620, type: 3}
+    volume: 0.1
+    pitch: 1
+    loop: 0
+    bypassListenerEffects: 0
+    source: {fileID: 0}
+  - name: FAL
+    clip: {fileID: 8300000, guid: 33991260a3e5ce14ba0a8bdf5e4528fc, type: 3}
+    volume: 0.4
+    pitch: 1
+    loop: 0
+    bypassListenerEffects: 0
     source: {fileID: 0}
 --- !u!1001 &1315776225
 PrefabInstance:
@@ -40647,6 +40709,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a86a45ecdf2e61543a3357fd300fb13a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  title: {fileID: 0}
+  creditPanel: {fileID: 0}
   buttonPanel: {fileID: 1424389760}
   controlPanel: {fileID: 858969472}
   controlButton: {fileID: 1963758465}

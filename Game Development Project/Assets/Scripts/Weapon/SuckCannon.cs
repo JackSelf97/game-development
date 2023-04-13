@@ -132,6 +132,9 @@ public class SuckCannon : MonoBehaviour
                     junkScript.targeted = true; // then target the 'hitObject'
                     currHitObject.Add(hitObject);
                     currHitDistance = hit.distance;
+
+                    // Play sound
+                    FindObjectOfType<AudioManager>().Play("Suck");
                 }
             }
             else
@@ -147,6 +150,7 @@ public class SuckCannon : MonoBehaviour
                 if (currHitObject.Count <= zero)
                 {
                     Debug.Log("No ammo");
+                    FindObjectOfType<AudioManager>().Play("Empty");
 
                     // Push items
                     RaycastHit hit;
@@ -182,7 +186,7 @@ public class SuckCannon : MonoBehaviour
         {
             isSucking = !isSucking;
             UpdateUI(isSucking);
-        }
+        }    
     }
 
     public void UpdateUI(bool isSucking)

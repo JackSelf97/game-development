@@ -1,4 +1,3 @@
-using UnityEngine.Audio;
 using UnityEngine;
 
 [System.Serializable]
@@ -14,6 +13,7 @@ public class Sound
     public float pitch;
 
     public bool loop;
+    public bool bypassListenerEffects;
 
     [HideInInspector]
     public AudioSource source;

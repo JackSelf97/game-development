@@ -34,8 +34,11 @@ public class TriggerEvent : MonoBehaviour
 
             // theme music
             if (music)
+            {
                 FindObjectOfType<AudioManager>().Play("Theme");
-
+                FindObjectOfType<AudioManager>().Stop("Ambience");
+            }
+                
             // exit
             if (exit)
             {

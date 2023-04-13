@@ -20,6 +20,7 @@ public class AudioManager : MonoBehaviour
             item.source.volume = item.volume;
             item.source.pitch = item.pitch;
             item.source.loop = item.loop;
+            item.source.bypassListenerEffects = item.bypassListenerEffects;
         }
     }
 
@@ -27,6 +28,9 @@ public class AudioManager : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().buildIndex == 0)
             Play("Theme");
+
+        if (SceneManager.GetActiveScene().buildIndex == 3)
+            Play("Ambience");
     }
 
     public void Play(string name)

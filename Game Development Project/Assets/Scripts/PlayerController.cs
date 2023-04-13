@@ -465,6 +465,9 @@ public class PlayerController : MonoBehaviour
                     vCamNPC.LookAt = hit.transform.GetChild(0).transform;
 
                     ConversationCheck();
+
+                    // play sound
+                    FindObjectOfType<AudioManager>().Play("FAL");
                 }
             }
 
