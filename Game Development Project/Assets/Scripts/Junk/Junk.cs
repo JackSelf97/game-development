@@ -18,6 +18,9 @@ public class Junk : MonoBehaviour
     private GameObject weaponHandler = null;
     [SerializeField] private Transform firePos = null;
 
+    // Constants
+    private const int zero = 0;
+
     private void Start()
     {
         // Get the starting scales
@@ -29,13 +32,16 @@ public class Junk : MonoBehaviour
         }
         else
         {
-            transform.localScale = new Vector3(0, 0, 0);
+            transform.localScale = new Vector3(zero, zero, zero);
         }
 
         // Get the player refs
         suckCannon = PlayerManager.pMan.player.GetComponent<SuckCannon>();
         weaponHandler = Camera.main.transform.GetChild(1).gameObject;
-        firePos = weaponHandler.transform.GetChild(0).transform.GetChild(0).transform;
+        firePos = weaponHandler.transform.GetChild(zero).transform.GetChild(zero).transform;
+
+        // Give them a little velocity...
+        GetComponent<Rigidbody>().AddRelativeForce(Random.onUnitSphere * 5f);
     }
 
     private void Update()
@@ -46,7 +52,7 @@ public class Junk : MonoBehaviour
         if (shot)
         {
             lifeTime -= Time.deltaTime;
-            if (lifeTime > 0)
+            if (lifeTime > zero)
                 Shrink.sMan.GrowItem(gameObject);
             else
                 Shrink.sMan.ShrinkItem(gameObject, true, lifeTime);
@@ -57,7 +63,6 @@ public class Junk : MonoBehaviour
     void SuckMovement()
     {
         GetComponent<Collider>().enabled = false;
-        GetComponent<Rigidbody>().useGravity = true;
         transform.localPosition = Vector3.MoveTowards(transform.localPosition, firePos.transform.position, suckCannon.force * Time.deltaTime); // 'suckCannon.force' may be too strong?
         float distance = Vector3.Distance(transform.position, firePos.transform.position);
 

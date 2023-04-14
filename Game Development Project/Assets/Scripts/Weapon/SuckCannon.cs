@@ -106,6 +106,7 @@ public class SuckCannon : MonoBehaviour
         junkProjectile.transform.position = firePos.position;
 
         // Add relative force towards the 'targetPoint' & make 'junkProjectile' shot
+        rigidbody.useGravity = true;
         rigidbody.AddForce((targetPoint - firePos.position).normalized * force, ForceMode.Impulse);
         junkProjectile.GetComponent<Junk>().shot = true;
         junkFired = false;

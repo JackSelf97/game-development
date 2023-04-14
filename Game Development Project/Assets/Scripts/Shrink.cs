@@ -3,7 +3,7 @@ using UnityEngine;
 public class Shrink : MonoBehaviour
 {
     public static Shrink sMan { get; private set; }
-    private float shrinkMultiplier = 1f, growMultiplier = 6f;
+    private float shrinkMultiplier = 4f, growMultiplier = 10f;
     private float xScale, yScale, zScale;
 
     // Start is called before the first frame update
