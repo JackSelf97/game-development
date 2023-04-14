@@ -143,7 +143,7 @@ public class EnemyController : MonoBehaviour
         {
             if (collision.gameObject.GetComponent<Junk>().shot)
             {
-                int junkProjectileWeight = collision.gameObject.GetComponent<Junk>().weight;
+                int junkProjectileWeight = collision.gameObject.GetComponent<Junk>().junkItemSO.weight;
                 impactCount += junkProjectileWeight;
 
                 if (!isChasing && enemyStats.isAlive)

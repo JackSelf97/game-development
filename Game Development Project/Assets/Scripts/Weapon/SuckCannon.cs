@@ -68,7 +68,7 @@ public class SuckCannon : MonoBehaviour
             Junk junkScript = currHitObject[lastElement].GetComponent<Junk>();
             if (junkScript.targeted) { return; } // cannot fire if junk is being 'sucked'
 
-            if (junkScript.isWorldJunk) // world items
+            if (junkScript.junkItemSO.isWorldJunk) // world items
             {
                 currHitObject[lastElement].SetActive(true);
                 currHitObject[lastElement].GetComponent<Collider>().enabled = true;
