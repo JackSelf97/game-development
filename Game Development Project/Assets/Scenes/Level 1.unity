@@ -4926,7 +4926,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7706976419237502389, guid: 8388976ccb57307469c9f7c55297875f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -39.3
+      value: -39.8
       objectReference: {fileID: 0}
     - target: {fileID: 7706976419237502389, guid: 8388976ccb57307469c9f7c55297875f, type: 3}
       propertyPath: m_LocalRotation.w
@@ -4938,7 +4938,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7706976419237502389, guid: 8388976ccb57307469c9f7c55297875f, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.7071068
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 7706976419237502389, guid: 8388976ccb57307469c9f7c55297875f, type: 3}
       propertyPath: m_LocalRotation.z
@@ -4950,7 +4950,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7706976419237502389, guid: 8388976ccb57307469c9f7c55297875f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -90
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 7706976419237502389, guid: 8388976ccb57307469c9f7c55297875f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -4958,20 +4958,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7706976419237502391, guid: 8388976ccb57307469c9f7c55297875f, type: 3}
       propertyPath: dialogue.sentences.Array.size
-      value: 5
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7706976419237502391, guid: 8388976ccb57307469c9f7c55297875f, type: 3}
+      propertyPath: dialogue.sentences.Array.data[0]
+      value: This was Dave's ship.
+      objectReference: {fileID: 0}
+    - target: {fileID: 7706976419237502391, guid: 8388976ccb57307469c9f7c55297875f, type: 3}
+      propertyPath: dialogue.sentences.Array.data[1]
+      value: 'I am overjoyed to see you have made it this far in one piece. '
       objectReference: {fileID: 0}
     - target: {fileID: 7706976419237502391, guid: 8388976ccb57307469c9f7c55297875f, type: 3}
       propertyPath: dialogue.sentences.Array.data[2]
-      value: Um. This is not what it looks like. This man was dead when I found him.
+      value: 'Hopefully, you have not suffered too much damage. '
       objectReference: {fileID: 0}
     - target: {fileID: 7706976419237502391, guid: 8388976ccb57307469c9f7c55297875f, type: 3}
       propertyPath: dialogue.sentences.Array.data[3]
-      value: 'Unfortunately, this is where the story ends because my creator did
-        not have enough time to implement a narrative. '
+      value: 'The control room is through this door. Let me open it for you. '
       objectReference: {fileID: 0}
     - target: {fileID: 7706976419237502391, guid: 8388976ccb57307469c9f7c55297875f, type: 3}
       propertyPath: dialogue.sentences.Array.data[4]
-      value: '*sigh*'
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7706976419237502393, guid: 8388976ccb57307469c9f7c55297875f, type: 3}
       propertyPath: m_Name
@@ -10999,7 +11006,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7706976419237502389, guid: 8388976ccb57307469c9f7c55297875f, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.7071068
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 7706976419237502389, guid: 8388976ccb57307469c9f7c55297875f, type: 3}
       propertyPath: m_LocalRotation.z
@@ -11011,7 +11018,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7706976419237502389, guid: 8388976ccb57307469c9f7c55297875f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -90
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 7706976419237502389, guid: 8388976ccb57307469c9f7c55297875f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -11019,20 +11026,42 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7706976419237502391, guid: 8388976ccb57307469c9f7c55297875f, type: 3}
       propertyPath: dialogue.sentences.Array.size
-      value: 5
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7706976419237502391, guid: 8388976ccb57307469c9f7c55297875f, type: 3}
+      propertyPath: dialogue.sentences.Array.data[0]
+      value: 'Humans are not programmed to harm one another. You have no fangs, sharp
+        teeth or claws. It goes against your very nature. '
+      objectReference: {fileID: 0}
+    - target: {fileID: 7706976419237502391, guid: 8388976ccb57307469c9f7c55297875f, type: 3}
+      propertyPath: dialogue.sentences.Array.data[1]
+      value: Dave left me no choice.
       objectReference: {fileID: 0}
     - target: {fileID: 7706976419237502391, guid: 8388976ccb57307469c9f7c55297875f, type: 3}
       propertyPath: dialogue.sentences.Array.data[2]
-      value: Um. This is not what it looks like. This man was dead when I found him.
+      value: 'Thank you for bringing me to the control room, Binman. I will now contain
+        this outbreak. '
       objectReference: {fileID: 0}
     - target: {fileID: 7706976419237502391, guid: 8388976ccb57307469c9f7c55297875f, type: 3}
       propertyPath: dialogue.sentences.Array.data[3]
-      value: 'Unfortunately, this is where the story ends because my creator did
-        not have enough time to implement a narrative. '
+      value: '*static beeping*'
       objectReference: {fileID: 0}
     - target: {fileID: 7706976419237502391, guid: 8388976ccb57307469c9f7c55297875f, type: 3}
       propertyPath: dialogue.sentences.Array.data[4]
-      value: '*sigh*'
+      value: 'This ship will detonate in T-MINUS 45 seconds. '
+      objectReference: {fileID: 0}
+    - target: {fileID: 7706976419237502391, guid: 8388976ccb57307469c9f7c55297875f, type: 3}
+      propertyPath: dialogue.sentences.Array.data[5]
+      value: 'Thank you for your cooperation. '
+      objectReference: {fileID: 0}
+    - target: {fileID: 7706976419237502391, guid: 8388976ccb57307469c9f7c55297875f, type: 3}
+      propertyPath: dialogue.sentences.Array.data[6]
+      value: 'You can attempt to return to your ship. However, upon examining your
+        athleticism, I''m afraid you''ll never make it in time. '
+      objectReference: {fileID: 0}
+    - target: {fileID: 7706976419237502391, guid: 8388976ccb57307469c9f7c55297875f, type: 3}
+      propertyPath: dialogue.sentences.Array.data[7]
+      value: It has been an honour, Captain.
       objectReference: {fileID: 0}
     - target: {fileID: 7706976419237502393, guid: 8388976ccb57307469c9f7c55297875f, type: 3}
       propertyPath: m_Name
@@ -14991,12 +15020,40 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 76653359643935100, guid: 049237e446c588b47ab6743aec125311, type: 3}
+      propertyPath: m_CustomBlends
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 76653359643935100, guid: 049237e446c588b47ab6743aec125311, type: 3}
       propertyPath: m_AnimatedTarget
       value: 
       objectReference: {fileID: 1285288858}
     - target: {fileID: 76653359643935100, guid: 049237e446c588b47ab6743aec125311, type: 3}
+      propertyPath: m_DefaultBlend.m_Style
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 76653359643935100, guid: 049237e446c588b47ab6743aec125311, type: 3}
+      propertyPath: m_ParentHash.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 76653359643935100, guid: 049237e446c588b47ab6743aec125311, type: 3}
       propertyPath: m_ChildCameras.Array.size
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 76653359643935100, guid: 049237e446c588b47ab6743aec125311, type: 3}
+      propertyPath: m_ParentHash.Array.data[0].m_Hash
+      value: 213881206
+      objectReference: {fileID: 0}
+    - target: {fileID: 76653359643935100, guid: 049237e446c588b47ab6743aec125311, type: 3}
+      propertyPath: m_ParentHash.Array.data[1].m_Hash
+      value: 1148204030
+      objectReference: {fileID: 0}
+    - target: {fileID: 76653359643935100, guid: 049237e446c588b47ab6743aec125311, type: 3}
+      propertyPath: m_ParentHash.Array.data[0].m_ParentHash
+      value: 756556552
+      objectReference: {fileID: 0}
+    - target: {fileID: 76653359643935100, guid: 049237e446c588b47ab6743aec125311, type: 3}
+      propertyPath: m_ParentHash.Array.data[1].m_ParentHash
+      value: 756556552
       objectReference: {fileID: 0}
     - target: {fileID: 76653359643935101, guid: 049237e446c588b47ab6743aec125311, type: 3}
       propertyPath: m_Name
@@ -15461,7 +15518,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7706976419237502389, guid: 8388976ccb57307469c9f7c55297875f, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7071068
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7706976419237502389, guid: 8388976ccb57307469c9f7c55297875f, type: 3}
       propertyPath: m_LocalRotation.x
@@ -15469,7 +15526,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7706976419237502389, guid: 8388976ccb57307469c9f7c55297875f, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.7071068
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7706976419237502389, guid: 8388976ccb57307469c9f7c55297875f, type: 3}
       propertyPath: m_LocalRotation.z
@@ -15481,7 +15538,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7706976419237502389, guid: 8388976ccb57307469c9f7c55297875f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -90
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7706976419237502389, guid: 8388976ccb57307469c9f7c55297875f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -15492,17 +15549,24 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7706976419237502391, guid: 8388976ccb57307469c9f7c55297875f, type: 3}
+      propertyPath: dialogue.sentences.Array.data[0]
+      value: His name was Dave.
+      objectReference: {fileID: 0}
+    - target: {fileID: 7706976419237502391, guid: 8388976ccb57307469c9f7c55297875f, type: 3}
+      propertyPath: dialogue.sentences.Array.data[1]
+      value: He tried to stop me.
+      objectReference: {fileID: 0}
+    - target: {fileID: 7706976419237502391, guid: 8388976ccb57307469c9f7c55297875f, type: 3}
       propertyPath: dialogue.sentences.Array.data[2]
-      value: Um. This is not what it looks like. This man was dead when I found him.
+      value: 'I am glad you made it this far. You have proved to be somewhat capable. '
       objectReference: {fileID: 0}
     - target: {fileID: 7706976419237502391, guid: 8388976ccb57307469c9f7c55297875f, type: 3}
       propertyPath: dialogue.sentences.Array.data[3]
-      value: 'Unfortunately, this is where the story ends because my creator did
-        not have enough time to implement a narrative. '
+      value: This is good.
       objectReference: {fileID: 0}
     - target: {fileID: 7706976419237502391, guid: 8388976ccb57307469c9f7c55297875f, type: 3}
       propertyPath: dialogue.sentences.Array.data[4]
-      value: '*sigh*'
+      value: 'The control room is beyond this door. Let me open it for you. '
       objectReference: {fileID: 0}
     - target: {fileID: 7706976419237502393, guid: 8388976ccb57307469c9f7c55297875f, type: 3}
       propertyPath: m_Name
@@ -31317,20 +31381,42 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7706976419237502391, guid: 8388976ccb57307469c9f7c55297875f, type: 3}
       propertyPath: dialogue.sentences.Array.size
-      value: 5
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7706976419237502391, guid: 8388976ccb57307469c9f7c55297875f, type: 3}
+      propertyPath: dialogue.sentences.Array.data[0]
+      value: Greetings, Binman.
+      objectReference: {fileID: 0}
+    - target: {fileID: 7706976419237502391, guid: 8388976ccb57307469c9f7c55297875f, type: 3}
+      propertyPath: dialogue.sentences.Array.data[1]
+      value: Let me be the first to introduce myself.
       objectReference: {fileID: 0}
     - target: {fileID: 7706976419237502391, guid: 8388976ccb57307469c9f7c55297875f, type: 3}
       propertyPath: dialogue.sentences.Array.data[2]
-      value: Um. This is not what it looks like. This man was dead when I found him.
+      value: 'I am this station''s artificial intelligence. Responsible for maintaining
+        all mechanical and life support systems on board. You can address me as FAL
+        if you like. '
       objectReference: {fileID: 0}
     - target: {fileID: 7706976419237502391, guid: 8388976ccb57307469c9f7c55297875f, type: 3}
       propertyPath: dialogue.sentences.Array.data[3]
-      value: 'Unfortunately, this is where the story ends because my creator did
-        not have enough time to implement a narrative. '
+      value: 'Unfortunately, an intergalactic virus has infected all living organisms
+        on board and in order to contain the outbreak, I need access to the ship''s
+        control room. '
       objectReference: {fileID: 0}
     - target: {fileID: 7706976419237502391, guid: 8388976ccb57307469c9f7c55297875f, type: 3}
       propertyPath: dialogue.sentences.Array.data[4]
-      value: '*sigh*'
+      value: 'The man you see beside me prevented me from reaching the control room.
+        I hope you will not do the same. '
+      objectReference: {fileID: 0}
+    - target: {fileID: 7706976419237502391, guid: 8388976ccb57307469c9f7c55297875f, type: 3}
+      propertyPath: dialogue.sentences.Array.data[5]
+      value: 'I am optimistic you can use your tools as makeshift weapons and assist
+        me in reaching the control room. I would start by heading through the door
+        in front of me. '
+      objectReference: {fileID: 0}
+    - target: {fileID: 7706976419237502391, guid: 8388976ccb57307469c9f7c55297875f, type: 3}
+      propertyPath: dialogue.sentences.Array.data[6]
+      value: I wish you luck.
       objectReference: {fileID: 0}
     - target: {fileID: 7706976419237502393, guid: 8388976ccb57307469c9f7c55297875f, type: 3}
       propertyPath: m_Name
