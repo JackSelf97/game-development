@@ -28,11 +28,14 @@ public class UIManager : MonoBehaviour
         if (SceneManager.GetActiveScene().buildIndex == 0)
         {
             Application.targetFrameRate = 60;
+            Cursor.lockState = CursorLockMode.None;
             Debug.Log("Capping FPS at " + Application.targetFrameRate);
         }
 
         if (SceneManager.GetActiveScene().buildIndex == 0 && GameManager.gMan.gameCompleted)
         {
+            Cursor.lockState = CursorLockMode.None;
+
             BeginCredits();
 
             // Play the music
