@@ -38,6 +38,7 @@ public class SuckCannon : MonoBehaviour
     {
         SetSuckCannonVariables();
         UpdateUI(isSucking);
+        
     }
 
     void SetSuckCannonVariables()
@@ -59,6 +60,8 @@ public class SuckCannon : MonoBehaviour
         // Inputs
         SuckInput();
         FireInput();
+
+        
     }
 
     private void FixedUpdate()
@@ -127,7 +130,6 @@ public class SuckCannon : MonoBehaviour
 
         if (isSucking && currAmmo < maxAmmo)
         {
-            suctionVFX.Play();
             RaycastHit hit;
             if (Physics.SphereCast(origin, sphereRadius, direction, out hit, maxDistance, junkLayer, QueryTriggerInteraction.UseGlobal))
             {
@@ -151,13 +153,9 @@ public class SuckCannon : MonoBehaviour
                 currHitDistance = maxDistance;
             }
         }
-        else
-        {
-            suctionVFX.Stop();
-        }
         if (!isSucking)
         {
-            if (playerController.FireInput())
+            if (playerController.FireInput() && !playerController.isPaused)
             {
                 if (currHitObject.Count <= zero)
                 {
@@ -203,17 +201,19 @@ public class SuckCannon : MonoBehaviour
 
     public void UpdateUI(bool isSucking)
     {
-        if (isSucking)
+        if (isSucking && currAmmo != maxAmmo)
         {
             crosshairFire.enabled = false;
             crosshairSuck.enabled = true;
             playerController.currCrosshair = crosshairSuck;
+            suctionVFX.Play();
         }
-        else
+        else if (!isSucking)
         {
             crosshairSuck.enabled = false;
             crosshairFire.enabled = true;
             playerController.currCrosshair = crosshairFire;
+            suctionVFX.Stop();
         }
     }
 

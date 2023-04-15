@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2144210262}
   - component: {fileID: 2144210264}
   - component: {fileID: 2144210263}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SuctionVFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}

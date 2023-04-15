@@ -29,7 +29,7 @@ public class GravityGun : MonoBehaviour
     void Update()
     {
         if (playerController.suckCannonEquipped || playerController.lockInput) { return; } // if player has 'Suck Cannon' equipped then return
-        if (playerController.FireInput())
+        if (playerController.FireInput() && !playerController.isPaused)
         {
             weaponRecoil.Recoil();
 

@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject pauseMenu = null;
     private Vector3 playerVelocity = Vector3.zero;
     private Transform cam = null;
-    private bool isPaused = false;
+    public bool isPaused = false;
     public Image currCrosshair = null;
     public LayerMask interactableLayer;
     public LayerMask targetLayer;

@@ -41993,21 +41993,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1942611349}
     m_Modifications:
-    - target: {fileID: 225873666056312796, guid: a90e120c1d75f0244ac2a45d9ac34c74, type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 1304603112757041377, guid: a90e120c1d75f0244ac2a45d9ac34c74, type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
     - target: {fileID: 1449475624566578397, guid: a90e120c1d75f0244ac2a45d9ac34c74, type: 3}
       propertyPath: m_Name
       value: SuckCannon
-      objectReference: {fileID: 0}
-    - target: {fileID: 1449475624566578397, guid: a90e120c1d75f0244ac2a45d9ac34c74, type: 3}
-      propertyPath: m_Layer
-      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2258065699502065255, guid: a90e120c1d75f0244ac2a45d9ac34c74, type: 3}
       propertyPath: m_RootOrder
@@ -42052,18 +42040,6 @@ PrefabInstance:
     - target: {fileID: 2258065699502065255, guid: a90e120c1d75f0244ac2a45d9ac34c74, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2610158760655726592, guid: a90e120c1d75f0244ac2a45d9ac34c74, type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 3292703083493293210, guid: a90e120c1d75f0244ac2a45d9ac34c74, type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 3657618721640803766, guid: a90e120c1d75f0244ac2a45d9ac34c74, type: 3}
-      propertyPath: m_Layer
-      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a90e120c1d75f0244ac2a45d9ac34c74, type: 3}
