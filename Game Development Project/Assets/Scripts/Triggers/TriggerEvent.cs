@@ -62,6 +62,7 @@ public class TriggerEvent : MonoBehaviour
                         for (int i = 0; i < spawners.Length; i++)
                         {
                             spawners[i].spawnCount = spawners[i].maxSpawnCount;
+                            spawners[i].spawnOverTime = false;
                             spawners[i].isOn = true;
                         }
 

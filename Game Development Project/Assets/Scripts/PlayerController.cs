@@ -337,7 +337,7 @@ public class PlayerController : MonoBehaviour
 
     public void PlayerJump()
     {
-        if (Grounded && !lockInput)
+        if (Grounded && !lockInput && !isPaused)
         {
             jump = true;
 

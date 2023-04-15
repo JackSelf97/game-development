@@ -18,7 +18,7 @@ public class Spawner : MonoBehaviour
     // Whether you want the spawner to be automatic
     public bool isOn = false;
     public bool complete = false;
-    [SerializeField] private bool spawnOverTime = false;
+    public bool spawnOverTime = false;
 
     // Timers
     [SerializeField] private float timeLimit = 10;

@@ -21,12 +21,15 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Sprite playstationSprite;
     [SerializeField] private Sprite keyboardSprite;
 
+    private IEnumerator credits = null;
+
     // Start is called before the first frame update
     void Start()
     {
         if (SceneManager.GetActiveScene().buildIndex == 0)
         {
             Application.targetFrameRate = 60;
+            credits = Credits();
             Debug.Log("Capping FPS at " + Application.targetFrameRate);
         }
 
@@ -108,7 +111,7 @@ public class UIManager : MonoBehaviour
 
     public void BeginCredits()
     {
-        StartCoroutine(Credits());
+        StartCoroutine(credits);
     }
 
     public IEnumerator Credits()
