@@ -25,6 +25,7 @@ public class GravityBomb : MonoBehaviour
         if (other.gameObject.layer == junkLayer)
         {
             // move junk towards bomb
+            other.transform.parent = null;
             other.transform.localPosition = Vector3.MoveTowards(other.transform.localPosition, transform.position, force * Time.deltaTime);
         }
     }

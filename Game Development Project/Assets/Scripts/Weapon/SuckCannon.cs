@@ -18,6 +18,7 @@ public class SuckCannon : MonoBehaviour
     [Header("Properties")]
     [SerializeField] private ParticleSystem suctionVFX = null;
     [SerializeField] private LayerMask projectileLayer = 0;
+    public Material[] greenMat = new Material[0];
     public Transform firePos = null;
     public bool isSucking = false;
     public Image crosshairFire = null, crosshairSuck = null;
@@ -98,6 +99,13 @@ public class SuckCannon : MonoBehaviour
         else
             targetPoint = ray.GetPoint(20); // just a point far away from the player
 
+        // Change the material
+        Renderer[] junkMesh = junkProjectile.GetComponentsInChildren<Renderer>();
+        for (int i = 0; i < junkMesh.Length; i++)
+        {
+            junkMesh[i].materials = greenMat;
+        }
+
         // Get the rigidbody
         Rigidbody rigidbody = junkProjectile.GetComponent<Rigidbody>();
 
@@ -143,9 +151,12 @@ public class SuckCannon : MonoBehaviour
                 currHitDistance = maxDistance;
             }
         }
-        if (!isSucking)
+        else
         {
             suctionVFX.Stop();
+        }
+        if (!isSucking)
+        {
             if (playerController.FireInput())
             {
                 if (currHitObject.Count <= zero)
