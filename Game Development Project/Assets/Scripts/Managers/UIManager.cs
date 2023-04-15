@@ -14,6 +14,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject controlPanel = null;
     [SerializeField] private Button controlButton = null;
     [SerializeField] private Button backButton = null;
+    [SerializeField] private Animator playerAnim = null;
 
     [Header("UI Sprites")]
     [SerializeField] private Image buttonImage;
@@ -21,21 +22,26 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Sprite playstationSprite;
     [SerializeField] private Sprite keyboardSprite;
 
-    private IEnumerator credits = null;
-
     // Start is called before the first frame update
     void Start()
     {
         if (SceneManager.GetActiveScene().buildIndex == 0)
         {
             Application.targetFrameRate = 60;
-            credits = Credits();
             Debug.Log("Capping FPS at " + Application.targetFrameRate);
         }
 
         if (SceneManager.GetActiveScene().buildIndex == 0 && GameManager.gMan.gameCompleted)
         {
             BeginCredits();
+
+            // Play the music
+            FindObjectOfType<AudioManager>().Stop("Theme");
+            FindObjectOfType<AudioManager>().Play("Theme-Ending");
+
+            // Dance
+            playerAnim.SetTrigger("Dance");
+
             GameManager.gMan.gameCompleted = false;
         }
     }
@@ -111,7 +117,7 @@ public class UIManager : MonoBehaviour
 
     public void BeginCredits()
     {
-        StartCoroutine(credits);
+        StartCoroutine(Credits());
     }
 
     public IEnumerator Credits()
@@ -121,20 +127,12 @@ public class UIManager : MonoBehaviour
         buttonPanel.SetActive(false);
         creditPanel.SetActive(true);
 
-        // Play the music
-        FindObjectOfType<AudioManager>().Stop("Theme");
-        FindObjectOfType<AudioManager>().Play("Theme-Ending");
-
         yield return new WaitForSeconds(55f);
 
         // Activate the UI
         creditPanel.SetActive(false);
         title.SetActive(true);
         buttonPanel.SetActive(true);
-
-        // Stop the music
-        FindObjectOfType<AudioManager>().Stop("Theme-Ending");
-        FindObjectOfType<AudioManager>().Play("Theme");
     }
 
     public void Quit()
